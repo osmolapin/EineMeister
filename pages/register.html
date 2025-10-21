@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration form</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+    <script src="/scripts/form.js"></script>
 </head>
 <body>
     <!-- Container Start -->
@@ -28,7 +32,7 @@
                     <label for="cpassword">Korda parooli</label>
                     <input type="password" name="cpassword" id="cpassword">
                 </div>
-                <button type="submit">Registreeru</button>
+                <button type="submit" onclick="signUp()">Registreeru</button>
             </form>
             <!-- Form Close -->
         </div>
