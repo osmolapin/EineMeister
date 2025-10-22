@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration form</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+    <script src="/scripts/form.js"></script>
 </head>
 <body>
     <!-- Container Start -->
@@ -11,11 +15,7 @@
         <div class="form-wrap">
             <h1>Loo konto</h1>
             <!-- Form Start -->
-            <form>
-                <div class="form-group">
-                    <label for="kasutajanimi">Kasutajanimi</label>
-                    <input type="text" name="kasutajanimi" id="kasutajanimi">
-                </div>
+            <form method="POST">
                 <div class="form-group">
                     <label for="email">E-mail</label>
                     <input type="email" name="email" id="email">
@@ -28,7 +28,7 @@
                     <label for="cpassword">Korda parooli</label>
                     <input type="password" name="cpassword" id="cpassword">
                 </div>
-                <button type="submit">Registreeru</button>
+                <button type="button" onclick="signUp()">Registreeru</button>
             </form>
             <!-- Form Close -->
         </div>
