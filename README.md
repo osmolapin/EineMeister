@@ -59,12 +59,13 @@ npm install -g http-server
 cd existing_repo
 http-server
 ```
-### Andmebaasi testimine
+## Andmebaasi testimine enda ametega
 Selleks tuleb logida enda Firebase kontoga sisse
 ```bash
 firebase login
 ```
 Firebases tuleb luua __authentication__ project ja sign in methodite alt valida __Email/Password__
+Asendada form.js-is firebaseConfig enda omaga
 ## Autorid
 - Osmo Lapin
 - Henry Hanst
