@@ -32,13 +32,13 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 - Firebase 14.20.0
 
 ## Projekti lokaalselt käivitamine
-### Projekti _clone_'imine
+### 1. Projekti _clone_'imine
 ```bash
 cd existing_repo
 git clone https://gitlab.cs.taltech.ee/oslapi/iti0105-2025.git
 ```
 
-### Firebase installeerimine
+### 2. Firebase installeerimine
 Eelnevalt on vaja installeerida [Node.js](https://nodejs.org/en/download/current)
 Peale seda terminalis:
 ```bash
@@ -50,7 +50,7 @@ cd existing_repo
 firebase init
 ```
 
-### Lokaalse serveri käivitamine
+### 3. Lokaalse serveri käivitamine
 __Visual Studio Codel__ on __live-server__ extention vaja tõmmata. Peale seda saab paremalt alt käivita vajutades __Go Live__
 
 __HTTP-server__ ei nõua ühegi kindlat IDEt (Node.js on nõutud). Installeerimine: 
