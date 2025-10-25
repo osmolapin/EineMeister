@@ -15,9 +15,16 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 db.collection("products").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((product) => {
+        let productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+        // productCard.dataset.productId = product.id
+        productCard.innerHTML = product.id
+
+        const currentDiv = document.getElementById("products-container");
+        document.body.insertBefore(productCard, currentDiv)
         // doc.data() is a dictionary containing values with these keys:
         // name, description, imageUrl, price, calories, carbs, fats proteins, ingredients, storing, weight
-        console.log(doc.id, " -> " ,doc.data());
+        console.log(product.id, " -> " ,product.data());
     });
 }); 
