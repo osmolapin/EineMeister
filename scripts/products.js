@@ -44,19 +44,24 @@ db.collection("products").get().then((querySnapshot) => {
         const addButton = document.createElement("button");
         price.classList.add("product-amount-button");
         addButton.textContent = "+";
+        addButton.onclick = "addProductQuantity(product.id)"
 
         const quantity = document.createElement("div");
         quantity.classList.add("product-quantity");
-        quantity.textContent = 0
+        quantity.textContent = 0;
+        quantity.value = 0;
 
+        const buttonAndQuantityContainer = document.createElement("div");
+        quantity.classList.add("button-and-quantity-container");
+
+        buttonAndQuantityContainer.appendChild(removeButton);
+        buttonAndQuantityContainer.appendChild(quantity);
+        buttonAndQuantityContainer.appendChild(addButton);
         
-        card.appendChild(image)
-        card.appendChild(title)
-        card.appendChild(price)
-        card.appendChild(removeButton)
-        card.appendChild(quantity)
-        card.appendChild(addButton)
-
-        document.getElementById("products-container").appendChild(card)
+        card.appendChild(image);
+        card.appendChild(title);
+        card.appendChild(price);
+        card.appendChild(buttonAndQuantityContainer);
+        document.getElementById("products-container").appendChild(card);
       });
     }); 

@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EineMeister</title>
-
+    <link rel="stylesheet" href="/css/product_page.css">
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div id="products-container" class="products-container">
-    </div>
+    <label for="product-filters">Sorteeri</label>
+    <select class="product-filters" id="product-filters">
+        <option value="popular-more">Populaarsus</option>
+        <option value="hind-less">Hind: odavamad eespool</option>
+        <option value="hind-more">Hind: kallimad eespool</option>
+        <option value="kalorid-less">Kalorid: vähem eespool</option>
+        <option value="kalorid-more">Kalorid: rohkem eespool</option>
+        <option value="valgud-less">Valgud: vähem eespool</option>
+        <option value="valgud-more">Valgud rohkem eespool</option>
+    </select>
+
+    <div id="products-container" class="products-container"></div>
+    
     <script src="/scripts/products.js"></script>
 </body>
 </html>
