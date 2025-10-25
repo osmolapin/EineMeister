@@ -16,6 +16,8 @@ const db = firebase.firestore();
 
 db.collection("products").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
+        // doc.data() is a dictionary containing values with these keys:
+        // name, description, imageUrl, price, calories, carbs, fats proteins, ingredients, storing, weight
         console.log(doc.id, " -> " ,doc.data());
     });
 }); 
