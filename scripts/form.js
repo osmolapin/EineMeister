@@ -39,3 +39,16 @@ function signUp() {
     });
   
 }
+
+function signIn() {
+  var email = document.getElementById("email");
+  var password = document.getElementById("password");
+
+  auth.signInWithEmailAndPassword(email.value, password.value)
+  .then((userCredential) => {
+    console.log(userCredential)
+  })
+  .catch((error) => {
+    console.log(error)
+  });
+}
