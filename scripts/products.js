@@ -16,15 +16,47 @@ const db = firebase.firestore();
 
 db.collection("products").get().then((querySnapshot) => {
     querySnapshot.forEach((product) => {
-        let productCard = document.createElement("div");
-        productCard.classList.add("product-card");
-        // productCard.dataset.productId = product.id
-        productCard.innerHTML = product.id
-
-        const currentDiv = document.getElementById("products-container");
-        document.body.insertBefore(productCard, currentDiv)
-        // doc.data() is a dictionary containing values with these keys:
+        // Product.id -> string of id
+        // product.data() is a dictionary containing values with these keys:
         // name, description, imageUrl, price, calories, carbs, fats proteins, ingredients, storing, weight
-        console.log(product.id, " -> " ,product.data());
-    });
-}); 
+
+        const card = document.createElement("div");
+        card.classList.add("product-card")
+        
+        const image = document.createElement("img");
+        image.src = product.data()["imageUrl"];
+        image.alt = product.data()["name"];
+        image.classList.add("product-image");
+        image.style = "height: 203px"
+        
+        const title = document.createElement("div");
+        title.classList.add("product-title");
+        title.textContent = product.data()["name"];
+        
+        const price = document.createElement("div");
+        price.classList.add("product-price")
+        price.textContent = product.data()["price"] + " €"
+
+        const removeButton = document.createElement("button");
+        price.classList.add("product-amount-button")
+        removeButton.textContent = "-"
+
+        const addButton = document.createElement("button");
+        price.classList.add("product-amount-button");
+        addButton.textContent = "+";
+
+        const quantity = document.createElement("div");
+        quantity.classList.add("product-quantity");
+        quantity.textContent = 0
+
+        
+        card.appendChild(image)
+        card.appendChild(title)
+        card.appendChild(price)
+        card.appendChild(removeButton)
+        card.appendChild(quantity)
+        card.appendChild(addButton)
+
+        document.getElementById("products-container").appendChild(card)
+      });
+    }); 
