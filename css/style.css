@@ -6,21 +6,44 @@
     justify-content: center;
     align-items: center;
 }
-.toidukaupade-hinnad {
-    position: absolute;
-    cursor: pointer;
-    width: 40%;
-    height: 38%;
-    top: 45%;
-    left: 5%;
-    background-color: transparent;
+.hero-img {
+    max-width: 80vw;
+    display: block;
+    height: auto;
 }
-.retseptid {
+
+.konteiner-toidukaubad {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
     position: absolute;
+    width: 17vw;        /* vw - viewport width units for responsiveness */
+    height: 17vw;
+    border-radius: 50%;
     cursor: pointer;
-    width: 40%; 
-    height: 38%;
     top: 45%;
-    right: 5%;
-    background-color: transparent;
+    left: 28%;
+    font-size: 2.5vw;
+    text-align: center;
+    text-decoration: none;
+}
+
+.konteiner-retseptid {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
+    position: absolute;
+    width: 17vw;
+    height: 17vw;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 45%;
+    right: 29%;
+    font-size: 2.5vw;
+    text-align: center;
+    text-decoration: none;
 }
