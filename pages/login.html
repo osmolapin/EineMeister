@@ -4,23 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EineMeister</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> 
+    <script src="../scripts/firebase-config-global.js"></script>
+    <script src="../scripts/login.js" defer></script> 
 </head>
 <body>
     <div class="container">
         <div class="form-wrap">
             <h1>Logi sisse</h1>
             <p>Pole EineMeistri kontot? <a href="register.html">Loo konto</a> </p>
-            <div class="form-group">
-                <label for="username">Email või kasutajanimi</label>
-                <input type="text" id="username" placeholder="Enter Username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Parool</label>
-                 <input type="password" id="password" placeholder="Enter Password" name="password" required>
-            </div>
-            <a href="">Unustasid parooli?</a>
-            <div class="form-group"><input type="checkbox" checked="checked" name="remember"> Hoia mind sisselogituna</div>
-            <button type="submit">Logi sisse</button>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Email või kasutajanimi</label>
+                    <input type="text" id="username" placeholder="Enter Username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Parool</label>
+                    <input type="password" id="password" placeholder="Enter Password" name="password" required>
+                </div>
+                <a href="">Unustasid parooli?</a>
+                <div class="form-group"><input type="checkbox" checked="checked" name="remember"> Hoia mind sisselogituna</div>
+                <button type="submit">Logi sisse</button>
+            </form>
         </div>
     </div>
 </body>

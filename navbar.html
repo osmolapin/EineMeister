@@ -2,19 +2,34 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/navbar.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="scripts/firebase-config-global.js"></script>
+    <script src="scripts/navbar.js" defer></script>
 </head>
 <body>
     <header>
         <nav class="navbar">
-        <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Einemeister logo"></a></div>
+            <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Einemeister logo"></a></div>
             <div class="search-bar">
                 <input type="text" placeholder="Otsi toodet">
                 <button ><img src="images/search.png" alt="search"></button>
             </div>
             <ul>
                 <li><a href="#"><img src="images/shopping_cart.png" alt="ostukorvi logo"></a></li>
-                <li><a href="pages/login.html">Logi sisse</a></li>
-            </ul>
+
+                <li id="logged-out-link"><a href="pages/login.html">Logi sisse</a></li>
+                
+            <li id="logged-in-container" class="dropdown" style="display:none;">
+                <a href="#" class="dropdown-toggle" id="user-profile-icon">
+                    <img src="images/account_circle.png" alt="user-profile-icon">
+                    </a>
+                    <ul class="dropdown-menu" id="user-dropdown-menu">
+                        <li><a href="#">Lisa retsept</a></li>
+                        <li><a href="#">Minu ostukorvid</a></li>
+                        <li><a href="#" id="logout-link">Logi välja</a></li>
+                    </ul>
+            </li>
         </nav>
     </header>
 </body>
