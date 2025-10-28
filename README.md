@@ -17,13 +17,18 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 - Leht teavitamaks, et kasutaja on välja logitud
 - Unustasid parooli? leht
 - Regisreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
+- Enamusel lehtedel on esialgne CSS olemas
+- Toodete lehel kuvatakse kõik tooted andmebaasis
+- Navbar on olemas (hetkeseisuga ainult index.html lehel)
+
 
 ## Tulemas
-- Stiil
+- Stiili parandused
 - Retseptide leht
-- Toodete leht
+- Konkreetse toote leht
 - Admin vaade
 - Kasutajatel võimalus lisada retsepte ja salvestada ostukorve
+- Parem scraper arendajale toodete lisamiseks andmebaasi
 
 ## Kasutatud tehnoloogiad
 - HTML5
