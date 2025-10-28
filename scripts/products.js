@@ -14,10 +14,78 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+function changeProductQuantity(thisProductId, type) {
+  // The product's unique identifier (product.id) is assigned as the key for the on-screen quantity element
+   let numElement = document.getElementById(thisProductId);
+   numValue = Number(numElement.textContent);
+
+   if (type == 1) {
+    numValue++;
+
+   } else if (type == -1) {
+    if (numValue > 0) {
+      numValue--;
+    }
+
+   }
+   numElement.innerText = numValue;
+}
+
+
 db.collection("products").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        // doc.data() is a dictionary containing values with these keys:
+    querySnapshot.forEach((product) => {
+        // product.id -> string of id
+        // product.data() is a dictionary containing values with these keys:
         // name, description, imageUrl, price, calories, carbs, fats proteins, ingredients, storing, weight
-        console.log(doc.id, " -> " ,doc.data());
-    });
-}); 
+
+        const card = document.createElement("div");
+        card.classList.add("product-card")
+        
+        const image = document.createElement("img");
+        image.src = product.data()["imageUrl"];
+        image.alt = product.data()["name"];
+        image.classList.add("product-image");
+        image.style = "height: 203px"
+        
+        const title = document.createElement("div");
+        title.classList.add("product-title");
+        title.textContent = product.data()["name"];
+        
+        const price = document.createElement("div");
+        price.classList.add("product-price")
+        price.textContent = product.data()["price"] + " €"
+
+        const removeButton = document.createElement("button");
+        price.classList.add("product-amount-button")
+        removeButton.textContent = "-"
+        removeButton.value = -1;
+        removeButton.setAttribute('data-product-id', product.id);
+        removeButton.onclick = () => changeProductQuantity(removeButton.getAttribute('data-product-id'), removeButton.value);
+
+        const addButton = document.createElement("button");
+        price.classList.add("product-amount-button");
+        addButton.textContent = "+";
+        addButton.value = 1;
+        addButton.setAttribute('data-product-id', product.id);
+        addButton.onclick = () => changeProductQuantity(addButton.getAttribute('data-product-id'), addButton.value);
+
+        const quantity = document.createElement("div");
+        quantity.classList.add("product-quantity");
+        quantity.textContent = 0;
+        quantity.id = product.id;
+        quantity.value = 0;
+
+        const buttonAndQuantityContainer = document.createElement("div");
+        quantity.classList.add("button-and-quantity-container");
+
+        buttonAndQuantityContainer.appendChild(removeButton);
+        buttonAndQuantityContainer.appendChild(quantity);
+        buttonAndQuantityContainer.appendChild(addButton);
+        
+        card.appendChild(image);
+        card.appendChild(title);
+        card.appendChild(price);
+        card.appendChild(buttonAndQuantityContainer);
+        document.getElementById("products-container").appendChild(card);
+      });
+    }); 
