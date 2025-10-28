@@ -1,0 +1,49 @@
+.pildikonteriner-responsive {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hero-img {
+    max-width: 80vw;
+    display: block;
+    height: auto;
+}
+
+.konteiner-toidukaubad {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
+    position: absolute;
+    width: 17vw;        /* vw - viewport width units for responsiveness */
+    height: 17vw;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 45%;
+    left: 28%;
+    font-size: 2.5vw;
+    text-align: center;
+    text-decoration: none;
+}
+
+.konteiner-retseptid {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
+    position: absolute;
+    width: 17vw;
+    height: 17vw;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 45%;
+    right: 29%;
+    font-size: 2.5vw;
+    text-align: center;
+    text-decoration: none;
+}
