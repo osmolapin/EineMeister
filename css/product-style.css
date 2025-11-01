@@ -1,19 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+* {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .product-image {
     width: 25%;
 }
 
 .product-title {
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 3em;
+    font-size: 2vw;
 }
 
-.add-to-cart {
+.product-price {
+    font-size: 2vw;
+}
+
+.add-to-cart-button {
     background-color: rgb(80, 141, 78);
-    padding: 2%;
+    padding: 1.5vw;
     border-radius: 6px;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1em;
+    font-size: 1vw;
 }
 
+.macros {
+    font-size: 1vw;
+}
+
+.extra-info-details {
+    font-size: 1vw;
+}
+
+.macros-title {
+    font-size: 2vw;
+}
+
+.extra-info-title {
+    font-size: 1.5vw;
+    text-decoration: underline;
+    cursor: pointer;
+}
