@@ -16,10 +16,16 @@
 .product-title {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
+    cursor: pointer;
+}
+
+.product-title:hover {
+    text-decoration: underline;
 }
 
 .product-image {
     background-color: black;
+    cursor: pointer;
 }
 
 .product-price {
