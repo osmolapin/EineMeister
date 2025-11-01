@@ -12,34 +12,37 @@
 </head>
 <body>
     <a href="product-list.html">Tagasi</a>
-    
-    <img id="product-image" class="product-image">
-    <div class="product-info">
-        <p id="product-title" class="product-title"></p>
-        <a id="product-price" class="product-price"></a>
-        <button class="add-to-cart">Lisa ostukorvi</button>
-    </div>
-    <div class="extra-product-info">
-        <details>
-            <summary>Tootekirjeldus</summary>
-            <p id="description"></p>
-        </details>
-        <details>
-            <summary>Koostisosad</summary>
-            <p id="ingredients"></p>
-        </details>
-        <details id="macros">
-            <summary>Toitumisalane teave</summary>
-            <p>Andmed 100g kohta</p>
-            <p id="calories"></p>
-            <p id="carbs"></p>
-            <p id="proteins"></p>
-            <p id="fats"></p>
-        </details>
-        <details>
-            <summary>Säilitamine ja kasutamine</summary>
-            <p id="storing"></p>
-        </details>
+    <div class="product-view">
+        <img id="product-image" class="product-image">
+        <div class="product-info">
+            <p id="product-title" class="product-title"></p>
+            <a id="product-price" class="product-price"></a>
+            <button class="add-to-cart-button">Lisa ostukorvi</button>
+        </div>
+        <div class="extra-product-info">
+            <details>
+                <summary class="extra-info-title">Tootekirjeldus</summary>
+                <p class="extra-info-details" id="description"></p>
+            </details>
+            <details>
+                <summary class="extra-info-title">Koostisosad</summary>
+                <p class="extra-info-details" id="ingredients"></p>
+            </details>
+            <details>
+                <summary class="extra-info-title">Toitumisalane teave</summary>
+                <p class="macros-title">Andmed 100g kohta</p>
+                <div class="extra-info-data">
+                    <p class="macros" id="calories"></p>
+                    <p class="macros" id="carbs"></p>
+                    <p class="macros" id="proteins"></p>
+                    <p class="macros" id="fats"></p>
+                </div>
+            </details>
+            <details>
+                <summary class="extra-info-title">Säilitamine ja kasutamine</summary>
+                <p class="extra-info-details" id="storing"></p>
+            </details>
+        </div>
     </div>
 </body>
 </html>
