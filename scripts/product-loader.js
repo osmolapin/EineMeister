@@ -25,16 +25,16 @@ productRef.get().then((doc) => {
    ingredients.textContent = doc.data()["ingredients"]
 
    const calories = document.getElementById("calories")
-   calories.textContent = doc.data()["calories"] + " kcal"
+   calories.textContent = "Kalorid " + doc.data()["calories"] + " kcal"
 
    const carbs = document.getElementById("carbs")
-   carbs.textContent = doc.data()["carbs"] + " g"
+   carbs.textContent = "Süsivesikud " + doc.data()["carbs"] + " g"
 
    const proteins = document.getElementById("proteins")
-   proteins.textContent = doc.data()["proteins"] + " g"
+   proteins.textContent = "Valgud " + doc.data()["proteins"] + " g"
 
    const fats = document.getElementById("fats")
-   fats.textContent = doc.data()["fats"] + " g"
+   fats.textContent = "Rasvad " + doc.data()["fats"] + " g"
 
    const storing = document.getElementById("storing");
    storing.textContent = doc.data()["storing"]
