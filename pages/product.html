@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EineMeister</title>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
+    <script src="/scripts/firebase-config-global.js"></script>
+    <script src="/scripts/product-loader.js"></script>
+    <link rel="stylesheet" href="/css/product-style.css">
+</head>
+<body>
+    <a href="product-list.html">Tagasi</a>
+    
+    <img id="product-image" class="product-image">
+    <div class="product-info">
+        <p id="product-title" class="product-title"></p>
+        <a id="product-price" class="product-price"></a>
+        <button class="add-to-cart">Lisa ostukorvi</button>
+    </div>
+    <div class="extra-product-info">
+        <details>
+            <summary>Tootekirjeldus</summary>
+            <p id="description"></p>
+        </details>
+        <details>
+            <summary>Koostisosad</summary>
+            <p id="ingredients"></p>
+        </details>
+        <details id="macros">
+            <summary>Toitumisalane teave</summary>
+            <p>Andmed 100g kohta</p>
+            <p id="calories"></p>
+            <p id="carbs"></p>
+            <p id="proteins"></p>
+            <p id="fats"></p>
+        </details>
+        <details>
+            <summary>Säilitamine ja kasutamine</summary>
+            <p id="storing"></p>
+        </details>
+    </div>
+</body>
+</html>
