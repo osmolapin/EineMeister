@@ -1,17 +1,3 @@
-var firebaseConfig = {
-  apiKey: "AIzaSyAP-nzuF31UZbgHyc5AGsxgrNCVC1jb9hk",
-  authDomain: "einemeister-84e8c.firebaseapp.com",
-  projectId: "einemeister-84e8c",
-  storageBucket: "einemeister-84e8c.firebasestorage.app",
-  messagingSenderId: "699963249863",
-  appId: "1:699963249863:web:392a4b3bbab29450d9dae2",
-  measurementId: "G-5YW3F3X62G"
-};
-
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
 function changeProductQuantity(thisProductId, type) {
@@ -31,6 +17,10 @@ function changeProductQuantity(thisProductId, type) {
    numElement.innerText = numValue;
 }
 
+function createProductPage(thisProductId) {
+  window.location.href = `product.html?id=${thisProductId}`;
+}
+
 
 db.collection("products").get().then((querySnapshot) => {
     querySnapshot.forEach((product) => {
@@ -40,16 +30,19 @@ db.collection("products").get().then((querySnapshot) => {
 
         const card = document.createElement("div");
         card.classList.add("product-card")
+        card.setAttribute('data-product-id', product.id);
         
         const image = document.createElement("img");
         image.src = product.data()["imageUrl"];
         image.alt = product.data()["name"];
         image.classList.add("product-image");
         image.style = "height: 203px"
+        image.onclick = () => createProductPage(card.getAttribute('data-product-id'));
         
         const title = document.createElement("div");
         title.classList.add("product-title");
         title.textContent = product.data()["name"];
+        title.onclick = () => createProductPage(card.getAttribute('data-product-id'));
         
         const price = document.createElement("div");
         price.classList.add("product-price")
@@ -59,15 +52,13 @@ db.collection("products").get().then((querySnapshot) => {
         price.classList.add("product-amount-button")
         removeButton.textContent = "-"
         removeButton.value = -1;
-        removeButton.setAttribute('data-product-id', product.id);
-        removeButton.onclick = () => changeProductQuantity(removeButton.getAttribute('data-product-id'), removeButton.value);
+        removeButton.onclick = () => changeProductQuantity(card.getAttribute('data-product-id'), removeButton.value);
 
         const addButton = document.createElement("button");
         price.classList.add("product-amount-button");
         addButton.textContent = "+";
         addButton.value = 1;
-        addButton.setAttribute('data-product-id', product.id);
-        addButton.onclick = () => changeProductQuantity(addButton.getAttribute('data-product-id'), addButton.value);
+        addButton.onclick = () => changeProductQuantity(card.getAttribute('data-product-id'), addButton.value);
 
         const quantity = document.createElement("div");
         quantity.classList.add("product-quantity");
