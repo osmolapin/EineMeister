@@ -233,7 +233,7 @@ ul li a{
                 
             <li id="logged-in-container" class="dropdown" style="display:none;">
                 <a href="#" class="dropdown-toggle" id="user-profile-icon">
-                    <img src="images/account_circle.png" alt="user-profile-icon">
+                    <img src="/images/account_circle.png" alt="user-profile-icon">
                     </a>
                     <ul class="dropdown-menu" id="user-dropdown-menu">
                         <li><a href="#">Lisa retsept</a></li>
