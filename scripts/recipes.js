@@ -37,17 +37,17 @@ function createRecipeCard(recipe) {
     extraInfo.classList.add("recipe-extra-info"); 
 
     // Helper function to create a nutritional info paragraph
-    const createNutrientParagraph = (className, value, unit) => {
+    const createNutrientParagraph = (className, value, unit, title) => {
         const p = document.createElement("p");
         p.classList.add(className);
-        p.textContent = `${value} ${unit}`;
+        p.textContent = `${title} ${value} ${unit}`;
         return p;
     };
 
-    const calories = createNutrientParagraph("calories", recipe.data.calories, "kcal");
-    const carbs = createNutrientParagraph("carbs", recipe.data.carbs, "g");
-    const proteins = createNutrientParagraph("proteins", recipe.data.proteins, "g");
-    const fats = createNutrientParagraph("fats", recipe.data.fats, "g");
+    const calories = createNutrientParagraph("calories", recipe.data.calories, "kcal", "Kalorid");
+    const carbs = createNutrientParagraph("carbs", recipe.data.carbs, "g", "Süsivesikud");
+    const proteins = createNutrientParagraph("proteins", recipe.data.proteins, "g", "Valgud");
+    const fats = createNutrientParagraph("fats", recipe.data.fats, "g", "Rasvad");
     
     extraInfo.appendChild(calories);
     extraInfo.appendChild(carbs);
