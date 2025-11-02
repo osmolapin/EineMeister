@@ -5,23 +5,13 @@ function handleLoginSuccess() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (typeof firebase !== 'undefined' && firebase.auth) {
-        // Check login status
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                // If user is logged in, redirect to homepage
-                window.location.href = '/index.html';
-            }
-        });
-    }
-
     const loginForm = document.getElementById('login-form');
     
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
 
-            const emailOrUsername = loginForm.elements['username'].value;
+            const emailOrUsername = loginForm.elements['email'].value;
             const password = loginForm.elements['password'].value;
 
             firebase.auth().signInWithEmailAndPassword(emailOrUsername, password)
