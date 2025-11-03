@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EineMeister</title>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
+    <script src="/scripts/firebase-config-global.js"></script>
+    <script src="/scripts/recipe-loader.js"></script>
+    <link rel="stylesheet" href="/css/product-style.css">
+</head>
+<body>
+    <a href="recipe-list.html" class="back-button">Tagasi</a>
+    <div class="recipe-view">
+        <img id="recipe-image" class="recipe-image">
+        <div class="recipe-info">
+            <p id="recipe-title" class="recipe-title"></p>
+            <a id="recipe-price" class="recipe-price"></a>
+            <button class="add-to-cart-button">Lisa ostukorvi</button>
+        </div>
+            <p class="extra-info-details" id="description"></p>
+            <p class="macros-title">Valmistamine</p>
+            <p class="extra-info-details" id="instructions"></p>
+            <p class="extra-info-details" id="ingredients"></p>
+            <p class="macros-title">Toidukorra kohta</p>
+        <div class="extra-info-data">
+            <p class="macros" id="calories"></p>
+            <p class="macros" id="carbs"></p>
+            <p class="macros" id="proteins"></p>
+            <p class="macros" id="fats"></p>
+        </div>
+    </div>
+</body>
+</html>
