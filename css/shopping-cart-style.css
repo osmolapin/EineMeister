@@ -24,6 +24,7 @@ body {
     padding: 10px 15px;
     cursor: pointer;
     line-height: 1;
+    max-width: 70%;
 }
 .save-cart-button img{
     margin-right: 5px;
@@ -31,13 +32,22 @@ body {
     line-height: 1;
 }
 
+.main-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
 #cart-container {
     background-color: #d6efd8;
     width: 70%;
     border-radius: 5px;
 }
-#cart-container-list {
+#cart-list-container {
+    background-color: white;
     width: 60vw;
+    border-radius: 10px;
+    height: auto;
+    border: 1px solid black
 }
 .cart-item {
     display: flex;
@@ -70,7 +80,12 @@ body {
 .item-description {
     font-size: 20px;
 }
-
+.total-container {
+    background-color: #d6efd8;
+    width: 25%;
+    border-radius: 10px;
+    border: 1 px solid black;
+}
 /* ---------------------- Quantity controls ------------------------ */
 .item-quantity {
     display: flex; 
@@ -136,7 +151,7 @@ item-price {
     align-items: center;
     background-color: #508d4e;
     color: black;
-    border: none;
+    border: 1px solid #000000;
     border-radius: 5px;
     padding: 10px 15px;
     font-weight: bold;
