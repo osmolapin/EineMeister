@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/shopping-cart-style.css">
+    <title>Ostukorv</title>
+</head>
+<body>
+    <header-navbar></header-navbar>
+    
+    <div class="cart-header">
+        <h1>Ostukorv</h1>
+        <input placeholder="Lisage ostukorvile nimi">
+        <button class="save-cart-button"><img src="/images/empty_heart.png">Salvesta ostukorv</button>
+    </div>
+    <div class="main-container">
+    <div id="cart-container">
+        <div id="cart-list-container">
+            <div class="cart-item">
+                <img src="/images/" alt="item-picture">
+                <div class="item-details">
+                    <p class="item-name">Item name</p>
+                    <p class="item-description">Description</p>
+                </div>
+                <div class="item-quantity">
+                    <button class="quantity-minus">-</button>
+                    <input type="number" value="" class="quantity-input">
+                    <button class="quantity-plus">+</button>
+                </div>
+                <p class="item-price">0.0€</p>
+            </div>
+        </div>
+        <button class="empty-cart-button"><img alt="empty-cart" src="/images/shopping_cart_off.png">Tühjenda ostukorv</button>
+    </div>
+    <div class="total-container">
+        <h1>Kokkuvõte</h1>
+        <div class="total-sum-container">
+            <p class="kokku-text">Kokku</p>
+            <p class="total-sum">0.0€</p>
+        </div>
+    </div>
+    </div>
+    <a href="/pages/product-list.html" class="return">
+        <img src="/images/double_arrow.png" alt="return-store-button">
+        Tagasi poodi
+    </a>
+</body>
+</html>
