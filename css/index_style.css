@@ -1,3 +1,6 @@
+* {
+    margin: 0;
+}
 .pildikonteriner-responsive {
     position: relative;
     width: 100%;
