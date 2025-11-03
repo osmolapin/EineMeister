@@ -227,7 +227,7 @@ ul li a{
                 <button ><img src="/images/search.png" alt="search"></button>
             </div>
             <ul>
-                <li><a href="/ostukorv.html"><img src="/images/shopping_cart.png" alt="ostukorvi logo"></a></li>
+                <li><a href="/pages/shopping-cart.html"><img src="/images/shopping_cart.png" alt="ostukorvi logo"></a></li>
 
                 <li id="logged-out-link"><a href="/pages/login.html" class="login-button">Logi sisse</a></li>
                 
