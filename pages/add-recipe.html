@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <title>Uue retsepti loomine</title>
+  <link rel="stylesheet" href="../css/add-recipe-style.css">
+</head>
+<body>
+  <h1>Uue retsepti loomine</h1>
+  <div class="container">
+    <div class="form-section">
+      <label for="title">Pealkiri</label>
+      <input type="text" id="title" name="title">
+
+      <label for="description">Lühike kirjeldus</label>
+      <input type="text" id="description" name="description">
+
+      <label for="instructions">Valmistamise juhend</label>
+      <textarea id="instructions" name="instructions"></textarea>
+
+      <label>Toitumisalane teave</label>
+      <table class="nutrition-table">
+        <tr><th>Kalorid</th><td><input type="text" name="calories" placeholder="nt 36 kcal"></td></tr>
+        <tr><th>Valgud</th><td><input type="text" name="protein" placeholder="nt 2 g"></td></tr>
+        <tr><th>Rasvad</th><td><input type="text" name="fat" placeholder="nt 4 g"></td></tr>
+        <tr><th>Süsivesikud</th><td><input type="text" name="carbs" placeholder="nt 0 g"></td></tr>
+      </table>
+
+      <label>Pildi üleslaadimine</label>
+      <div class="drop-zone">Lohista pilt siia või klõpsa, et valida</div>
+    </div>
+
+    <div class="ingredients-section">
+      <label>Koostisosad</label>
+      <div class="ingredients-list">
+        <input type="text" name="ingredient" placeholder="nt 15 g juust">
+        <button type="button">Lisa uus komponent</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="cancel">Tühista</button>
+    <button class="preview">Eelvaade</button>
+    <button class="submit">Esita retsept</button>
+  </div>
+</body>
+</html>
