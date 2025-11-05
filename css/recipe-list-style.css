@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.recipe-card {
+    border: #1A5319 2px, solid;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 1vw;
+    margin: 1vw;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+}
+
+.recipe-title {
+    background-color: #D6EFD8;
+    cursor: pointer;
+}
+
+.recipe-title:hover {
+    text-decoration: underline;
+}
+
+.recipe-image {
+    cursor: pointer;
+}
+
+.recipe-price {
+    color: #1A5319
+}
+
+body {
+    margin: 0px;
+}
