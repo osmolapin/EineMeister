@@ -4,18 +4,36 @@
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+select {
+    border-radius: 10px;
+    background-color: white;
+}
+
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
 .recipe-card {
-    border: #1A5319 2px, solid;
+    border: 2px solid #1A5319;
     border-radius: 10px;
     display: inline-block;
-    padding: 1vw;
-    margin: 1vw;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+    margin: 2vw;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
+    width: 350px; 
+    min-width: 350px;
+    display: grid;
+    place-items: center;
+    padding-top: 1%;
 }
 
 .recipe-title {
     background-color: #D6EFD8;
     cursor: pointer;
+    font-size: 25px;
+    width: 100%;
 }
 
 .recipe-title:hover {
@@ -24,12 +42,15 @@
 
 .recipe-image {
     cursor: pointer;
+    width: 50%;
 }
 
 .recipe-price {
-    color: #1A5319
+    color: #1A5319;
+    font-size: 20px;
 }
 
 body {
     margin: 0px;
 }
+
