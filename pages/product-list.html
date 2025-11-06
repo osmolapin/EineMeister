@@ -8,8 +8,13 @@
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
     <script src="/scripts/firebase-config-global.js"></script>
+    <script src="/scripts/products.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="/scripts/navbar.js" defer></script> 
 </head>
 <body>
+    <header-navbar></header-navbar>
     <a href="/index.html" class="back-button">Tagasi</a>
     <label for="product-filters">Sorteeri</label>
     <select class="product-filters" id="product-filters">
@@ -24,6 +29,5 @@
     
     <div id="products-container" class="products-container"></div>
     
-    <script src="/scripts/products.js"></script>
 </body>
 </html>

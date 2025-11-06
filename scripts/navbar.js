@@ -148,7 +148,6 @@ getNavbarTemplate() {
     align-items: center;
 }
 .search-bar button{
-    padding: 10px 15px;
     border: none;
     background-color: #80af81;
     color: black;
@@ -221,7 +220,7 @@ ul li a{
     </style>
     <header>
         <nav class="navbar">
-            <div class="logo"><a href="index.html"><img src="/images/logo.png" alt="Einemeister logo"></a></div>
+            <div class="logo"><a href="/index.html"><img src="/images/logo.png" alt="Einemeister logo"></a></div>
             <div class="search-bar">
                 <input type="text" placeholder="Otsi toodet">
                 <button ><img src="/images/search.png" alt="search"></button>
