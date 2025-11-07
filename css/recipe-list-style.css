@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe-card {
+    border: 2px solid #1A5319;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 2vw;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);  
+    width: 350px; 
+    min-width: 350px;
+    display: grid;
+    place-items: center;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px;
+    transition: all .3s ease-in-out;
+}
+
+.recipe-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 43px;
+  transform: translateY(-1px);
+}
+
+.recipe-title {
+    background-color: #D6EFD8;
+    cursor: pointer;
+    font-size: 25px;
+
+    justify-self: stretch; 
+    text-align: center;       
+    padding: 8px 0;
+    margin-bottom: 2%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);  
+}
+
+.recipe-title:hover {
+    text-decoration: underline;
+}
+
+.recipe-image {
+    cursor: pointer;
+    width: 50%;
+    padding-bottom: 4%;
+    padding-top: 4%;
+}
+
+.recipe-price-num {
+    color: #1A5319;
+}
+
+.recipe-price {
+    font-size: 20px;
+}
+
+body {
+    margin: 0px;
+}
+
+.recipe-extra-info {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 5px; 
+    box-sizing: border-box;
+    margin: 2%;
+}
+
+.macro-item {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;      
+    text-align: center;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.macro-value {
+    font-size: 16px;
+    color: #1A5319;
+}
+
+.macro-name {
+    font-size: 13px;
+    color: #333;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 15px;    
+    margin: 15px 0 15px 15px; 
+    
+    background-color: #1A5319;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.back-button:hover {
+    background-color: #2F7C30;
+
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.back-button:active {
+    background-color: #1A5319; 
+    box-shadow: none;
+}
+
+.filter-container {
+    float: right;
+    margin: 15px 15px 0px 15px; 
+    display: flex;
+}
+
+.recipe-filter-title {
+    margin-right: 2%;
+}
