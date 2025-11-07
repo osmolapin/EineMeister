@@ -127,6 +127,40 @@ body {
     display: flex;
 }
 
+.filter-container {
+    float: right;
+    margin: 15px 15px 0 0;
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .recipe-filter-title {
-    margin-right: 2%;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.recipe-filters {
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    
+    background-color: white; 
+    border: 2px solid #1A5319;
+    border-radius: 8px; 
+    
+    padding: 8px 30px 8px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1A5319; 
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    
+}
+
+.recipe-filters:hover {
+    border-color: #2F7C30;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.2);
 }
