@@ -15,17 +15,19 @@
 </head>
 <body>
     <header-navbar></header-navbar>
-    <a href="/index.html" class="back-button">Tagasi</a>
-    <label for="product-filters">Sorteeri</label>
-    <select class="product-filters" id="product-filters">
-        <option value="popular">Populaarsus</option>
-        <option value="price-less">Hind: odavamad eespool</option>
-        <option value="price-more">Hind: kallimad eespool</option>
-        <option value="calories-less">Kalorid: vähem eespool</option>
-        <option value="calories-more">Kalorid: rohkem eespool</option>
-        <option value="proteins-less">Valgud: vähem eespool</option>
-        <option value="proteins-more">Valgud rohkem eespool</option>
-    </select>
+    <a href="/index.html" class="back-button">&lt Tagasi</a>
+    <div class="filter-container">
+        <label class="product-filter-title">Sorteeri</label>
+        <select class="product-filters" id="product-filters">
+            <option value="popular">Populaarsus</option>
+            <option value="price-less">Hind: odavamad eespool</option>
+            <option value="price-more">Hind: kallimad eespool</option>
+            <option value="calories-less">Kalorid: vähem eespool</option>
+            <option value="calories-more">Kalorid: rohkem eespool</option>
+            <option value="proteins-less">Valgud: vähem eespool</option>
+            <option value="proteins-more">Valgud rohkem eespool</option>
+        </select>
+    </div>
     
     <div id="products-container" class="products-container"></div>
     
