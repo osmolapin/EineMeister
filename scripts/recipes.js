@@ -30,48 +30,40 @@ function createRecipeCard(recipe) {
     title.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
     
     const price = document.createElement("div");
-    price.classList.add("recipe-price");
-    price.textContent = recipe.data.price + " €"; 
+    price.innerHTML = `
+    <div class="recipe-price">
+        <span class="recipe-price-lable">Toidukorra hind</span>
+        <span class="recipe-price-num">${recipe.data.price} €</span>
+    </div>
+    `;
 
     const extraInfo = document.createElement("div");
     extraInfo.classList.add("recipe-extra-info"); 
-
-    // // Helper function to create a nutritional info paragraph
-    // const createNutrientParagraph = (className, value, unit, title) => {
-    //     const p = document.createElement("p");
-    //     p.classList.add(className);
-    //     p.textContent = `${title} ${value} ${unit}`;
-    //     return p;
-    // };
-
-    const macroNumbers = document.createElement("div");
-    macroNumbers.classList.add("recipe-macro-numbers");
-    macroNumbers.textContent = recipe.data.calories + " " + recipe.data.carbs + " " + recipe.data.proteins + " " + recipe.data.fats;
-
-
-    const macroNames = document.createElement("div");
-    macroNames.classList.add("recipe-macro-names");
-    macroNames.textContent = "Kalorid Süsivesikud Valgud Rasvad"
-    // const calories = createNutrientParagraph("calories", recipe.data.calories, "kcal", "Kalorid");
-    // const carbs = createNutrientParagraph("carbs", recipe.data.carbs, "g", "Süsivesikud");
-    // const proteins = createNutrientParagraph("proteins", recipe.data.proteins, "g", "Valgud");
-    // const fats = createNutrientParagraph("fats", recipe.data.fats, "g", "Rasvad");
-    
-    // extraInfo.appendChild(calories);
-    // extraInfo.appendChild(carbs);
-    // extraInfo.appendChild(proteins);
-    // extraInfo.appendChild(fats);
-    // extraInfo.appendChild(macroNumbers);
-    // extraInfo.appendChild(macroNames);
+    extraInfo.innerHTML = `
+        <div class="macro-item">
+            <span class="macro-value">${recipe.data.calories} kcal</span>
+            <span class="macro-name">Kalorid</span>
+        </div>
+        <div class="macro-item">
+            <span class="macro-value">${recipe.data.carbs} g</span>
+            <span class="macro-name">Süsivesikud</span>
+        </div>
+        <div class="macro-item">
+            <span class="macro-value">${recipe.data.proteins} g</span>
+            <span class="macro-name">Valgud</span>
+        </div>
+        <div class="macro-item">
+            <span class="macro-value">${recipe.data.fats} g</span>
+            <span class="macro-name">Rasvad</span>
+        </div>
+    `;
 
     // Assemble the Card
     card.appendChild(image);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(extraInfo);
-    card.appendChild(macroNumbers);
-    card.appendChild(macroNames);
-    
+
     return card;
 }
 
