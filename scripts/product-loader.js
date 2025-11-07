@@ -11,14 +11,14 @@ let currentProductData = null;
 var productRef = db.collection("products").doc(productId);
 
 productRef.get().then((doc) => {
-    // Kontrolli, kas dokument on olemas
+    // Check if document exists
     if (!doc.exists) {
-        // Võite siin kuvada veateate
+
         console.error("Tootet ei leitud ID-ga:", productId);
         return;
     }
     
-    // Salvesta andmed õiges formaadis enne, kui neid kasutatakse
+    // To save data in correct format
     currentProductData = {
         id: doc.id,
         data: doc.data()
@@ -65,10 +65,10 @@ function setupAddToCartButton(productDetails) {
     
     if (addToCartButton) {
         addToCartButton.addEventListener('click', () => {
-            // Lisame vaikimisi 1 tk. Kui on koguse input, tuleks see siit lugeda.
+            // When clicking add to cart button it adds one element
             const quantity = 1; 
             
-            // Kontrollime, kas addToCart funktsioon on olemas (laetud shopping-cart.js failist)
+            // Check if addToCart function is available - if not then alert 
             if (typeof addToCart === 'function') {
                 addToCart(productDetails, quantity);
             } else {
