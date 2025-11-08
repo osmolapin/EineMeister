@@ -130,3 +130,8 @@ body {
 .recipe-filter-title {
     margin-right: 2%;
 }
+
+@media (max-width: 400px) {
+    .recipe-card{min-width: 250px; width: 250px;}
+    .recipe-filters{width: 130px;}
+}
