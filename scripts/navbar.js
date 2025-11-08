@@ -33,7 +33,7 @@ class navbarComponent extends HTMLElement {
             // Store the listener to be able to unsubscribe later
             this.authListener = firebase.auth().onAuthStateChanged(this.updateNavigation); 
         } else {
-            console.error("Firebase Auth pole kättesaadav. Kontrolli HTML-i skriptide laadimise järjekorda!");
+            console.error("Firebase Auth pole kättesaadav.");
             // Set a default state if Firebase is unavailable
             this.updateNavigation(null); 
         }
@@ -70,12 +70,20 @@ class navbarComponent extends HTMLElement {
     }
 
     handleOutsideClick(event) {
-        const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu'); 
-        const userIcon = this.shadowRoot.getElementById('user-profile-icon');
+        const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu');
+        
+        // Is the dropdown open?
+        if (dropdownMenu && dropdownMenu.classList.contains('active')) {
+            
+            // Use event.composedPath() to see where the click originated.
+            const path = event.composedPath();
 
-        // Check if the click is outside the component/dropdown and the menu is open
-        if (dropdownMenu && dropdownMenu.classList.contains('active') && !userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            this.toggleDropdown();
+            // If the click path DOES NOT include the host element 
+            // (the <header-navbar> tag itself), the click was external.
+            if (!path.includes(this.shadowRoot.host)) {
+                // Close the dropdown
+                this.toggleDropdown();
+            } 
         }
     }
 
@@ -88,7 +96,7 @@ class navbarComponent extends HTMLElement {
         const logoutLink = this.shadowRoot.getElementById('logout-link');
 
         if (user) {
-            // Logged in state: Show the profile icon and hide the login buttons
+            // Logged in state - show profile icon, hide login buttons
             if (userIcon) userIcon.classList.remove('hidden');
             if (loggedOutButton) loggedOutButton.classList.add('hidden');
             if (loggedOutImage) loggedOutImage.classList.add('hidden');
@@ -100,7 +108,7 @@ class navbarComponent extends HTMLElement {
             }
 
         } else {
-            // Logged out state: Show the login buttons and hide the profile icon
+            // Logged out state - show login buttons, hide profile icon
             if (userIcon) userIcon.classList.add('hidden');
             if (loggedOutButton) loggedOutButton.classList.remove('hidden');
             if (loggedOutImage) loggedOutImage.classList.remove('hidden');
@@ -111,7 +119,6 @@ class navbarComponent extends HTMLElement {
         }
     }
         
-    // ------------------- For page loading -------------------
 
     setEventListeners() {
         const userIcon = this.shadowRoot.getElementById('user-profile-icon');
@@ -120,6 +127,8 @@ class navbarComponent extends HTMLElement {
         if (userIcon) {
             userIcon.addEventListener('click', this.toggleDropdown);
         }
+        // Handle clicks everywhere but the navbar
+        document.addEventListener('click', this.handleOutsideClick);
     }
 
     getNavbarTemplate() {
@@ -279,9 +288,8 @@ class navbarComponent extends HTMLElement {
                 .hidden {
                     display: none !important;
                 }
-                .login-image {
-                    display: none; /* Hide mobile login image by default */
-                }
+                .mobile-icon { display: none; }
+                .desktop-text { display: inline; }
                 
                 /* --- Mobile / Tablet Styles --- */
                 @media (max-width: 992px) {
@@ -295,14 +303,27 @@ class navbarComponent extends HTMLElement {
                         max-width: 60%;
                     }
 
-                    /* Swap the login button for the image */
+                    /* 1. HIDE THE DESKTOP LOGIN BUTTON TEXT */
+                    .login-button .desktop-text {
+                        display: none;
+                    }
+                    
+                    /* 2. SHOW THE MOBILE ICON */
+                    .login-button .mobile-icon {
+                        display: block;
+                        height: 25px; /* Ensure the icon is sized */
+                        width: 25px;
+                        margin: auto; /* Center the icon if space allows */
+                    }
+                    
+                    /* 3. ENSURE THE LOGIN LINK LOOKS LIKE A SIMPLE ICON */
                     .login-button { 
-                        display: none !important;
+                        background: none; /* Remove background */
+                        padding: 0 !important; /* Remove button padding */
+                        border: none;
                     }
-                    .login-image {
-                        display: block !important;
-                        padding: 0;
-                    }
+                    
+                    /* The 'hidden' class applied by JS will control which link is visible. */
                     
                     ul {
                         gap: 5px; 
@@ -333,9 +354,10 @@ class navbarComponent extends HTMLElement {
                         <li><a href="/pages/shopping-cart.html"><img src="/images/shopping_cart.png" alt="shopping cart icon"></a></li>
 
                         <li id="profile-container" class="dropdown">
-                            <a href="/pages/login.html" class="login-button" id="logged-out-button">Logi sisse</a>
-                            <a href="/pages/login.html" class="login-image" id="logged-out-image"><img src="/images/account_circle.png" alt="user-profile-icon"></a>
-                            
+                            <a href="/pages/login.html" class="login-button dropdown-toggle" id="logged-out-button">
+                                <span class="desktop-text">Logi sisse</span>
+                                <img src="/images/account_circle.png" alt="user-profile-icon" class="mobile-icon hidden-on-desktop">
+                            </a>
                             <a href="#" class="dropdown-toggle hidden" id="user-profile-icon">
                                 <img src="/images/account_circle.png" alt="user-profile-icon">
                             </a>
