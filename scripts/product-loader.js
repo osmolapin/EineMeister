@@ -4,7 +4,6 @@ function getRecipeIdFromUrl() {
 }
 
 const productId = getRecipeIdFromUrl()
-const db = firebase.firestore();
 
 let currentProductData = null; 
 

@@ -1,4 +1,4 @@
-const db = firebase.firestore();
+
 // Global variable to store all fetched products
 let allProducts = [];
 
