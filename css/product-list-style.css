@@ -154,3 +154,13 @@ body {
     outline: none;
     box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.2);
 }
+
+@media (max-width: 992px) {
+    .product-amount-button:active {background-color: white;}
+    .product-amount-button:hover {background-color: white;}
+}
+
+@media (max-width: 400px) {
+    .product-card{min-width: 250px; width: 250px;}
+    .product-filters{width: 130px;}
+}

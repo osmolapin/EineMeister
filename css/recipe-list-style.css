@@ -164,3 +164,8 @@ body {
     outline: none;
     box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.2);
 }
+
+@media (max-width: 400px) {
+    .recipe-card{min-width: 250px; width: 250px;}
+    .recipe-filters{width: 130px;}
+}

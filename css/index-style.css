@@ -34,6 +34,7 @@ body {
     font-size: 2vw;
     text-align: center;
     text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .recipes-button {
@@ -66,16 +67,14 @@ body {
 }
 
 @media (max-width: 992px) {
-    /* --- NEW CODE: Make Title Visible and Style It --- */
     .webpage-name {
-        display: block; /* Overrides 'display: none' and makes it visible */
+        display: block;
         text-align: center;
         font-size: 30px;
         font-weight: bold;
-        color: #1A5319; /* Using your dark green primary color (inferred from other files) */
-        margin: 30px 0 20px 0; /* Space above and below the title */
+        color: #1A5319;
+        margin: 30px 0 20px 0;
     }
-    /* --- EXISTING CODE for Buttons/Image (for context) --- */
     .image-container {
         display: block; 
     }
