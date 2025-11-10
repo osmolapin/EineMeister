@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.image-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hero-img {
+    max-width: 80vw;
+    display: block;
+    height: auto;
+}
+
+.products-button {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
+    position: absolute;
+    width: 17vw;        /* vw - viewport width units for responsiveness */
+    height: 17vw;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 51%;
+    left: 28%;
+    font-size: 2vw;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.recipes-button {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #59ad5c;
+    color: white;
+    position: absolute;
+    width: 17vw;
+    height: 17vw;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 50%;
+    right: 29%;
+    font-size: 2vw;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.webpage-name {
+    display: none;
+}
+
+.recipes-button:hover, .products-button:hover {
+    transform: translateY(-4px);
+    background-color: #3b703c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);  
+}
+
+@media (max-width: 992px) {
+    .webpage-name {
+        display: block;
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+        color: #1A5319;
+        margin: 30px 0 20px 0;
+    }
+    .image-container {
+        display: block; 
+    }
+    
+    .hero-img {
+        opacity: 0;
+        height: 0;
+        margin-bottom: 0;
+    }
+
+    .products-button,
+    .recipes-button {
+        position: static; 
+        top: auto;        
+        left: auto;
+        right: auto;
+        
+        display: flex;
+        width: 90%;             
+        height: 100px;         
+        max-width: 400px;       
+        border-radius: 10px;    
+        margin: 15px auto;      
+        
+        font-size: 24px;        
+        
+        justify-content: center; 
+        align-items: center;
+    }
+    
+    .image-container {
+        position: static;
+    }
+}
