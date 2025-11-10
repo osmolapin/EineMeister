@@ -72,16 +72,16 @@ function updateCartTotals(totalSum) {
     }
 }
 
-function addToCart(productDetails, quantity = 1) {
+function addToCart(thisProductId, quantity = 1) {
     let cart = getCart();
-    const productId = productDetails.id;
-    const priceValue = Number(productDetails.data.price); 
+    const productId = thisProductId.id;
+    const priceValue = Number(thisProductId.data.price); 
 
     const itemToSave = {
         id: productId,
-        name: productDetails.data.name,
+        name: thisProductId.data.name,
         price: priceValue,
-        imageUrl: productDetails.data.imageUrl
+        imageUrl: thisProductId.data.imageUrl
     };
 
     const itemIndex = cart.findIndex(item => item.id === productId);
@@ -94,7 +94,7 @@ function addToCart(productDetails, quantity = 1) {
 
     saveCart(cart);
     renderCart();
-    alert(`${quantity} x ${productDetails.data.name} lisatud ostukorvi!`);
+    alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`);
     checkCartStatus();
 }
 
@@ -132,6 +132,13 @@ function checkCartStatus() {
     }
 }
 
+document.addEventListener('authStatusReady', (e) => {
+    const detail = e.detail || {};
+    currentUserId = detail.userId;
+    console.log("authStatusReady: currentUserId =", currentUserId);
+    checkCartStatus();
+});
+
 // Additon of event listeners
 document.addEventListener('DOMContentLoaded', () => {
     renderCart();
@@ -159,44 +166,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const saveButton = document.querySelector('.save-cart-button');
+    const nameInput = document.querySelector('.save-cart input[placeholder="Lisage ostukorvile nimi"]');
+
+    if (saveButton && nameInput) {
+        saveButton.addEventListener('click', () => {
+            const cartName = nameInput.value.trim();
+            saveCurrentCart(cartName, currentUserId)
+                .then((success) => {
+                    if (success) {
+                        lastSavedCartString = localStorage.getItem(CART_STORAGE_KEY);
+                        updateSaveButtonState(true);
+                        nameInput.value = '';
+                    }
+                });
+        });
+    }
+
+    
     const emptyCartButton = document.querySelector('.empty-cart-button');
     if (emptyCartButton) {
         emptyCartButton.addEventListener('click', () => {
-            // Kui kasutaja klikib 'OK', siis confirm() tagastab true
+            // If user clicks OK then confirm returns true
             if (confirm("Oled kindel, et soovid kogu ostukorvi tühjendada?")) {
                 emptyCart();
                 alert("Ostukorv tühjendatud!");
             }
         });
     }
-
-    const saveButton = document.querySelector('.save-cart-button');
-    const nameInput = document.querySelector('.cart-header input[placeholder="Lisage ostukorvile nimi"]');
-    document.addEventListener('authStatusReady', (e) => {
-        const detail = e.detail || {};
-        // auth-status.js should get the globalCurrentUserId
-        // Get userId from auth-status details
-        currentUserId = detail.userId;
-
-        // Check status, because user should be logged in
-        checkCartStatus(); 
-
-        if (saveButton && nameInput && !saveButton.hasAttribute('data-listener-added')) {
-            saveButton.addEventListener('click', async () => {
-                const cartName = nameInput.value.trim();
-                const success = await saveCurrentCart(cartName, currentUserId); 
-                
-                if (success) {
-                    lastSavedCartString = localStorage.getItem(CART_STORAGE_KEY); 
-                    updateSaveButtonState(true);
-                    // To clear the name for new cart
-                    nameInput.value = ''; 
-                }
-            });
-            saveButton.setAttribute('data-listener-added', 'true');
-        }
-    });
-})
+});
 // Empty the cart function
 function emptyCart() {
     // Deletes data from localStorage
@@ -206,7 +204,8 @@ function emptyCart() {
 }
 
 // Function to save cart with users id and save them to firestore
-async function saveCurrentCart(cartName, userId) {
+function saveCurrentCart(cartName, userId) {
+    console.log("saveCurrentCart käivitati. userId =", userId, "cartName =", cartName);
     console.log("Kasutaja ID salvestamisel:", userId);
     if (!userId) {
         alert("Salvestamiseks pead olema sisse logitud!");
@@ -233,24 +232,24 @@ async function saveCurrentCart(cartName, userId) {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
 
-    try {
-        if (!db) {
-            console.error("Firebase Firestore pole laetud.");
-            alert("Viga: Andmebaasi ei saa kasutada");
-            return false;
-        }
-        // Use userId and cartName to make a unique document
-        const docRef = db.collection(saved_carts).doc(`${userId}_${cartName}`);
-        await docRef.set(cartData, { merge: true });
-        
-        console.log("Ostukorv salvestatud ID-ga: ", docRef.id);
-        return true;
-
-    } catch (error) {
-        console.error("Viga ostukorvi salvestamisel: ", error);
-        alert("Viga: Ostukorvi salvestamine ebaõnnestus.");
+    if (!db) {
+        console.error("Firebase Firestore pole laetud.");
+        alert("Viga: Andmebaasi ei saa kasutada");
         return false;
     }
+    // Use userId and cartName to make a unique document
+    const docRef = db.collection(saved_carts).doc(`${userId}_${cartName}`);
+    return docRef.set(cartData, { merge: true })
+    .then(() => {
+        console.log("Ostukorv salvestatud.");
+        return true;
+    })
+
+    .catch((error) => {
+            console.error("Viga ostukorvi salvestamisel:", error);
+            alert("Viga: Ostukorvi salvestamine ebaõnnestus.");
+            return false;
+        });
 }
 // Function to change button after saving cart
 function updateSaveButtonState(isSaved = false) {
