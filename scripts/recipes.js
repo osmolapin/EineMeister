@@ -1,5 +1,3 @@
-const db = firebase.firestore();
-
 // Global variable to store all fetched recipes
 let allRecipes = []; 
 
