@@ -7,22 +7,7 @@ let allProducts = [];
  * @param {string} thisProductId - Product ID i.e '0NyO0AKRArvNeszw4giY'
  * @param {int} type - 1 = increment value, -1 = decrement value
  */
-function changeProductQuantity(thisProductId, type) {
-  // The product's unique identifier (product.id) is assigned as the key for the on-screen quantity element
-   let numElement = document.getElementById(thisProductId);
-   numValue = Number(numElement.textContent);
 
-   if (type == 1) {
-    numValue++;
-
-   } else if (type == -1) {
-    if (numValue > 0) {
-      numValue--;
-    }
-
-   }
-   numElement.innerText = numValue;
-}
 
 function createProductPage(thisProductId) {
   window.location.href = `product.html?id=${thisProductId}`;
@@ -60,13 +45,24 @@ function createProductCard(product) {
     removeButton.classList.add("product-amount-button");
     removeButton.textContent = "-";
     removeButton.value = -1;
-    removeButton.onclick = () => changeProductQuantity(card.getAttribute('data-product-id'), removeButton.value);
+    removeButton.onclick = () => {
+    const productId = card.getAttribute('data-product-id');
+    const newQuantity = changeProductQuantity(productId, -1);
+    quantity.textContent = newQuantity;
+};
 
     const addButton = document.createElement("button");
     addButton.classList.add("product-amount-button");
     addButton.textContent = "+";
     addButton.value = 1;
-    addButton.onclick = () => changeProductQuantity(card.getAttribute('data-product-id'), addButton.value);
+    addButton.onclick = () => {
+        // Find item from allProducts
+    const product = allProducts.find(p => p.id === card.getAttribute('data-product-id'));
+    if (product) {
+        addToCart(product, 1); // Add one of item to cart on click
+        quantity.textContent = Number(quantity.textContent) + 1;
+    }
+};
 
     const quantity = document.createElement("div");
     quantity.classList.add("product-quantity");
@@ -85,6 +81,11 @@ function createProductCard(product) {
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(buttonAndQuantityContainer);
+
+    const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+    const cartItem = cart.find(item => item.id === product.id);
+    const initialQuantity = cartItem ? cartItem.quantity : 0;
+    quantity.textContent = initialQuantity;
 
     return card;
 }
