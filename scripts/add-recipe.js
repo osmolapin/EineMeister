@@ -1,8 +1,6 @@
-// Impordime Firebase funktsioonid
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAP-nzuF31UZbgHyc5AGsxgrNCVC1jb9hk",
   authDomain: "einemeister-84e8c.firebaseapp.com",
@@ -13,20 +11,15 @@ const firebaseConfig = {
   measurementId: "G-5YW3F3X62G"
 };
 
-// 2. Initialiseerime Firebase ja Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 3. Leiame vormi HTML-ist
-// See ID peab klappima sinu <form> sildiga
 const recipeForm = document.getElementById("add-recipe-form");
 
-// 4. Lisame "submit" kuular
 recipeForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Peatab lehe uuesti laadimise
+  e.preventDefault();
 
   try {
-    // 5. Kogume andmed vormist ID-de järgi
     const recipeData = {
       name: document.getElementById("form-name").value,
       description: document.getElementById("form-description").value,
@@ -40,7 +33,6 @@ recipeForm.addEventListener("submit", async (e) => {
       createdAt: new Date()
     };
 
-    // 6. Saadame andmed "recipes" kollektsiooni
     const docRef = await addDoc(collection(db, "recipes"), recipeData);
 
     alert("Retsept edukalt lisatud! Dokumendi ID: " + docRef.id);
