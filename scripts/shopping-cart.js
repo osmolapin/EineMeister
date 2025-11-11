@@ -94,7 +94,7 @@ function addToCart(thisProductId, quantity = 1) {
 
     saveCart(cart);
     renderCart();
-    alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`);
+    // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
 }
 
@@ -102,18 +102,23 @@ function changeProductQuantity(thisProductId, change) {
     let cart = getCart();
     const itemIndex = cart.findIndex(item => item.id === thisProductId);
 
+    let newQuantity = 0;
+
     if (itemIndex !== -1) {
-    // Update data in local storage
-    cart[itemIndex].quantity += change;
-    if (cart[itemIndex].quantity < 1) {
-        // If quantity is under 1, item is removed from cart
-        cart.splice(itemIndex, 1);
+        cart[itemIndex].quantity += change;
+        newQuantity = cart[itemIndex].quantity;
+
+        if (newQuantity < 1) {
+            cart.splice(itemIndex, 1);
+            newQuantity = 0;
+        }
+
+        saveCart(cart);
+        renderCart();
+        checkCartStatus();
     }
-    saveCart(cart);
-    // Render the cart again for HTML to update
-    renderCart();
-    checkCartStatus();
-    }
+
+    return newQuantity;
 }
 // For saving cart function
 function checkCartStatus() {
@@ -270,3 +275,4 @@ function updateSaveButtonState(isSaved = false) {
         }
     }
 }
+window.addToCart = addToCart;

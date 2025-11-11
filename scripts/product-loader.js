@@ -64,10 +64,10 @@ function setupAddToCartButton(productDetails) {
     
     if (addToCartButton) {
         addToCartButton.addEventListener('click', () => {
-            // When clicking add to cart button it adds one element
-            const quantity = 1; 
-            
-            // Check if addToCart function is available - if not then alert 
+            // reads quantity-number and adds that amount to cart
+            const quantityElement = document.getElementById("quantity-number");
+            const quantity = Number(quantityElement.textContent);
+
             if (typeof addToCart === 'function') {
                 addToCart(productDetails, quantity);
             } else {
