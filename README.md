@@ -15,16 +15,16 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 - Sisse logimise leht
 - Registreerimise leht
 - Leht teavitamaks, et kasutaja on välja logitud
-- Unustasid parooli? leht
+- "Unustasid parooli?" leht
 - Regisreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
 - Enamusel lehtedel on esialgne CSS olemas
 - Toodete lehel kuvatakse kõik tooted andmebaasis
-- Navbar on olemas (index.html, products_list.html, product.html, recipe_list.html ja recipe.html )
+- Navbar on olemas
 - Esialgne adminvaade
-- Esialgne leht retseptide lisamiseks
-- Ostukorvi esialgne vaade
-- toodete ja retseptide filter
-- konkreetse toote vaade
+- Retseptide lisamise leht peaaegu töötab 
+- Toodete ja retseptide filter
+- Konkreetse toote vaade
+- Ostukorvi leht ja funktsionaalsus
 
 
 ## Tulemas
@@ -72,8 +72,8 @@ Selleks tuleb logida enda Firebase kontoga sisse
 ```bash
 firebase login
 ```
-Firebases tuleb luua __authentication__ project ja sign in methodite alt valida __Email/Password__
-Asendada form.js-is firebaseConfig enda omaga
+Firebases tuleb luua __authentication__  ja __firestore__ project ja sign in methodite alt valida __Email/Password__
+Asendada firebase-config-global.js-is firebaseConfig enda omaga
 ## Autorid
 - Osmo Lapin
 - Henry Hanst
