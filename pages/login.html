@@ -7,37 +7,41 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="/scripts/firebase-config-global.js"></script>
     <script src="/scripts/login.js" defer></script>
+    <script src="/scripts/navbar.js" defer></script> 
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
-  <div id="container">
-    <h1>Logi sisse</h1>
+  <header-navbar></header-navbar>
+  <div class="login-container">
+    <div id="container">
+      <h1>Logi sisse</h1>
 
-    <div class="footer-text">
-      Pole EineMeistri klient? <a href="register.html">Loo konto</a>
+      <div class="footer-text">
+        Pole EineMeistri klient? <a href="register.html">Loo konto</a>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Parool</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Hoia mind sisselogituna</label>
+        </div>
+
+        <div class="links">
+          <a href="forgot_password.html">Unustasid parooli?</a>
+        </div>
+        <button type="submit">Logi sisse</button>
+      </form>
     </div>
-
-    <form id="login-form">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Parool</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" id="remember" name="remember">
-        <label for="remember">Hoia mind sisselogituna</label>
-      </div>
-
-      <div class="links">
-        <a href="forgot_password.html">Unustasid parooli?</a>
-      </div>
-      <button type="submit">Logi sisse</button>
-    </form>
-  </div>
+</div>
 </body></html>
 <link rel="stylesheet" href="/css/style_login.css">

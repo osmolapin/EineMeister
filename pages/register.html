@@ -4,39 +4,43 @@
     <meta charset="UTF-8">
     <title>Registration form</title>
 
-    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="/scripts/firebase-config-global.js"></script>
-    <script src="/scripts/form.js"></script>
+    <script src="/scripts/login.js" defer></script>
+    <script src="/scripts/navbar.js" defer></script>
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
-    <!-- Container Start -->
-    <div id="container">
-        <!-- Form Wrap Start -->
-        <div class="form-wrap">
-            <h1>Loo konto</h1>
-            <!-- Form Start -->
-            <form method="POST">
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Parool</label>
-                    <input type="password" name="password" id="password">
-                </div>
-                <div class="form-group">
-                    <label for="cpassword">Korda parooli</label>
-                    <input type="password" name="cpassword" id="cpassword">
-                </div>
-                <button type="button" onclick="signUp()">Registreeru</button>
-            </form>
-            <!-- Form Close -->
+    <header-navbar></header-navbar>
+    <div class="login-container">
+        <!-- Container Start -->
+        <div id="container">
+            <!-- Form Wrap Start -->
+            <div class="form-wrap">
+                <h1>Loo konto</h1>
+                <!-- Form Start -->
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" name="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Parool</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="cpassword">Korda parooli</label>
+                        <input type="password" name="cpassword" id="cpassword">
+                    </div>
+                    <button type="button" onclick="signUp()">Registreeru</button>
+                </form>
+                <!-- Form Close -->
+            </div>
+            <!-- Form Wrap Close -->
         </div>
-        <!-- Form Wrap Close -->
+        <!-- Container Start -->
     </div>
-    <!-- Container Start -->
 </body>
 </html>
 <link rel="stylesheet" href="/css/style_login.css">
