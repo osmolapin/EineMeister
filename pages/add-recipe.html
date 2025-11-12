@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <title>Uue retsepti loomine</title>
+  <link rel="stylesheet" href="../css/add-recipe-style.css">
+</head>
+<body>
+  <h1>Uue retsepti loomine</h1>
+
+  <form id="add-recipe-form">
+    <div class="container">
+      <div class="form-section">
+        <label for="form-name">Pealkiri</label>
+        <input type="text" id="form-name" name="title">
+
+        <label for="form-description">Lühike kirjeldus</label>
+        <input type="text" id="form-description" name="description">
+
+        <label for="form-instructions">Valmistamise juhend</label>
+        <textarea id="form-instructions" name="instructions"></textarea>
+
+        <label>Toitumisalane teave</label>
+        <table class="nutrition-table">
+          <tr><th>Kalorid</th><td><input type="text" id="form-calories" name="calories" placeholder="nt 36 kcal"></td></tr>
+          <tr><th>Valgud</th><td><input type="text" id="form-proteins" name="protein" placeholder="nt 2 g"></td></tr>
+          <tr><th>Rasvad</th><td><input type="text" id="form-fats" name="fat" placeholder="nt 4 g"></td></tr>
+          <tr><th>Süsivesikud</th><td><input type="text" id="form-carbs" name="carbs" placeholder="nt 0 g"></td></tr>
+        </table>
+
+        <label>Pildi üleslaadimine</label>
+       <label for="file-input" id="drop-zone">
+  Lohista pilt siia või klõpsa, et valida fail
+
+  <input type="file" id="file-input" accept="image/*">
+</label>
+        </div>
+
+      <div class="ingredients-section">
+        <label>Koostisosad</label>
+        <textarea id="form-ingredients" placeholder="Kirjuta koostisosad siia, nt: 15g juustu, 1 purk tomateid"></textarea>
+        </div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="cancel">Tühista</button>
+      <button type="button" class="preview">Eelvaade</button>
+      <button type="submit" class="submit">Esita retsept</button>
+    </div>
+  </form> <script type="module" src="../scripts/add-recipe.js"></script>
+</body>
+</html>

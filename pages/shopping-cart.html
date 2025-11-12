@@ -4,27 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/shopping-cart-style.css">
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    
-    <script src="/scripts/firebase-config-global.js"></script>
-    <script src="/scripts/navbar.js"></script> 
-    <script src="/scripts/auth-status.js"></script>
-    
-    <script src="/scripts/shopping-cart.js"></script>
     <title>Ostukorv</title>
-    <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
     <header-navbar></header-navbar>
     
     <div class="cart-header">
         <h1>Ostukorv</h1>
-        <h1>Kokkuvõte</h1>
-    </div>
-    <div class="save-cart">
         <input placeholder="Lisage ostukorvile nimi">
         <button class="save-cart-button"><img src="/images/empty_heart.png">Salvesta ostukorv</button>
     </div>
@@ -32,31 +18,32 @@
     <div id="cart-container">
         <div id="cart-list-container">
             <div class="cart-item">
-                <img id="product-image" class="product-image">
+                <img src="/images/" alt="item-picture">
                 <div class="item-details">
                     <p class="item-name">Item name</p>
-                    <p class="item-description"></p>
+                    <p class="item-description">Description</p>
                 </div>
                 <div class="item-quantity">
                     <button class="quantity-minus">-</button>
-                    <input type="number" value="1" class="quantity-input" min="0">
+                    <input type="number" value="" class="quantity-input">
                     <button class="quantity-plus">+</button>
                 </div>
-                <p class="item-price"></p>
+                <p class="item-price">0.0€</p>
             </div>
         </div>
         <button class="empty-cart-button"><img alt="empty-cart" src="/images/shopping_cart_off.png">Tühjenda ostukorv</button>
     </div>
     <div class="total-container">
+        <h1>Kokkuvõte</h1>
         <div class="total-sum-container">
             <p class="kokku-text">Kokku</p>
-            <p class="total-sum"></p>
+            <p class="total-sum">0.0€</p>
         </div>
     </div>
     </div>
     <a href="/pages/product-list.html" class="return">
         <img src="/images/double_arrow.png" alt="return-store-button">
-        <p>Tagasi poodi</p>
+        Tagasi poodi
     </a>
 </body>
 </html>

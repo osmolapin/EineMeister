@@ -1,295 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .navbar {
-            background-color: #80af81;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 25px;
-            height: 60px;
-        }
-        
-        .logo a img {
-            height: 40px;
-            width: auto;
-            display: block;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            flex-grow: 1; 
-            max-width: 500px;
-            margin: 0 20px;
-        }
-        
-        .search-bar input {
-            font-size: 16px;
-            padding: 10px;
-            width: 100%;
-            border-radius: 5px 0 0 5px;
-            border: none;
-            outline: none;
-        }
-        
-        .search-bar button {
-            border: none;
-            background-color: #6a966b;
-            padding: 8px 15px;
-            cursor: pointer;
-            outline: none;
-            border-radius: 0 5px 5px 0;
-            transition: background-color 0.2s;
-            height: 40px;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-bar button:hover, .search-bar button:focus {
-            background-color: #4b684b;
-        }
-
-        .search-bar button img {
-            width: 20px;
-            height: 20px;
-        }
-        
-        /* --- Navigation List Styles --- */
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        ul li a {
-            font-size: 17px;
-            font-weight: normal;
-            color: black;
-            text-decoration: none;
-            padding: 5px 0;
-            transition: color 0.2s;
-        }
-        
-        ul li a:hover, ul li a:focus {
-            color: #333;
-        }
-
-        .navbar ul li a img {
-            height: 25px;
-            width: 25px;
-            vertical-align: middle;
-        }
-
-        /* --- Login Button Styles (Desktop) --- */
-        .login-button {
-            font-size: 17px;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-            color: black;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .login-button:hover, .login-button:focus {
-            background-color: #e0e0e0;
-        }
-
-        /* --- Dropdown Styles --- */
-        .navbar ul .dropdown {
-            position: relative;
-        }
-        
-        .navbar ul .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            min-width: 160px;
-            box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.15);
-            z-index: 10; 
-            list-style: none;
-            background-color: white;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .navbar ul .dropdown-menu li {
-            display: block;
-        }
-        
-        .navbar ul .dropdown-menu a {
-            color: black;
-            font-size: 16px;
-            padding: 10px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            width: 100%;
-        }
-
-        .navbar ul .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-            color: black;
-        }
-        
-        /* JS-managed state */
-        .navbar ul .dropdown-menu.active {
-            display: block;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-        .login-image {
-            display: none; /* Hide mobile login image by default */
-        }
-        
-        /* --- Mobile / Tablet Styles --- */
-        @media (max-width: 992px) {
-            .navbar {
-                height: 70px; /* Slightly taller for mobile */
-                padding: 5px 15px;
-            }
-
-            .search-bar {
-                margin: 0 10px;
-                max-width: 60%; /* Let search bar take up more space */
-            }
-
-            /* Swap the login button for the image */
-            .login-button { 
-                display: none !important;
-            }
-            .login-image {
-                display: block !important;
-                padding: 0;
-            }
-            
-            ul {
-                gap: 5px; 
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* On smaller phones, reduce padding and focus on core elements */
-            .navbar {
-                padding: 5px 10px;
-            }
-            
-            .search-bar {
-                /* Make searchbar bigger compared to other components */
-                max-width: 50vw; 
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/navbar.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="scripts/firebase-config-global.js"></script>
+    <script src="scripts/navbar.js" defer></script>
 </head>
 <body>
     <header>
         <nav class="navbar">
-            <div class="logo"><a href="/index.html"><img src="/images/logo.png" alt="Einemeister logo"></a></div>
-            
+            <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Einemeister logo"></a></div>
             <div class="search-bar">
                 <input type="text" placeholder="Otsi toodet">
-                <button ><img src="/images/search.png" alt="search icon"></button>
+                <button ><img src="images/search.png" alt="search"></button>
             </div>
-            
             <ul>
-                <li><a href="/pages/shopping-cart.html"><img src="/images/shopping_cart.png" alt="shopping cart icon"></a></li>
+                <li><a href="#"><img src="images/shopping_cart.png" alt="ostukorvi logo"></a></li>
 
-                <li id="profile-container" class="dropdown">
-                    <a href="/pages/login.html" class="login-button" id="logged-out-button">Logi sisse</a>
-                    <a href="/pages/login.html" class="login-image" id="logged-out-image"><img src="/images/account_circle.png" alt="user-profile-icon"></a>
-                    
-                    <a href="#" class="dropdown-toggle hidden" id="user-profile-icon">
-                        <img src="/images/account_circle.png" alt="user-profile-icon">
+                <li id="logged-out-link"><a href="pages/login.html">Logi sisse</a></li>
+                
+            <li id="logged-in-container" class="dropdown" style="display:none;">
+                <a href="#" class="dropdown-toggle" id="user-profile-icon">
+                    <img src="images/account_circle.png" alt="user-profile-icon">
                     </a>
-                    
                     <ul class="dropdown-menu" id="user-dropdown-menu">
                         <li><a href="#">Lisa retsept</a></li>
                         <li><a href="#">Minu ostukorvid</a></li>
                         <li><a href="#" id="logout-link">Logi välja</a></li>
                     </ul>
-                </li>
-            </ul>
+            </li>
         </nav>
     </header>
-
-    <script>
-        // Example JavaScript to handle the dropdown toggle and simulate login state
-        const profileContainer = document.getElementById('profile-container');
-        const userIcon = document.getElementById('user-profile-icon');
-        const dropdownMenu = document.getElementById('user-dropdown-menu');
-        const loggedOutButton = document.getElementById('logged-out-button');
-        const loggedOutImage = document.getElementById('logged-out-image');
-
-        // Toggle Dropdown Menu
-        if (userIcon) {
-            userIcon.addEventListener('click', (e) => {
-                e.preventDefault();
-                dropdownMenu.classList.toggle('active');
-            });
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!profileContainer.contains(e.target) && dropdownMenu.classList.contains('active')) {
-                dropdownMenu.classList.remove('active');
-            }
-        });
-
-        // SIMULATION: Function to switch between Logged In and Logged Out states
-        function setLoginState(isLoggedIn) {
-            if (isLoggedIn) {
-                // Show Logged In items
-                userIcon.classList.remove('hidden');
-                
-                // Hide Logged Out items
-                loggedOutButton.classList.add('hidden');
-                loggedOutImage.classList.add('hidden');
-            } else {
-                // Show Logged Out items
-                loggedOutButton.classList.remove('hidden');
-                loggedOutImage.classList.remove('hidden');
-                
-                // Hide Logged In items
-                userIcon.classList.add('hidden');
-                dropdownMenu.classList.remove('active'); // Ensure it's closed
-            }
-        }
-
-        // Initially simulate logged out state (Your actual JS would determine this)
-        setLoginState(false); 
-
-        // Example: Log out link handler
-        const logoutLink = document.getElementById('logout-link');
-        if (logoutLink) {
-            logoutLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                setLoginState(false);
-                alert('Logged out! Click OK to simulate switching back to the Log In view.');
-            });
-        }
-
-        // Example: You can call setLoginState(true) after a successful login
-        // setTimeout(() => setLoginState(true), 3000); // Uncomment to see the logged-in state after 3 seconds
-    </script>
 </body>
-</html>

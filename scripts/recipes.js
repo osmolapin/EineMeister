@@ -1,3 +1,5 @@
+const db = firebase.firestore();
+
 // Global variable to store all fetched recipes
 let allRecipes = []; 
 
@@ -28,40 +30,36 @@ function createRecipeCard(recipe) {
     title.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
     
     const price = document.createElement("div");
-    price.innerHTML = `
-    <div class="recipe-price">
-        <span class="recipe-price-lable">Toidukorra hind</span>
-        <span class="recipe-price-num">${recipe.data.price} €</span>
-    </div>
-    `;
+    price.classList.add("recipe-price");
+    price.textContent = recipe.data.price + " €"; 
 
     const extraInfo = document.createElement("div");
     extraInfo.classList.add("recipe-extra-info"); 
-    extraInfo.innerHTML = `
-        <div class="macro-item">
-            <span class="macro-value">${recipe.data.calories} kcal</span>
-            <span class="macro-name">Kalorid</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-value">${recipe.data.carbs} g</span>
-            <span class="macro-name">Süsivesikud</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-value">${recipe.data.proteins} g</span>
-            <span class="macro-name">Valgud</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-value">${recipe.data.fats} g</span>
-            <span class="macro-name">Rasvad</span>
-        </div>
-    `;
+
+    // Helper function to create a nutritional info paragraph
+    const createNutrientParagraph = (className, value, unit, title) => {
+        const p = document.createElement("p");
+        p.classList.add(className);
+        p.textContent = `${title} ${value} ${unit}`;
+        return p;
+    };
+
+    const calories = createNutrientParagraph("calories", recipe.data.calories, "kcal", "Kalorid");
+    const carbs = createNutrientParagraph("carbs", recipe.data.carbs, "g", "Süsivesikud");
+    const proteins = createNutrientParagraph("proteins", recipe.data.proteins, "g", "Valgud");
+    const fats = createNutrientParagraph("fats", recipe.data.fats, "g", "Rasvad");
+    
+    extraInfo.appendChild(calories);
+    extraInfo.appendChild(carbs);
+    extraInfo.appendChild(proteins);
+    extraInfo.appendChild(fats);
 
     // Assemble the Card
     card.appendChild(image);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(extraInfo);
-
+    
     return card;
 }
 

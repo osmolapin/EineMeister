@@ -4,28 +4,11 @@ function getRecipeIdFromUrl() {
 }
 
 const productId = getRecipeIdFromUrl()
-
-let currentProductData = null; 
+const db = firebase.firestore();
 
 var productRef = db.collection("products").doc(productId);
 
 productRef.get().then((doc) => {
-    // Check if document exists
-    if (!doc.exists) {
-
-        console.error("Tootet ei leitud ID-ga:", productId);
-        return;
-    }
-    
-    // To save data in correct format
-    currentProductData = {
-        id: doc.id,
-        data: doc.data()
-    };
-    
-    // Andmete lühend
-    const data = doc.data();
-
    const imageElement = document.getElementById("product-image");
    imageElement.src = doc.data()["imageUrl"];
 
@@ -55,24 +38,4 @@ productRef.get().then((doc) => {
 
    const storing = document.getElementById("storing");
    storing.textContent = doc.data()["storing"]
-
-   setupAddToCartButton(currentProductData);
 });
-
-function setupAddToCartButton(productDetails) {
-    const addToCartButton = document.querySelector('.add-to-cart-button');
-    
-    if (addToCartButton) {
-        addToCartButton.addEventListener('click', () => {
-            // When clicking add to cart button it adds one element
-            const quantity = 1; 
-            
-            // Check if addToCart function is available - if not then alert 
-            if (typeof addToCart === 'function') {
-                addToCart(productDetails, quantity);
-            } else {
-                alert("Viga: Ostukorvi lisamise funktsioon pole kättesaadav.");
-            }
-        });
-    }
-}

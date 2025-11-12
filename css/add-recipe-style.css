@@ -1,0 +1,119 @@
+ body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+  display: flex;
+  gap: 40px;
+}
+
+.form-section {
+  flex: 2; /* Vasak pool – suurem */
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.ingredients-section {
+  flex: 1; /* Parem pool – väiksem */
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+    .nutrition-table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+    .nutrition-table th, .nutrition-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    .drop-zone {
+      margin-top: 15px;
+      padding: 20px;
+      border: 2px dashed #aaa;
+      text-align: center;
+      color: #666;
+      border-radius: 6px;
+      background-color: #f0f0f0;
+    }
+    .ingredients-list {
+      margin-top: 15px;
+    }
+    .ingredients-list input {
+      width: calc(100% - 100px);
+      margin-right: 10px;
+    }
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 15px;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cancel { background-color: #f44336; color: white; }
+    .preview { background-color: #4CAF50; color: white; }
+    .submit { background-color: #4CAF50; color: white; }
+
+* {
+  box-sizing: border-box;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+}
+#file-input {
+  display: none;
+}
+
+#drop-zone {
+  display: block;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  color: #777;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+#drop-zone.drag-over {
+  background-color: #f0f8ff;
+  border-color: #007bff;
+}

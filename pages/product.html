@@ -4,60 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EineMeister</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
     <script src="/scripts/firebase-config-global.js"></script>
-    <script src="/scripts/shopping-cart.js"></script>
     <script src="/scripts/product-loader.js"></script>
-    <script src="/scripts/navbar.js" defer></script>
-    <script src="/scripts/change-quantity.js"></script>
     <link rel="stylesheet" href="/css/product-style.css">
-    <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
-    <header-navbar></header-navbar>
     <a href="product-list.html" class="back-button">Tagasi</a>
     <div class="product-view">
         <img id="product-image" class="product-image">
-        <div class="product-content">
-            <div class="product-info">
-                <p id="product-title" class="product-title"></p>
-                <div class="purchase-controls">
-                    <a id="product-price" class="product-price"></a>
-                    <div class="qunatity-elements">
-                        <button class="product-amount-button" onclick="changeProductQuantity(-1)">-</button>
-                        <a class="quantity-number" id="quantity-number">1</a>
-                        <button class="product-amount-button" onclick="changeProductQuantity(1)">+</button>
-                    </div>
-                    <button class="add-to-cart-button">Lisa ostukorvi</button>
+        <div class="product-info">
+            <p id="product-title" class="product-title"></p>
+            <a id="product-price" class="product-price"></a>
+            <button class="add-to-cart-button">Lisa ostukorvi</button>
+        </div>
+        <div class="extra-product-info">
+            <details>
+                <summary class="extra-info-title">Tootekirjeldus</summary>
+                <p class="extra-info-details" id="description"></p>
+            </details>
+            <details>
+                <summary class="extra-info-title">Koostisosad</summary>
+                <p class="extra-info-details" id="ingredients"></p>
+            </details>
+            <details>
+                <summary class="extra-info-title">Toitumisalane teave</summary>
+                <p class="macros-title">Andmed 100g kohta</p>
+                <div class="extra-info-data">
+                    <p class="macros" id="calories"></p>
+                    <p class="macros" id="carbs"></p>
+                    <p class="macros" id="proteins"></p>
+                    <p class="macros" id="fats"></p>
                 </div>
-            </div>
-            <div class="extra-product-info">
-                <details>
-                    <summary class="extra-info-title">Tootekirjeldus</summary>
-                    <p class="extra-info-details" id="description"></p>
-                </details>
-                <details>
-                    <summary class="extra-info-title">Koostisosad</summary>
-                    <p class="extra-info-details" id="ingredients"></p>
-                </details>
-                <details>
-                    <summary class="extra-info-title">Toitumisalane teave</summary>
-                    <p class="macros-title">Andmed 100g kohta</p>
-                    <div class="extra-info-data">
-                        <p class="macros" id="calories"></p>
-                        <p class="macros" id="carbs"></p>
-                        <p class="macros" id="proteins"></p>
-                        <p class="macros" id="fats"></p>
-                    </div>
-                </details>
-                <details>
-                    <summary class="extra-info-title">Säilitamine ja kasutamine</summary>
-                    <p class="extra-info-details" id="storing"></p>
-                </details>
-            </div>
+            </details>
+            <details>
+                <summary class="extra-info-title">Säilitamine ja kasutamine</summary>
+                <p class="extra-info-details" id="storing"></p>
+            </details>
         </div>
     </div>
 </body>

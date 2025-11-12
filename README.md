@@ -19,19 +19,16 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 - Regisreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
 - Enamusel lehtedel on esialgne CSS olemas
 - Toodete lehel kuvatakse kõik tooted andmebaasis
-- Navbar on olemas (index.html, products_list.html, product.html, recipe_list.html ja recipe.html )
-- Esialgne adminvaade
-- Esialgne leht retseptide lisamiseks
-- Ostukorvi esialgne vaade
-- toodete ja retseptide filter
-- konkreetse toote vaade
+- Navbar on olemas (hetkeseisuga ainult index.html lehel)
 
 
 ## Tulemas
 - Stiili parandused
+- Retseptide leht
+- Konkreetse toote leht
+- Admin vaade
 - Kasutajatel võimalus lisada retsepte ja salvestada ostukorve
-- Kasutajahaldus adminvaates
-- 
+- Parem scraper arendajale toodete lisamiseks andmebaasi
 
 ## Kasutatud tehnoloogiad
 - HTML5

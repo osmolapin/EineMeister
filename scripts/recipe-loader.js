@@ -4,6 +4,8 @@ function getRecipeIdFromUrl() {
 }
 
 const recipeId = getRecipeIdFromUrl()
+const db = firebase.firestore();
+
 var recipeRef = db.collection("recipes").doc(recipeId);
 
 
