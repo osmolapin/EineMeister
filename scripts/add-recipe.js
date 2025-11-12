@@ -13,6 +13,40 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
+let selectedFile = null;
+const dropZone = document.getElementById("drop-zone");
+const fileInput = document.getElementById("file-input");
+
+function handleFile(file) {
+  if (file && file.type.startsWith("image/")) {
+    selectedFile = file;
+    dropZone.textContent = `Valitud fail: ${file.name}`;
+  } else {
+    selectedFile = null;
+    alert("Viga: Palun vali pildifail!");
+  }
+}
+
+fileInput.addEventListener("change", (e) => {
+  handleFile(e.target.files[0]);
+});
+
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("drag-over");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("drag-over");
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("drag-over");
+  handleFile(e.dataTransfer.files[0]);
+});
 
 const recipeForm = document.getElementById("add-recipe-form");
 
@@ -20,6 +54,19 @@ recipeForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   try {
+    if (!selectedFile) {
+      alert("Palun vali pilt!");
+      return;
+    }
+
+    alert("Alustan pildi üleslaadimist, palun oota...");
+    const storageRef = ref(storage, 'recipes/' + selectedFile.name);
+
+    await uploadBytes(storageRef, selectedFile);
+
+    const imageUrl = await getDownloadURL(storageRef);
+    alert("Pilt edukalt üles laetud!");
+
     const recipeData = {
       name: document.getElementById("form-name").value,
       description: document.getElementById("form-description").value,
@@ -29,7 +76,7 @@ recipeForm.addEventListener("submit", async (e) => {
       fats: document.getElementById("form-fats").value,
       carbs: document.getElementById("form-carbs").value,
       ingredients: document.getElementById("form-ingredients").value,
-      imageUrl: document.getElementById("form-image-url").value,
+      imageUrl: imageUrl,
       createdAt: new Date()
     };
 
@@ -37,9 +84,11 @@ recipeForm.addEventListener("submit", async (e) => {
 
     alert("Retsept edukalt lisatud! Dokumendi ID: " + docRef.id);
     recipeForm.reset();
+    dropZone.textContent = "Lohista pilt siia või klõpsa, et valida fail";
+    selectedFile = null;
 
   } catch (err) {
-    console.error("Viga dokumendi lisamisel: ", err);
+    console.error("Viga: ", err);
     alert("Viga: " + err.message);
   }
 });
