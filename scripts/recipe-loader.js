@@ -39,7 +39,7 @@ recipeRef.get().then((doc) => {
         // into the final string format immediately.
         const promise = db.collection("products").doc(productId).get().then((productDoc) => {
             if (productDoc.exists) {
-                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"], productDoc.id];
+                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"], productDoc.data()["price"], productDoc.id];
             } else {
                 return portion + " (Product not found)";
             }
@@ -51,7 +51,7 @@ recipeRef.get().then((doc) => {
     // Wait for ALL promises to complete
     Promise.all(productPromises)
     .then((finalProductsList) => {
-        finalProductsList.forEach(([portion, element, productImage, productId]) => {
+        finalProductsList.forEach(([portion, element, productImage, productPrice, productId]) => {
 
 
             const productHolder = document.createElement('div');
@@ -74,6 +74,9 @@ recipeRef.get().then((doc) => {
             checkboxElement.classList.add("product-checkbox");
             checkboxElement.checked = true;
             checkboxElement.setAttribute('data-product-id', productId);
+            checkboxElement.setAttribute('data-product-name', element);
+            checkboxElement.setAttribute('data-product-price', productPrice);
+            checkboxElement.setAttribute('data-product-image-url', productImage);
 
             productHolder.classList.add("product-container");
 

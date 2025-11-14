@@ -18,12 +18,35 @@
 <script>
     function addSelectedProducts() {
         var checkboxElements = document.getElementsByClassName("product-checkbox");
+        let added = 0;
         Array.from(checkboxElements).forEach(checkbox => {
             if (checkbox.checked == true) {
+                const productId = checkbox.getAttribute('data-product-id')
+                const productName = checkbox.getAttribute('data-product-name');
+                const productPrice = checkbox.getAttribute('data-product-price');
+                const productImageUrl = checkbox.getAttribute('data-product-image-url');
+                const productDataObject = {
+                id: productId,
+                data: {
+                    name: productName,
+                    price: productPrice,
+                    imageUrl: productImageUrl
+                }
+            };
+                if (productId && window.addToCart) {
+                    window.addToCart(productDataObject, 1);
+                    added++;
+                    checkbox.checked = false; // if item added then uncheck
+                }
                 console.log(checkbox.getAttribute('data-product-id'));
                 // addToCart(checkbox.getAttribute('data-product-id'));
             }
         });
+        if (added) {
+            alert(added + ' Valitud toodet lisatud ostukorvi');
+        } else {
+            alert('Vali kõigepealt tooted, mida soovid lisada.');
+        }
     };
 </script>
     <link rel="stylesheet" href="/css/recipe-style.css">
