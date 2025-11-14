@@ -39,7 +39,7 @@ recipeRef.get().then((doc) => {
         // into the final string format immediately.
         const promise = db.collection("products").doc(productId).get().then((productDoc) => {
             if (productDoc.exists) {
-                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"]];
+                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"], productDoc.id];
             } else {
                 return portion + " (Product not found)";
             }
@@ -51,7 +51,7 @@ recipeRef.get().then((doc) => {
     // Wait for ALL promises to complete
     Promise.all(productPromises)
     .then((finalProductsList) => {
-        finalProductsList.forEach(([portion, element, productImage]) => {
+        finalProductsList.forEach(([portion, element, productImage, productId]) => {
 
 
             const productHolder = document.createElement('div');
@@ -73,6 +73,7 @@ recipeRef.get().then((doc) => {
             checkboxElement.type = "checkbox";
             checkboxElement.classList.add("product-checkbox");
             checkboxElement.checked = true;
+            checkboxElement.setAttribute('data-product-id', productId);
 
             productHolder.classList.add("product-container");
 
@@ -84,7 +85,7 @@ recipeRef.get().then((doc) => {
             productHolder.appendChild(image);
             productHolder.appendChild(productTextElement);
             productHolder.appendChild(checkboxElement);
-            
+
             ingredients.appendChild(productHolder);
         });
     })
