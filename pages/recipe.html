@@ -7,34 +7,49 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script src="/scripts/firebase-config-global.js"></script>
-    
+
     <script src="/scripts/recipe-loader.js"></script>
     <script src="/scripts/navbar.js" defer></script>
-    <link rel="stylesheet" href="/css/product-style.css">
+    <link rel="stylesheet" href="/css/recipe-style.css">
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
     <header-navbar></header-navbar>
-    <a href="recipe-list.html" class="back-button">Tagasi</a>
+    <a href="recipe-list.html" class="back-button">&lt Tagasi</a>
     <div class="recipe-view">
-        <img id="recipe-image" class="recipe-image">
-        <div class="recipe-info">
-            <p id="recipe-title" class="recipe-title"></p>
-            <a id="recipe-price" class="recipe-price"></a>
-            <button class="add-to-cart-button">Lisa ostukorvi</button>
+        <div class="main-header">
+            <img id="recipe-image" class="recipe-image">
+            <div class="recipe-info">
+                <p id="recipe-title" class="recipe-title"></p>
+                <div class="price-holder">
+                    <p id="recipe-price-title" class="recipe-price-title">Retsepti hind</p>
+                    <p id="recipe-price" class="recipe-price"></p>
+                </div>
+            </div>
         </div>
+
+        <div class="ingredients-and-macros">
+            <p class="macros-title">Koostisosad</p> <div class="extra-info-details" id="ingredients"></div>
+            <div class="button-container">
+                <button class="add-to-cart-button">Lisa ostukorvi</button>
+            </div>
+
+            <p class="macros-title ingredients-title-separator">Toidukorra kohta</p>
+            <div class="extra-info-data">
+                <p class="macros" id="calories"></p>
+                <p class="macros" id="carbs"></p>
+                <p class="macros" id="proteins"></p>
+                <p class="macros" id="fats"></p>
+            </div>
+        </div>
+
+        <div class="recipe-details">
+            <p class="macros-title">Kirjeldus</p>
             <p class="extra-info-details" id="description"></p>
             <p class="macros-title">Valmistamine</p>
             <p class="extra-info-details" id="instructions"></p>
-            <p class="extra-info-details" id="ingredients"></p>
-            <p class="macros-title">Toidukorra kohta</p>
-        <div class="extra-info-data">
-            <p class="macros" id="calories"></p>
-            <p class="macros" id="carbs"></p>
-            <p class="macros" id="proteins"></p>
-            <p class="macros" id="fats"></p>
         </div>
     </div>
 </body>

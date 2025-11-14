@@ -16,8 +16,8 @@
     border-radius: 10px;
     display: inline-block;
     margin: 2vw;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);  
-    width: 350px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    width: 350px;
     min-width: 350px;
     display: grid;
     place-items: center;
@@ -36,11 +36,11 @@
     cursor: pointer;
     font-size: 25px;
 
-    justify-self: stretch; 
-    text-align: center;       
+    justify-self: stretch;
+    text-align: center;
     padding: 8px 0;
     margin-bottom: 2%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .recipe-title:hover {
@@ -70,15 +70,15 @@ body {
     display: flex;
     justify-content: space-around;
     width: 100%;
-    padding: 10px 5px; 
+    padding: 10px 5px;
     box-sizing: border-box;
     margin: 2%;
 }
 
 .macro-item {
     display: flex;
-    flex-direction: column;  
-    align-items: center;      
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     flex-basis: 0;
     flex-grow: 1;
@@ -96,9 +96,9 @@ body {
 
 .back-button {
     display: inline-block;
-    padding: 10px 15px;    
-    margin: 15px 0 15px 15px; 
-    
+    padding: 10px 15px;
+    margin: 15px 0 15px 15px;
+
     background-color: #1A5319;
     color: white;
     text-decoration: none;
@@ -117,20 +117,20 @@ body {
 }
 
 .back-button:active {
-    background-color: #1A5319; 
+    background-color: #1A5319;
     box-shadow: none;
 }
 
 .filter-container {
     float: right;
-    margin: 15px 15px 0px 15px; 
+    margin: 15px 15px 0px 15px;
     display: flex;
 }
 
 .filter-container {
     float: right;
     margin: 15px 15px 0 0;
-    
+
     display: flex;
     align-items: center;
     gap: 8px;
@@ -142,21 +142,21 @@ body {
 }
 
 .recipe-filters {
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    
-    background-color: white; 
+
+    background-color: white;
     border: 2px solid #1A5319;
-    border-radius: 8px; 
-    
+    border-radius: 8px;
+
     padding: 8px 30px 8px 12px;
     font-size: 16px;
     font-weight: 500;
-    color: #1A5319; 
+    color: #1A5319;
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-    
+
 }
 
 .recipe-filters:hover {
@@ -165,7 +165,7 @@ body {
     box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.2);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     .recipe-card{min-width: 250px; width: 250px;}
     .recipe-filters{width: 130px;}
 }
