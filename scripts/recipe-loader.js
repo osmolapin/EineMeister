@@ -1,6 +1,6 @@
 function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('id'); 
+    return params.get('id');
 }
 
 const recipeId = getRecipeIdFromUrl()
@@ -35,11 +35,11 @@ recipeRef.get().then((doc) => {
         const productId = arrayOfIngredients[i + 1]; // The id of the product in database
 
         // Create the promise and push it to the array.
-        // We use .then() to transform the raw Firestore document 
+        // We use .then() to transform the raw Firestore document
         // into the final string format immediately.
         const promise = db.collection("products").doc(productId).get().then((productDoc) => {
             if (productDoc.exists) {
-                return portion + " " + productDoc.data()["name"];
+                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"]];
             } else {
                 return portion + " (Product not found)";
             }
@@ -50,20 +50,49 @@ recipeRef.get().then((doc) => {
 
     // Wait for ALL promises to complete
     Promise.all(productPromises)
-        .then((finalProductsList) => {
+    .then((finalProductsList) => {
+        finalProductsList.forEach(([portion, element, productImage]) => {
+
+
+            const productHolder = document.createElement('div');
+            const content = document.createElement("p");
+            const portionSize = document.createElement("p");
+            const image = document.createElement("img");
+            const checkboxElement = document.createElement("input");
+            const productTextElement = document.createElement("div");
+
+            image.src = productImage;
+            image.classList.add("product-image");
+
+            content.textContent = element;
+            content.classList.add("product-info");
+
+            portionSize.textContent = portion;
+            portionSize.classList.add("product-portion");
+
+            checkboxElement.type = "checkbox";
+            checkboxElement.classList.add("product-checkbox");
+            checkboxElement.checked = true;
+
+            productHolder.classList.add("product-container");
+
+            productTextElement.classList.add("product-details");
+
+            productTextElement.appendChild(portionSize);
+            productTextElement.appendChild(content);
+
+            productHolder.appendChild(image);
+            productHolder.appendChild(productTextElement);
+            productHolder.appendChild(checkboxElement);
             
-            // Add all the data in the finalProductsList to the page
-            finalProductsList.forEach(element => {
-                const listItem = document.createElement('li');
-                listItem.textContent = element;
-                ingredients.appendChild(listItem);
-            });
-        })
-        .catch((error) => {
-            // Handle any error that occurred during the fetching process
-            console.error("Error fetching ingredient details:", error);
-            ingredients.textContent = "Error loading ingredients.";
+            ingredients.appendChild(productHolder);
         });
+    })
+    .catch((error) => {
+        // Handle any error that occurred during the fetching process
+        console.error("Error fetching ingredient details:", error);
+        ingredients.textContent = "Error loading ingredients.";
+    });
 
     const calories = document.getElementById("calories")
     calories.textContent = "Kalorid " + doc.data()["calories"] + " kcal"
