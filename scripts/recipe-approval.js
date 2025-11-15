@@ -86,7 +86,7 @@ function deleteRecipe(id) {
 let allRecipes = [];
 
 function createrecipePage(thisrecipeId) {
-  window.location.href = `recipe.html?id=${thisrecipeId}`;
+  window.location.href = `recipe.html?id=${thisrecipeId}&type=example`;
 }
 
 /**
@@ -103,7 +103,7 @@ function createRecipeCard(recipe) {
         <div class="recipe-row" data-recipe-id="1">
         <div class="recipe-card">
             <div class="recipe-image">
-                <img src="${recipe.data.imageUrl}">
+                <a onclick="createrecipePage('${recipe.id}')"><img src="${recipe.data.imageUrl}"></a>
             </div>
             <div class="recipe-info">
                 <h3 class="recipe-title">${recipe.data.name}</h3>
@@ -130,7 +130,7 @@ function createRecipeCard(recipe) {
         </div>
 
         <div class="action-panel">
-            <p class="submitted-by">Esitas tralalelo1</p>
+            <p class="submitted-by">Esitas Kasutaja</p>
             <div class="button-group">
                 <button class="btn btn-confirm" onclick="confirmRecipe('${card.getAttribute('data-recipe-id')}')">Kinnita</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${card.getAttribute('data-recipe-id')}')">Kustuta</button>

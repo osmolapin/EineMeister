@@ -1,8 +1,8 @@
 // Global variable to store all fetched recipes
-let allRecipes = []; 
+let allRecipes = [];
 
 function createrecipePage(thisrecipeId) {
-  window.location.href = `recipe.html?id=${thisrecipeId}`;
+  window.location.href = `recipe.html?id=${thisrecipeId}&type=real`;
 }
 
 /**
@@ -14,19 +14,19 @@ function createRecipeCard(recipe) {
     const card = document.createElement("div");
     card.classList.add("recipe-card");
     card.setAttribute('data-recipe-id', recipe.id);
-    
+
     const image = document.createElement("img");
     image.src = recipe.data.imageUrl;
     image.alt = recipe.data.name;
     image.classList.add("recipe-image");
     image.style.height = "203px";
     image.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
-    
+
     const title = document.createElement("div");
     title.classList.add("recipe-title");
     title.textContent = recipe.data.name;
     title.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
-    
+
     const price = document.createElement("div");
     price.innerHTML = `
     <div class="recipe-price">
@@ -36,7 +36,7 @@ function createRecipeCard(recipe) {
     `;
 
     const extraInfo = document.createElement("div");
-    extraInfo.classList.add("recipe-extra-info"); 
+    extraInfo.classList.add("recipe-extra-info");
     extraInfo.innerHTML = `
         <div class="macro-item">
             <span class="macro-value">${recipe.data.calories} kcal</span>
@@ -71,7 +71,7 @@ function createRecipeCard(recipe) {
  */
 function renderRecipes(recipesArray) {
     const container = document.getElementById("recipe-container");
-    container.innerHTML = ''; 
+    container.innerHTML = '';
 
     recipesArray.forEach(recipe => {
         container.appendChild(createRecipeCard(recipe));
@@ -88,15 +88,15 @@ function sortAndRenderRecipes(filterValue) {
 
     // Assumes the format is FIELD-DIRECTION (e.g., 'kalorid-less')
     const [field, direction] = filterValue.split('-');
-    
+
     sortedRecipes.sort((a, b) => {
         let valA, valB;
 
         // Default orientation from database if 'popular'
-        if (field === 'popular') return 0; 
-        
+        if (field === 'popular') return 0;
+
         // Convert the relevant data fields to numbers for comparison
-        // We use the 'field' variable (e.g., 'hind', 'kalorid', 'valgud') 
+        // We use the 'field' variable (e.g., 'hind', 'kalorid', 'valgud')
         valA = Number(a.data[field]);
         valB = Number(b.data[field]);
 
@@ -125,9 +125,9 @@ db.collection("recipes").get().then((querySnapshot) => {
             data: recipe.data()
         });
     });
-    
+
     const filterElement = document.getElementById("recipe-filters");
-    
+
     // Initial render using the default selected filter
     const initialFilter = filterElement ? filterElement.value : 'popular-more';
     sortAndRenderRecipes(initialFilter);

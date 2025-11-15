@@ -1,10 +1,20 @@
 function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('id'); 
+    return params.get('id');
 }
 
+function getRecipeTypeFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('type');
+}
+
+const recipeType = getRecipeTypeFromUrl()
 const recipeId = getRecipeIdFromUrl()
-var recipeRef = db.collection("recipes").doc(recipeId);
+if (recipeType == "example") {
+    var recipeRef = db.collection("submittedRecipes").doc(recipeId);
+} else {
+    var recipeRef = db.collection("recipes").doc(recipeId);
+}
 
 
 recipeRef.get().then((doc) => {
@@ -35,7 +45,7 @@ recipeRef.get().then((doc) => {
         const productId = arrayOfIngredients[i + 1]; // The id of the product in database
 
         // Create the promise and push it to the array.
-        // We use .then() to transform the raw Firestore document 
+        // We use .then() to transform the raw Firestore document
         // into the final string format immediately.
         const promise = db.collection("products").doc(productId).get().then((productDoc) => {
             if (productDoc.exists) {
@@ -51,7 +61,7 @@ recipeRef.get().then((doc) => {
     // Wait for ALL promises to complete
     Promise.all(productPromises)
         .then((finalProductsList) => {
-            
+
             // Add all the data in the finalProductsList to the page
             finalProductsList.forEach(element => {
                 const listItem = document.createElement('li');
