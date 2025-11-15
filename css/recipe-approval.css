@@ -105,6 +105,7 @@ body {
     margin: 1rem auto 0;
     overflow: hidden;
     border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .recipe-image img {
