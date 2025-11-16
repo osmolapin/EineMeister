@@ -196,13 +196,15 @@ class navbarComponent extends HTMLElement {
         }
     }
 
+
     // ------------------- Navbar  -------------------
     // Function changes according to login status
-    updateNavigation(user) {
+    async updateNavigation(user) {
         const userIcon = this.shadowRoot.getElementById('user-profile-icon');
         const loggedOutButton = this.shadowRoot.getElementById('logged-out-button');
         const loggedOutImage = this.shadowRoot.getElementById('logged-out-image');
         const logoutLink = this.shadowRoot.getElementById('logout-link');
+        const adminLinkItem = this.shadowRoot.getElementById('admin-link-item');
 
         if (user) {
             // Logged in state - show profile icon, hide login buttons
@@ -216,6 +218,25 @@ class navbarComponent extends HTMLElement {
                 logoutLink.addEventListener('click', this.handleLogout);
             }
 
+            // ADMIN CHECK
+            if (this.db && adminLinkItem) {
+                try {
+                    // Check if a document with the user's UID exists in the 'admins' collection
+                    const adminDoc = await this.db.collection('admins').doc(user.uid).get();
+
+                    if (adminDoc.exists) {
+                        // Show the admin link
+                        adminLinkItem.classList.remove('hidden');
+                    } else {
+                        // Hide the admin link
+                        adminLinkItem.classList.add('hidden');
+                    }
+                } catch (error) {
+                    console.error("Error checking admin status:", error);
+                    adminLinkItem.classList.add('hidden');
+                }
+            }
+
         } else {
             // Logged out state - show login buttons, hide profile icon
             if (userIcon) userIcon.classList.add('hidden');
@@ -225,13 +246,16 @@ class navbarComponent extends HTMLElement {
             // Ensure dropdown is closed
             const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu');
             if (dropdownMenu) dropdownMenu.classList.remove('active');
+
+            // Hide admin link when logged out
+            if (adminLinkItem) adminLinkItem.classList.add('hidden');
         }
     }
 
     setEventListeners() {
         const userIcon = this.shadowRoot.getElementById('user-profile-icon');
 
-        // Dropdown menu toggle/ click listener (only needed for the logged-in icon)
+        // Dropdown menu toggle/ click listener
         if (userIcon) {
             userIcon.addEventListener('click', this.toggleDropdown);
         }
@@ -390,9 +414,7 @@ class navbarComponent extends HTMLElement {
                     width: 100%;
                 }
 
-                /* --- Search Dropdown Styles --- */
                 .search-bar {
-                    /* MODIFIED: Add position: relative to contain the absolute dropdown */
                     position: relative;
                     display: flex;
                     align-items: center;
@@ -434,12 +456,8 @@ class navbarComponent extends HTMLElement {
                     font-size: 15px;
                     cursor: pointer;
                     border-bottom: 1px solid #eee;
-
-                    /* ADDED: Use Flexbox to align items horizontally */
                     display: flex;
-                    /* ADDED: Vertically align the image and text */
                     align-items: center;
-                    /* ADDED: Space between image and text */
                     gap: 10px;
                 }
 
@@ -450,10 +468,8 @@ class navbarComponent extends HTMLElement {
                 .product-image {
                     height: 40px;
                     width: auto;
-                    /* Ensure image doesn't stretch and maintains aspect ratio */
                     object-fit: cover;
                     border-radius: 3px;
-                    /* Optional: Make the image non-clickable for better focus on the text */
                     pointer-events: none;
                 }
 
@@ -485,12 +501,12 @@ class navbarComponent extends HTMLElement {
                         max-width: 60%;
                     }
 
-                    /* 1. HIDE THE DESKTOP LOGIN BUTTON TEXT */
+                    /* HIDE THE DESKTOP LOGIN BUTTON TEXT */
                     .login-button .desktop-text {
                         display: none;
                     }
 
-                    /* 2. SHOW THE MOBILE ICON */
+                    /* SHOW THE MOBILE ICON */
                     .login-button .mobile-icon {
                         display: block;
                         height: 25px; /* Ensure the icon is sized */
@@ -498,14 +514,12 @@ class navbarComponent extends HTMLElement {
                         margin: auto; /* Center the icon if space allows */
                     }
 
-                    /* 3. ENSURE THE LOGIN LINK LOOKS LIKE A SIMPLE ICON */
+                    /* ENSURE THE LOGIN LINK LOOKS LIKE A SIMPLE ICON */
                     .login-button {
                         background: none; /* Remove background */
                         padding: 0 !important; /* Remove button padding */
                         border: none;
                     }
-
-                    /* The 'hidden' class applied by JS will control which link is visible. */
 
                     ul {
                         gap: 5px;
@@ -546,6 +560,9 @@ class navbarComponent extends HTMLElement {
                             </a>
 
                             <ul class="dropdown-menu" id="user-dropdown-menu">
+                                <li class="hidden" id="admin-link-item">
+                                    <a href="/pages/recipe-approval-admin.html">Admin paneel</a>
+                                </li>
                                 <li><a href="#">Lisa retsept</a></li>
                                 <li><a href="#">Minu ostukorvid</a></li>
                                 <li><a href="#" id="logout-link">Logi välja</a></li>
