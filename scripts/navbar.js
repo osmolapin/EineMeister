@@ -2,12 +2,16 @@
 * <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 * <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 * <script src="/scripts/firebase-config-global.js"></script>
-* <script src="/scripts/navbar.js" defer></script> 
+* <script src="/scripts/navbar.js" defer></script>
 * And if want login functionality, include login.js as well
 * <script src="/scripts/login.js" defer></script>
 * Add <header-navbar></header-navbar> in your HTML where you want the navbar to appear
 * On the page margin should be 0
 */
+
+function createProductPage(thisProductId) {
+  window.location.href = `/pages/product.html?id=${thisProductId}`;
+}
 
 class navbarComponent extends HTMLElement {
     constructor() {
@@ -18,24 +22,34 @@ class navbarComponent extends HTMLElement {
         this.handleLogout = this.handleLogout.bind(this);
         this.updateNavigation = this.updateNavigation.bind(this);
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
+
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleSearchKeyup = this.handleSearchKeyup.bind(this);
+        this.searchTimeout = null;
     }
-    
-    // Function to connect HTML/CSS with JS. 
+
+    // Function to connect HTML/CSS with JS.
     connectedCallback() {
         // Loads the navbar template into the shadow DOM
         this.shadowRoot.innerHTML = this.getNavbarTemplate();
-        
+
         // Set up event listeners
         this.setEventListeners();
 
         // Launch Firebase and Auth listener
         if (typeof firebase !== 'undefined' && firebase.auth) {
             // Store the listener to be able to unsubscribe later
-            this.authListener = firebase.auth().onAuthStateChanged(this.updateNavigation); 
+            this.authListener = firebase.auth().onAuthStateChanged(this.updateNavigation);
         } else {
             console.error("Firebase Auth pole kättesaadav.");
             // Set a default state if Firebase is unavailable
-            this.updateNavigation(null); 
+            this.updateNavigation(null);
+        }
+
+        if (typeof firebase !== 'undefined' && firebase.firestore) {
+            this.db = firebase.firestore();
+        } else {
+            console.error("Firebase Firestore pole kättesaadav.");
         }
     }
 
@@ -49,11 +63,102 @@ class navbarComponent extends HTMLElement {
 
     toggleDropdown(event) {
         // Prevents the default link action (navigation)
-        if (event) event.preventDefault(); 
-        const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu'); 
-        
+        if (event) event.preventDefault();
+        const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu');
+
         if (dropdownMenu) {
             dropdownMenu.classList.toggle('active');
+        }
+    }
+
+    closeSearchDropdown() {
+        const dropdown = this.shadowRoot.getElementById('search-suggestions');
+        if (dropdown) {
+            dropdown.innerHTML = '';
+            dropdown.classList.remove('active');
+        }
+    }
+
+    handleSearchKeyup() {
+        // Clear any previous timer
+        if (this.searchTimeout) {
+            clearTimeout(this.searchTimeout);
+        }
+
+        const searchInput = this.shadowRoot.getElementById('search-bar');
+        const searchTerm = (searchInput.value || "").trim().toLowerCase();
+
+        // If the search field is empty, don't set a timer.
+        if (searchTerm.length === 0) {
+            return;
+        }
+
+        // Set a new timer, number is in ms
+        this.searchTimeout = setTimeout(() => {
+            this.handleSearch(searchTerm);
+        }, 500);
+    }
+
+    // SEARCH LOGIC
+    async handleSearch(searchTerm) {
+        if (!this.db) {
+            console.error("Firestore is not initialized. Cannot search.");
+            return;
+        }
+
+        // Find the dropdown container
+        const dropdown = this.shadowRoot.getElementById('search-suggestions');
+        dropdown.innerHTML = ''; // Clear previous results
+        dropdown.classList.remove('active'); // Hide while loading
+
+        const productsRef = this.db.collection("products");
+
+        try {
+            // Query all the info from "products"
+            const querySnapshot = await productsRef.get();
+            const matchingProducts = [];
+
+            querySnapshot.forEach((doc) => {
+                // Retrieve the document data
+                const data = doc.data();
+
+                // Add the unique document ID to the data object
+                const product = {
+                    id: doc.id,         // Get the ID from the "doc" element
+                    ...data             // Rest of the data in "data" variable (name, description, etc.)
+                };
+
+                // Look for matches in product name, search term is also lowercase
+                const name = (product.name || "").toLowerCase();
+
+                if (name.includes(searchTerm)) {
+                    matchingProducts.push(product);
+                }
+            });
+
+            // Display results in the dropdown
+            if (matchingProducts.length > 0) {
+                let html = '<ul>';
+                matchingProducts.forEach(product => {
+                    html += `<li onclick="createProductPage('${product.id}')" data-id="${product.id}">
+                                <img id="product-image" class="product-image" src="${product.imageUrl}">
+                                <strong>${product.name}</strong>
+                            </li>`;
+                });
+                html += '</ul>';
+
+                dropdown.innerHTML = html;
+                dropdown.classList.add('active'); // Show the dropdown
+
+            } else {
+                // "No results" message
+                dropdown.innerHTML = '<ul><li>Ei leitud ühtegi toodet.</li></ul>';
+                dropdown.classList.add('active');
+            }
+
+        } catch (error) {
+            console.error("Error during search operation:", error);
+            this.closeSearchDropdown();
         }
     }
 
@@ -71,19 +176,23 @@ class navbarComponent extends HTMLElement {
 
     handleOutsideClick(event) {
         const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu');
-        
-        // Is the dropdown open?
-        if (dropdownMenu && dropdownMenu.classList.contains('active')) {
-            
-            // Use event.composedPath() to see where the click originated.
-            const path = event.composedPath();
+        const searchDropdown = this.shadowRoot.getElementById('search-suggestions');
+        const searchBarContainer = this.shadowRoot.querySelector('.search-bar');
 
-            // If the click path DOES NOT include the host element 
-            // (the <header-navbar> tag itself), the click was external.
+        // User Dropdown
+        if (dropdownMenu && dropdownMenu.classList.contains('active')) {
+            const path = event.composedPath();
             if (!path.includes(this.shadowRoot.host)) {
-                // Close the dropdown
                 this.toggleDropdown();
-            } 
+            }
+        }
+
+        // Search Dropdown
+        if (searchDropdown && searchDropdown.classList.contains('active')) {
+             const path = event.composedPath();
+             if (!path.includes(searchBarContainer)) {
+                 this.closeSearchDropdown();
+             }
         }
     }
 
@@ -100,10 +209,10 @@ class navbarComponent extends HTMLElement {
             if (userIcon) userIcon.classList.remove('hidden');
             if (loggedOutButton) loggedOutButton.classList.add('hidden');
             if (loggedOutImage) loggedOutImage.classList.add('hidden');
-            
+
             // Set up logout listener
             if (logoutLink) {
-                logoutLink.removeEventListener('click', this.handleLogout); 
+                logoutLink.removeEventListener('click', this.handleLogout);
                 logoutLink.addEventListener('click', this.handleLogout);
             }
 
@@ -112,13 +221,12 @@ class navbarComponent extends HTMLElement {
             if (userIcon) userIcon.classList.add('hidden');
             if (loggedOutButton) loggedOutButton.classList.remove('hidden');
             if (loggedOutImage) loggedOutImage.classList.remove('hidden');
-            
+
             // Ensure dropdown is closed
-            const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu'); 
+            const dropdownMenu = this.shadowRoot.getElementById('user-dropdown-menu');
             if (dropdownMenu) dropdownMenu.classList.remove('active');
         }
     }
-        
 
     setEventListeners() {
         const userIcon = this.shadowRoot.getElementById('user-profile-icon');
@@ -129,13 +237,20 @@ class navbarComponent extends HTMLElement {
         }
         // Handle clicks everywhere but the navbar
         document.addEventListener('click', this.handleOutsideClick);
+
+        const searchInput = this.shadowRoot.getElementById('search-bar');
+
+        if (searchInput) {
+            // Only listen for key releases to start the timer before searching
+            searchInput.addEventListener('keyup', this.handleSearchKeyup);
+        }
     }
 
     getNavbarTemplate() {
         return `
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-                
+
                 * {
                     margin: 0;
                     padding: 0;
@@ -151,7 +266,7 @@ class navbarComponent extends HTMLElement {
                     padding: 5px 25px;
                     height: 60px;
                 }
-                
+
                 .logo a img {
                     height: 40px;
                     width: auto;
@@ -161,11 +276,11 @@ class navbarComponent extends HTMLElement {
                 .search-bar {
                     display: flex;
                     align-items: center;
-                    flex-grow: 1; 
+                    flex-grow: 1;
                     max-width: 500px;
                     margin: 0 20px;
                 }
-                
+
                 .search-bar input {
                     font-size: 16px;
                     padding: 10px;
@@ -174,7 +289,7 @@ class navbarComponent extends HTMLElement {
                     border: none;
                     outline: none;
                 }
-                
+
                 .search-bar button {
                     border: none;
                     background-color: #6a966b;
@@ -196,7 +311,7 @@ class navbarComponent extends HTMLElement {
                     width: 20px;
                     height: 20px;
                 }
-                
+
                 /* --- Navigation List Styles --- */
                 ul {
                     list-style: none;
@@ -206,7 +321,7 @@ class navbarComponent extends HTMLElement {
                     gap: 15px;
                     align-items: center;
                 }
-                
+
                 ul li a {
                     font-size: 17px;
                     font-weight: normal;
@@ -215,7 +330,7 @@ class navbarComponent extends HTMLElement {
                     padding: 5px 0;
                     transition: color 0.2s;
                 }
-                
+
                 ul li a:hover, ul li a:focus {
                     color: #333;
                 }
@@ -237,7 +352,7 @@ class navbarComponent extends HTMLElement {
                     cursor: pointer;
                     transition: background-color 0.2s;
                 }
-                
+
                 .login-button:hover, .login-button:focus {
                     background-color: #e0e0e0;
                 }
@@ -246,7 +361,7 @@ class navbarComponent extends HTMLElement {
                 .navbar ul .dropdown {
                     position: relative;
                 }
-                
+
                 .navbar ul .dropdown-menu {
                     display: none;
                     position: absolute;
@@ -254,7 +369,7 @@ class navbarComponent extends HTMLElement {
                     right: 0;
                     min-width: 160px;
                     box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.15);
-                    z-index: 10; 
+                    z-index: 10;
                     list-style: none;
                     background-color: white;
                     border-radius: 5px;
@@ -264,7 +379,7 @@ class navbarComponent extends HTMLElement {
                 .navbar ul .dropdown-menu li {
                     display: block;
                 }
-                
+
                 .navbar ul .dropdown-menu a {
                     color: black;
                     font-size: 16px;
@@ -275,11 +390,78 @@ class navbarComponent extends HTMLElement {
                     width: 100%;
                 }
 
+                /* --- Search Dropdown Styles --- */
+                .search-bar {
+                    /* MODIFIED: Add position: relative to contain the absolute dropdown */
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    flex-grow: 1;
+                    max-width: 500px;
+                    margin: 0 20px;
+                }
+
+                .search-dropdown {
+                    display: none; /* Starts hidden */
+                    position: absolute;
+                    top: 100%; /* Position below the search bar input/button */
+                    left: 0;
+                    right: 0;
+                    z-index: 20;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    border-top: none;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    max-height: 300px;
+                    overflow-y: auto;
+                    border-radius: 0 0 5px 5px;
+                }
+
+                .search-dropdown.active {
+                    display: block; /* Show when active */
+                }
+
+                .search-dropdown ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    display: block; /* Override flex */
+                    gap: 0;
+                }
+
+                .search-dropdown li {
+                    padding: 10px;
+                    font-size: 15px;
+                    cursor: pointer;
+                    border-bottom: 1px solid #eee;
+
+                    /* ADDED: Use Flexbox to align items horizontally */
+                    display: flex;
+                    /* ADDED: Vertically align the image and text */
+                    align-items: center;
+                    /* ADDED: Space between image and text */
+                    gap: 10px;
+                }
+
+                .search-dropdown li:hover {
+                    background-color: #f0f0f0;
+                }
+
+                .product-image {
+                    height: 40px;
+                    width: auto;
+                    /* Ensure image doesn't stretch and maintains aspect ratio */
+                    object-fit: cover;
+                    border-radius: 3px;
+                    /* Optional: Make the image non-clickable for better focus on the text */
+                    pointer-events: none;
+                }
+
                 .navbar ul .dropdown-menu a:hover {
                     background-color: #f0f0f0;
                     color: black;
                 }
-                
+
                 /* JS-managed state */
                 .navbar ul .dropdown-menu.active {
                     display: block;
@@ -290,7 +472,7 @@ class navbarComponent extends HTMLElement {
                 }
                 .mobile-icon { display: none; }
                 .desktop-text { display: inline; }
-                
+
                 /* --- Mobile / Tablet Styles --- */
                 @media (max-width: 992px) {
                     .navbar {
@@ -307,7 +489,7 @@ class navbarComponent extends HTMLElement {
                     .login-button .desktop-text {
                         display: none;
                     }
-                    
+
                     /* 2. SHOW THE MOBILE ICON */
                     .login-button .mobile-icon {
                         display: block;
@@ -315,18 +497,18 @@ class navbarComponent extends HTMLElement {
                         width: 25px;
                         margin: auto; /* Center the icon if space allows */
                     }
-                    
+
                     /* 3. ENSURE THE LOGIN LINK LOOKS LIKE A SIMPLE ICON */
-                    .login-button { 
+                    .login-button {
                         background: none; /* Remove background */
                         padding: 0 !important; /* Remove button padding */
                         border: none;
                     }
-                    
+
                     /* The 'hidden' class applied by JS will control which link is visible. */
-                    
+
                     ul {
-                        gap: 5px; 
+                        gap: 5px;
                     }
                 }
 
@@ -335,21 +517,22 @@ class navbarComponent extends HTMLElement {
                     .navbar {
                         padding: 5px 10px;
                     }
-                    
+
                     .search-bar {
-                        max-width: 50vw; 
+                        max-width: 50vw;
                     }
                 }
             </style>
             <header>
                 <nav class="navbar">
                     <div class="logo"><a href="/index.html"><img src="/images/logo.png" alt="Einemeister logo"></a></div>
-                    
+
                     <div class="search-bar">
-                        <input type="text" placeholder="Otsi toodet">
+                        <input type="text" placeholder="Otsi toodet" id="search-bar">
+                        <div class="search-dropdown" id="search-suggestions"></div>
                         <button ><img src="/images/search.png" alt="search icon"></button>
                     </div>
-                    
+
                     <ul>
                         <li><a href="/pages/shopping-cart.html"><img src="/images/shopping_cart.png" alt="shopping cart icon"></a></li>
 
@@ -361,7 +544,7 @@ class navbarComponent extends HTMLElement {
                             <a href="#" class="dropdown-toggle hidden" id="user-profile-icon">
                                 <img src="/images/account_circle.png" alt="user-profile-icon">
                             </a>
-                            
+
                             <ul class="dropdown-menu" id="user-dropdown-menu">
                                 <li><a href="#">Lisa retsept</a></li>
                                 <li><a href="#">Minu ostukorvid</a></li>
