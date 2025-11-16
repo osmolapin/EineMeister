@@ -363,8 +363,8 @@ class navbarComponent extends HTMLElement {
                             </a>
                             
                             <ul class="dropdown-menu" id="user-dropdown-menu">
-                                <li><a href="#">Lisa retsept</a></li>
-                                <li><a href="#">Minu ostukorvid</a></li>
+                                <li><a href="#">Minu retseptid</a></li>
+                                <li><a href="/pages/saved-carts.html">Minu ostukorvid</a></li>
                                 <li><a href="#" id="logout-link">Logi välja</a></li>
                             </ul>
                         </li>

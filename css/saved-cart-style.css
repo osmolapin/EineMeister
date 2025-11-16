@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+    margin: 0;
+    font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-content{
+    max-width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vw;
+}
+h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.cart-wrapper {
+    padding: 1.5vw;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1a5319;
+    background-color: #80af81;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.cart-container {
+    display: flex;
+    padding: 15px 20px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #1a5319;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.cart-name {
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    gap: 10%;
+}
+
+.remove-cart {
+    background-color: #e83a3a;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+.remove-cart:hover {
+    box-shadow: 
+        0 6px 10px rgba(0, 0, 0, 0.2),
+        0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.remove-cart:active {
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.08), 
+        0 1px 2px rgba(0, 0, 0, 0.06);
+        transform: translateY(1px);
+}
+
+
+.dropdown-hidden {
+    padding: 10px 20px;
+    border-top: 1px solid #99b898;
+}
+.cart-dropdown.hidden {
+    display: none;
+    transition: transform 0.3 ease;
+}
