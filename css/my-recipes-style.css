@@ -12,9 +12,8 @@
     font-size: 1.8em;
 }
 
-/* Green border */
 .main-content-wrapper {
-    max-width: 1200px;
+    max-width: 66vw;
     margin: 0 auto;
     border: 1px solid #1a5319;
     border-radius: 10px;
@@ -48,12 +47,36 @@
 }
 
 .add-recipe {
-    border: 1px solid #1a5319;
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 350px;
+    padding: 7px 15px;
+    background-color: #5cb85c;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #1a5319;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    font-size: large;
+    margin-left: 17%;
     cursor: pointer;
 }
+.add-recipe a{
+    text-decoration: none;
+    color: white;
+}
+.add-recipe:hover {
+    background-color: #4cae4c;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px); 
+}
+.add-recipe:active {
+    background-color: #449d44;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+}
+
 
 .recipe-card-image {
     width: 100%;
@@ -61,7 +84,7 @@
     object-fit: cover;
 }
 
-/* Roheline ala pildi all (Ühika special ja hind) */
+
 .recipe-card-info-header {
     background-color: #d8ead8;
     padding: 10px 15px;
@@ -78,7 +101,6 @@
     font-weight: 500;
 }
 
-/* Makronäitajad */
 .recipe-card-macros {
     display: flex;
     justify-content: space-around;

@@ -2,18 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const recipeContainer = document.querySelector('.recipe-container');
     const loadingMessage = document.getElementById('loading-message');
 
-    // 1. KORREKTNE FUNKTSIOON KAARDI LOOMISEKS (RUUDUSTIKU STRUKTUURIGA)
+
     const createRecipeCard = (recipeData, recipeId) => {
         const recipeCard = document.createElement('a');
         recipeCard.href = `recipe.html?id=${recipeId}&type=example`; 
         recipeCard.classList.add('recipe-card'); 
 
         const name = recipeData.name || 'Nimetu retsept';
-        // Vormindab hinna kahe kohaga, kui andmed on olemas
         const price = (recipeData.price !== undefined && recipeData.price !== null) ? parseFloat(recipeData.price).toFixed(2) : 'N/A';
         const imageUrl = recipeData.imageUrl || '/images/default-recipe.jpg';
         
-        // MAKRONÄITAJATE VÄLJAD
+
         const calories = recipeData.calories || 0;
         const carbs = recipeData.carbs || 0;
         const protein = recipeData.proteins || 0;
@@ -37,47 +36,56 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Listen for auth state changes to get the current user
-    firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            // User is signed in.
             const userId = user.uid;
             loadingMessage.textContent = 'Retseptid laetakse...';
 
-            // Query Firestore for recipes submitted by this user
-            db.collection("submittedRecipes")
-              .where("userId", "==", userId)
-              .get()
-              .then((querySnapshot) => {
-                  recipeContainer.innerHTML = ''; // Clear loading message/default content
-                  
-                  if (querySnapshot.empty) {
-                      // Handle case where no recipes are found
-                      const noRecipesMessage = document.createElement('p');
-                      noRecipesMessage.textContent = 'Sa ei ole veel ühtegi retsepti lisanud.';
-                      noRecipesMessage.style.gridColumn = '1 / -1';
-                      recipeContainer.appendChild(noRecipesMessage);
-                      return;
-                  }
+            const submittedRecipesPromise = db.collection("submittedRecipes")
+                .where("userId", "==", userId)
+                .get();
+                
+            const approvedRecipesPromise = db.collection("recipes")
+                .where("userId", "==", userId)
+                .get();
+            
 
-                  // Iterate over recipes and create HTML elements
-                  querySnapshot.forEach((doc) => {
-                      const recipeData = doc.data();
-                      const recipeId = doc.id; // This is the ID used for the link
-                      
-                      // 2. KASUTAB ÜLALMÄÄRATUD FUNKTSIOONI
-                      const recipeCard = createRecipeCard(recipeData, recipeId); 
+            Promise.all([submittedRecipesPromise, approvedRecipesPromise])
+                .then(([submittedSnapshot, approvedSnapshot]) => {
+                    recipeContainer.innerHTML = ''; // Tühjenda laadimissõnum
 
-                      recipeContainer.appendChild(recipeCard);
-                  });
-              })
-              .catch((error) => {
-                  console.error("Error getting user recipes:", error);
-                  recipeContainer.innerHTML = '';
-                  const errorMessage = document.createElement('p');
-                  errorMessage.textContent = 'Viga retseptide laadimisel. Proovige hiljem uuesti.';
-                  errorMessage.style.gridColumn = '1 / -1';
-                  recipeContainer.appendChild(errorMessage);
-              });
+                    let recipeCount = 0;
+
+                    const processAndDisplay = (snapshot, collectionName) => {
+                        snapshot.forEach((doc) => {
+                            const recipeData = doc.data();
+                            const recipeId = doc.id;
+
+                            const recipeCard = createRecipeCard(recipeData, recipeId, collectionName); 
+                            recipeContainer.appendChild(recipeCard);
+                            recipeCount++;
+                        });
+                    };
+
+                    processAndDisplay(submittedSnapshot, 'submittedRecipes');
+
+                    processAndDisplay(approvedSnapshot, 'recipes');
+                    
+                    if (recipeCount === 0) {
+                        const noRecipesMessage = document.createElement('p');
+                        noRecipesMessage.textContent = 'Sa ei ole veel ühtegi retsepti lisanud.';
+                        noRecipesMessage.style.gridColumn = '1 / -1';
+                        recipeContainer.appendChild(noRecipesMessage);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Viga retseptide laadimisel:", error);
+                    recipeContainer.innerHTML = '';
+                    const errorMessage = document.createElement('p');
+                    errorMessage.textContent = 'Viga retseptide laadimisel. Proovige hiljem uuesti.';
+                    errorMessage.style.gridColumn = '1 / -1';
+                    recipeContainer.appendChild(errorMessage);
+                });
         } else {
             // User is signed out.
             recipeContainer.innerHTML = '<p>Palun logige sisse, et näha oma retsepte.</p>';
