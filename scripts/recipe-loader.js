@@ -3,8 +3,18 @@ function getRecipeIdFromUrl() {
     return params.get('id');
 }
 
+function getRecipeTypeFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('type');
+}
+
+const recipeType = getRecipeTypeFromUrl()
 const recipeId = getRecipeIdFromUrl()
-var recipeRef = db.collection("recipes").doc(recipeId);
+if (recipeType == "example") {
+    var recipeRef = db.collection("submittedRecipes").doc(recipeId);
+} else {
+    var recipeRef = db.collection("recipes").doc(recipeId);
+}
 
 
 recipeRef.get().then((doc) => {
