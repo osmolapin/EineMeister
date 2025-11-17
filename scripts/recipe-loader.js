@@ -49,7 +49,7 @@ recipeRef.get().then((doc) => {
         // into the final string format immediately.
         const promise = db.collection("products").doc(productId).get().then((productDoc) => {
             if (productDoc.exists) {
-                return portion + " " + productDoc.data()["name"];
+                return [portion, productDoc.data()["name"], productDoc.data()["imageUrl"], productDoc.data()["price"], productDoc.id];
             } else {
                 return portion + " (Product not found)";
             }
@@ -60,20 +60,53 @@ recipeRef.get().then((doc) => {
 
     // Wait for ALL promises to complete
     Promise.all(productPromises)
-        .then((finalProductsList) => {
+    .then((finalProductsList) => {
+        finalProductsList.forEach(([portion, element, productImage, productPrice, productId]) => {
 
-            // Add all the data in the finalProductsList to the page
-            finalProductsList.forEach(element => {
-                const listItem = document.createElement('li');
-                listItem.textContent = element;
-                ingredients.appendChild(listItem);
-            });
-        })
-        .catch((error) => {
-            // Handle any error that occurred during the fetching process
-            console.error("Error fetching ingredient details:", error);
-            ingredients.textContent = "Error loading ingredients.";
+
+            const productHolder = document.createElement('div');
+            const content = document.createElement("p");
+            const portionSize = document.createElement("p");
+            const image = document.createElement("img");
+            const checkboxElement = document.createElement("input");
+            const productTextElement = document.createElement("div");
+
+            image.src = productImage;
+            image.classList.add("product-image");
+
+            content.textContent = element;
+            content.classList.add("product-info");
+
+            portionSize.textContent = portion;
+            portionSize.classList.add("product-portion");
+
+            checkboxElement.type = "checkbox";
+            checkboxElement.classList.add("product-checkbox");
+            checkboxElement.checked = true;
+            checkboxElement.setAttribute('data-product-id', productId);
+            checkboxElement.setAttribute('data-product-name', element);
+            checkboxElement.setAttribute('data-product-price', productPrice);
+            checkboxElement.setAttribute('data-product-image-url', productImage);
+
+            productHolder.classList.add("product-container");
+
+            productTextElement.classList.add("product-details");
+
+            productTextElement.appendChild(portionSize);
+            productTextElement.appendChild(content);
+
+            productHolder.appendChild(image);
+            productHolder.appendChild(productTextElement);
+            productHolder.appendChild(checkboxElement);
+
+            ingredients.appendChild(productHolder);
         });
+    })
+    .catch((error) => {
+        // Handle any error that occurred during the fetching process
+        console.error("Error fetching ingredient details:", error);
+        ingredients.textContent = "Error loading ingredients.";
+    });
 
     const calories = document.getElementById("calories")
     calories.textContent = "Kalorid " + doc.data()["calories"] + " kcal"

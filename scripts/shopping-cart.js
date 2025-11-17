@@ -97,6 +97,7 @@ function addToCart(thisProductId, quantity = 1) {
     // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
 }
+window.addToCart = addToCart
 
 function changeProductQuantity(thisProductId, change) {
     let cart = getCart();
