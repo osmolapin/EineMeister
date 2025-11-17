@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+    margin: 0;
+    font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box; 
+}
+
+.page-title {
+    text-align: center;
+    margin: 20px 0 20px 0;
+    font-size: 1.8em;
+}
+
+/* Green border */
+.main-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #1a5319;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+
+.recipe-container {
+    display: grid;
+    /* Automatic grid for each recipe card */
+    grid-template-columns: repeat(auto-fit, minmax(50px, 15vw));
+    gap: 20px;
+    padding: 5px;
+}
+
+.recipe-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    background-color: white; 
+    min-height: 350px;
+}
+
+.recipe-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.add-recipe {
+    border: 1px solid #1a5319;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px;
+    cursor: pointer;
+}
+
+.recipe-card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Roheline ala pildi all (Ühika special ja hind) */
+.recipe-card-info-header {
+    background-color: #d8ead8;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.recipe-card-info-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #333;
+}
+.recipe-card-info-header .price {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Makronäitajad */
+.recipe-card-macros {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 10px; 
+    font-size: 0.8em;
+    color: #555;
+    text-align: center;
+}
+
+.macro-item {
+    line-height: 1.3;
+}
+.macro-item span {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+#loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}

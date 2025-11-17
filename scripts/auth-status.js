@@ -1,4 +1,5 @@
-
+var globalCurrentUserId = null; 
+var authStatusChecked = false;
 // Tracker what starts on every page load
 if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().onAuthStateChanged((user) => {
