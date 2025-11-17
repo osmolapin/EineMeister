@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAP-nzuF31UZbgHyc5AGsxgrNCVC1jb9hk",
@@ -15,9 +16,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-let selectedFile = null;
+const recipeForm = document.getElementById("add-recipe-form");
 const dropZone = document.getElementById("drop-zone");
 const fileInput = document.getElementById("file-input");
+const submitButton = recipeForm.querySelector("button.submit");
+
+let selectedFile = null;
 
 function handleFile(file) {
   if (file && file.type.startsWith("image/")) {
@@ -48,24 +52,24 @@ dropZone.addEventListener("drop", (e) => {
   handleFile(e.dataTransfer.files[0]);
 });
 
-const recipeForm = document.getElementById("add-recipe-form");
+
 
 recipeForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  submitButton.disabled = true;
+  submitButton.textContent = "Salvestan, palun oota...";
+
   try {
     if (!selectedFile) {
       alert("Palun vali pilt!");
-      return;
+      throw new Error("Pilt puudub");
     }
 
-    alert("Alustan pildi üleslaadimist, palun oota...");
     const storageRef = ref(storage, 'recipes/' + selectedFile.name);
-
     await uploadBytes(storageRef, selectedFile);
 
     const imageUrl = await getDownloadURL(storageRef);
-    alert("Pilt edukalt üles laetud!");
 
     const recipeData = {
       name: document.getElementById("form-name").value,
@@ -83,12 +87,19 @@ recipeForm.addEventListener("submit", async (e) => {
     const docRef = await addDoc(collection(db, "recipes"), recipeData);
 
     alert("Retsept edukalt lisatud! Dokumendi ID: " + docRef.id);
+
     recipeForm.reset();
     dropZone.textContent = "Lohista pilt siia või klõpsa, et valida fail";
     selectedFile = null;
 
   } catch (err) {
-    console.error("Viga: ", err);
-    alert("Viga: " + err.message);
+    if (err.message !== "Pilt puudub") {
+      console.error("Viga: ", err);
+      alert("Tekkis viga: " + err.message);
+    }
+  } finally {
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Esita retsept";
   }
 });
