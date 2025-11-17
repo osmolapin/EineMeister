@@ -21,14 +21,14 @@ function loadCarts(cartData) {
                     Eemalda ostukorv
                     <img src="/images/trash.png" alt="remove-cart-icon">
                 </button>
-                <span class="cart-price">${calculatedTotal.toFixed(2)}$</span>
+                <span class="cart-price">${calculatedTotal.toFixed(2)}€</span>
             </div>
         </div>
 
-        <div class="dropdown-hidden">
+        <div class="dropdown-hidden hidden">
             <ul>
                 ${cartData.items ? cartData.items.map(item => 
-                    `<li>${item.name} (${item.quantity}x) - ${(item.price * item.quantity).toFixed(2)}$</li>`
+                    `<li>${item.name} (${item.quantity}x) - ${(item.price * item.quantity).toFixed(2)}€</li>`
                 ).join('') : '<li>Ostukorv on tühi.</li>'}
             </ul>
         </div>
@@ -61,6 +61,7 @@ async function fetchUserCarts(currentUserId) {
                                       .where("userId", "==", currentUserId)
                                       .get();
         console.log("Query successful. Documents found:", querySnapshot.size);
+        
         if (querySnapshot.empty) {
             mainContent.innerHTML += "<p style='text-align:center;'>Sul ei ole ühtegi salvestatud ostukorvi.</p>";
             return;
@@ -137,7 +138,7 @@ async function deleteCart(docId) {
 // Start fetching carts only when the user's auth status is known (Unchanged)
 document.addEventListener('authStatusReady', (e) => {
     const detail = e.detail || {};
-    const currentUserId = detail.userId;
-    console.log("carts-page.js: authStatusReady received. userId:", currentUserId);
-    fetchUserCarts(currentUserId);
+    currentUserId = detail.userId;
+    console.log("authStatusReady: currentUserId =", currentUserId);
+    fetchUserCarts(currentUserId)
 });

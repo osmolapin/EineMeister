@@ -13,7 +13,8 @@
 }
 h1{
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px 0 20px 0;
+    font-size: 1.8em;
 }
 .cart-wrapper {
     padding: 1.5vw;
@@ -75,12 +76,17 @@ h1{
         transform: translateY(1px);
 }
 
-
 .dropdown-hidden {
+    max-height: 1000px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.1s ease-out, opacity 0.1s ease-out;
     padding: 10px 20px;
     border-top: 1px solid #99b898;
 }
-.cart-dropdown.hidden {
-    display: none;
-    transition: transform 0.3 ease;
+.dropdown-hidden.hidden {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0; 
 }
