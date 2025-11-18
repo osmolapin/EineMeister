@@ -23,7 +23,8 @@ function addDocument(collection, dataObject) {
         ingredients: dataObject.ingredients,
         proteins: dataObject.proteins,
         carbs: dataObject.carbs,
-        instructions: dataObject.instructions
+        instructions: dataObject.instructions,
+        userId: dataObject.userId
     });
 }
 function extractInfoFromDocument(collection, id) {
@@ -43,7 +44,8 @@ function extractInfoFromDocument(collection, id) {
             ingredients: doc.data()["ingredients"],
             proteins: doc.data()["proteins"],
             carbs: doc.data()["carbs"],
-            instructions: doc.data()["instructions"]
+            instructions: doc.data()["instructions"],
+            userId: doc.data()["userId"]
         };
     });
 }
