@@ -1,7 +1,9 @@
+// 1. ÕIGED IMPORDID (Brauseri jaoks)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
+// 2. SINU FIREBASE VÕTMED (Pane siia oma päris võtmed tagasi!)
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAP-nzuF31UZbgHyc5AGsxgrNCVC1jb9hk",
   authDomain: "einemeister-84e8c.firebaseapp.com",
@@ -12,30 +14,45 @@ const firebaseConfig = {
   measurementId: "G-5YW3F3X62G"
 };
 
+// 3. INITIALISEERIMINE (Ainult App ja Firestore)
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
+// 4. CLOUDINARY SEADED (Pane siia oma Cloudinary andmed)
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dhyfccb4a/image/upload";
+const CLOUDINARY_UPLOAD_PRESET = "recipes_pics";
+
+// 5. LEIAME ELEMENDID HTML-IST
 const recipeForm = document.getElementById("add-recipe-form");
 const dropZone = document.getElementById("drop-zone");
 const fileInput = document.getElementById("file-input");
 const submitButton = recipeForm.querySelector("button.submit");
 
+// SIIN ON SEE KRIITILINE KOHT: Leiame tekstiosa üles
+const dropZoneText = document.getElementById("drop-zone-text");
+
 let selectedFile = null;
 
+// --- FAILI VALIMISE LOOGIKA ---
 function handleFile(file) {
   if (file && file.type.startsWith("image/")) {
     selectedFile = file;
-    dropZone.textContent = `Valitud fail: ${file.name}`;
+
+    // Kontrollime, kas tekstielement on olemas, enne kui muudame
+    if (dropZoneText) {
+      dropZoneText.textContent = `Valitud fail: ${file.name}`;
+    } else {
+      console.error("VIGA: Ei leidnud elementi id-ga 'drop-zone-text'. Kontrolli HTML-i!");
+    }
+
   } else {
     selectedFile = null;
     alert("Viga: Palun vali pildifail!");
   }
 }
 
-fileInput.addEventListener("change", (e) => {
-  handleFile(e.target.files[0]);
-});
+// Kuularid (Listeners)
+fileInput.addEventListener("change", (e) => { handleFile(e.target.files[0]); });
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -53,24 +70,37 @@ dropZone.addEventListener("drop", (e) => {
 });
 
 
-
+// --- VORMI SAATMISE LOOGIKA ---
 recipeForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   submitButton.disabled = true;
   submitButton.textContent = "Salvestan, palun oota...";
 
   try {
+    // SAMM A: Kontroll
     if (!selectedFile) {
       alert("Palun vali pilt!");
       throw new Error("Pilt puudub");
     }
 
-    const storageRef = ref(storage, 'recipes/' + selectedFile.name);
-    await uploadBytes(storageRef, selectedFile);
+    // SAMM B: Cloudinary
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
-    const imageUrl = await getDownloadURL(storageRef);
+    const response = await fetch(CLOUDINARY_URL, {
+      method: "POST",
+      body: formData
+    });
+    const data = await response.json();
 
+    if (!response.ok) {
+      throw new Error(data.error.message || "Pildi üleslaadimine ebaõnnestus");
+    }
+
+    const imageUrl = data.secure_url;
+
+    // SAMM C: Andmete kogumine
     const recipeData = {
       name: document.getElementById("form-name").value,
       description: document.getElementById("form-description").value,
@@ -84,12 +114,14 @@ recipeForm.addEventListener("submit", async (e) => {
       createdAt: new Date()
     };
 
-    const docRef = await addDoc(collection(db, "recipes"), recipeData);
+    // SAMM D: Firestore
+    const docRef = await addDoc(collection(db, "submittedRecipes"), recipeData);
 
-    alert("Retsept edukalt lisatud! Dokumendi ID: " + docRef.id);
+    alert("Retsept edukalt lisatud!");
 
+    // Puhastus
     recipeForm.reset();
-    dropZone.textContent = "Lohista pilt siia või klõpsa, et valida fail";
+    if (dropZoneText) dropZoneText.textContent = "Lohista pilt siia või klõpsa, et valida fail";
     selectedFile = null;
 
   } catch (err) {
@@ -98,7 +130,6 @@ recipeForm.addEventListener("submit", async (e) => {
       alert("Tekkis viga: " + err.message);
     }
   } finally {
-
     submitButton.disabled = false;
     submitButton.textContent = "Esita retsept";
   }
