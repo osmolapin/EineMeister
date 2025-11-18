@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 body {
     margin: 0;
     font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .image-container {
     position: relative;
     width: 100%;
@@ -12,6 +13,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .hero-img {
     max-width: 80vw;
     display: block;
@@ -25,7 +27,7 @@ body {
     background-color: #59ad5c;
     color: white;
     position: absolute;
-    width: 17vw;        /* vw - viewport width units for responsiveness */
+    width: 17vw;
     height: 17vw;
     border-radius: 50%;
     cursor: pointer;
@@ -56,9 +58,7 @@ body {
     transition: background-color 0.2s, transform 0.2s;
 }
 
-.webpage-name {
-    display: none;
-}
+.webpage-name { display: none; }
 
 .recipes-button:hover, .products-button:hover {
     transform: translateY(-4px);
@@ -67,45 +67,54 @@ body {
 }
 
 @media (max-width: 992px) {
+    .hero-img {
+        display: none; 
+    }
+
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+        position: static;
+        
+        min-height: 60vh; 
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
     .webpage-name {
         display: block;
         text-align: center;
-        font-size: 30px;
-        font-weight: bold;
+        
+        font-size: 3rem; 
+        font-weight: 800;
         color: #1A5319;
-        margin: 30px 0 20px 0;
+        letter-spacing: -1px;
+        
+        margin: 0 0 40px 0;
     }
-    .image-container {
-        display: block; 
-    }
-    
-    .hero-img {
-        opacity: 0;
-        height: 0;
-        margin-bottom: 0;
-    }
-
     .products-button,
     .recipes-button {
-        position: static; 
-        top: auto;        
-        left: auto;
-        right: auto;
+        position: static;
         
-        display: flex;
-        width: 90%;             
-        height: 100px;         
-        max-width: 400px;       
-        border-radius: 10px;    
-        margin: 15px auto;      
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        padding: 25px 20px;
+        margin-bottom: 20px;
+
+        border-radius: 16px;
+        background-color: #59ad5c;
+        box-shadow: 0 10px 20px rgba(89, 173, 92, 0.2);
         
-        font-size: 24px;        
-        
-        justify-content: center; 
-        align-items: center;
+        font-size: 1.5rem;
+        text-transform: uppercase;
     }
     
-    .image-container {
-        position: static;
+    .products-button:active, 
+    .recipes-button:active {
+        transform: scale(0.98); /* Button presses in when tapped */
+        background-color: #3b703c;
     }
 }
