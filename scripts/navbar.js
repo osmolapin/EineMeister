@@ -560,11 +560,12 @@ class navbarComponent extends HTMLElement {
                             </a>
 
                             <ul class="dropdown-menu" id="user-dropdown-menu">
+
                                 <li class="hidden" id="admin-link-item">
                                     <a href="/pages/recipe-approval-admin.html">Admin paneel</a>
                                 </li>
-                                <li><a href="#">Lisa retsept</a></li>
-                                <li><a href="#">Minu ostukorvid</a></li>
+                                <li><a href="/pages/my-recipes.html">Minu retseptid</a></li>
+                                <li><a href="/pages/saved-carts.html">Minu ostukorvid</a></li>
                                 <li><a href="#" id="logout-link">Logi välja</a></li>
                             </ul>
                         </li>
