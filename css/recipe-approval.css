@@ -9,6 +9,7 @@ body {
     background-color: #ffffff;
     color: #3a4a3a;
     line-height: 1.6;
+    display: none;
 }
 
 .container {
