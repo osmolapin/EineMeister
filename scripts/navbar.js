@@ -168,7 +168,7 @@ class navbarComponent extends HTMLElement {
 
         firebase.auth().signOut().then(() => {
             // Redirect after successful logout
-            window.location.href = '/pages/logged_out.html';
+            window.location.href = '/pages/logged-out.html';
         }).catch((error) => {
             console.error("Väljalogimise viga:", error);
         });
