@@ -58,12 +58,6 @@ input[type="password"] {
   margin-bottom: 1rem;
 }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
 .checkbox-group input[type="checkbox"] {
   margin-right: 0.5rem;
   transform: translateY(2px);
@@ -90,6 +84,7 @@ input[type="password"] {
   font-size: 0.85rem;
   color: #555;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .footer-text a {
@@ -129,4 +124,11 @@ button:hover {
 
 .links a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    #container {
+      border: none;
+      box-shadow: none;
+    }
 }

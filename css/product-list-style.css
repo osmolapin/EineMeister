@@ -160,7 +160,7 @@ body {
     .product-amount-button:hover {background-color: white;}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 450px) {
     .product-card{min-width: 250px; width: 250px;}
     .product-filters{width: 130px;}
 }
