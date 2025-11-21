@@ -24,7 +24,7 @@ function signUp() {
     })
     .then(() => {
         alert("Kasutaja lisatud andmebaasi");
-        window.location.href = "login.html";
+        window.location.href = "/index.html";
     })
     .catch((e) => {
         console.error(e);
