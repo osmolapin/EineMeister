@@ -5,6 +5,10 @@
     font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+    display: none;
+}
+
 .main-content{
     max-width: 60vw;
     margin-left: auto;
