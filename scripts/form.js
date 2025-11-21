@@ -1,6 +1,5 @@
 const auth = firebase.auth();
 
-// Signup function
 function signUp() {
   var email = document.getElementById("email");
   var password = document.getElementById("password");
@@ -11,17 +10,24 @@ function signUp() {
     return;
   }
 
-  const queryAuth = auth.createUserWithEmailAndPassword(email.value, password.value);
-  
-  queryAuth.then(() => {
-        // If authentication succeeded send user to login page
-        alert("Kasutaja lisatud andmebaasi"); 
-        window.location.href = "login.html"; 
-        
+  auth.createUserWithEmailAndPassword(email.value, password.value)
+    .then((userCredential) => {
+        var user = userCredential.user;
+        var userId = user.uid; 
+
+        console.log("User created with ID:", userId);
+
+        // Save to users database
+        return db.collection("users").doc(userId).set({
+            email: email.value,
+        });
+    })
+    .then(() => {
+        alert("Kasutaja lisatud andmebaasi");
+        window.location.href = "login.html";
     })
     .catch((e) => {
-        // If failed alert user
-        alert(e.message);
+        console.error(e);
+        alert("Viga: " + e.message);
     });
-  
 }
