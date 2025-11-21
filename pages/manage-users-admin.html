@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneel - Kasutajate haldamine</title>
+    <meta name="description" content="Admin panel for reviewing and managing user-submitted recipes">
+    <link rel="stylesheet" href="../css/user-management-style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script src="/scripts/firebase-config-global.js"></script>
+    <script src="/scripts/auth-status.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Admin paneel</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="recipe-approval-admin.html" class="nav-link">Retseptide ülevaatus</a>
+                <a href="manage-users-admin.html" class="nav-link active">Kasutajad</a>
+                <a href="/index.html" class="nav-link">Avalehele</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1 class="page-title">Kasutajate haldamine</h1>
+
+                <div id="users-container" class="users-grid">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/scripts/users.js"></script>
+</body>
+</html>
