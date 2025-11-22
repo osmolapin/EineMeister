@@ -98,7 +98,7 @@ export function addToCart(thisProductId, quantity = 1) {
     renderCart();
     // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
-    const message = `${currentQuantity} x ${thisProductId.data.name} lisatud ostukorvi!`;
+    const message = `${currentQuantity} x ${thisProductId.data.name} ostukorvis.`;
     showToast(productId, message, 'success');
     return currentQuantity;
 }
