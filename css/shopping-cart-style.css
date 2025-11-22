@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -289,14 +291,15 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .save-cart {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 20px;
     }
     .save-cart-button {
         margin-left: 0;
     }
     .save-cart input {
-        max-width: 100%;
+        max-width: calc(100% - 175px);
     }
     
     #cart-container {
@@ -335,6 +338,87 @@ input[type=number]::-webkit-outer-spin-button {
         flex-shrink: 0;
         width: auto;
     }
+    .total-container {
+        margin-bottom: 10px;
+    }
+    .return,
+    .cart-actions {
+        padding: 0 15px;
+        max-width: none;
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+        .save-cart {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .save-cart input {
+            max-width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+    
+    #cart-container {
+        padding: 0;
+        width: 100%;
+    }
+    .cart-list-container {
+       max-width: 100%;
+       border: 1px solid lightgrey;
+    }
+    .cart-item {
+        /* Ensure elements are aligned vertically inside a wrapped line */
+        flex-wrap: wrap; 
+        padding: 15px 10px;
+        align-items: center; /* Changed from flex-start to center for better vertical alignment */
+        gap: 10px; /* Reduced gap */
+    }
+    
+    .cart-item img {
+        width: 60px; 
+        height: 60px;
+        order: 1; /* Order 1: Image first */
+    }
+
+    .item-details {
+        flex-grow: 1;
+        /* Removed flex-basis to let it use remaining space but allow wrapping */
+        margin-right: 0; 
+        order: 2; /* Order 2: Details next */
+        min-width: 0; /* Allows name/description to shrink */
+    }
+    
+    .item-name {
+        font-size: 1em; /* Slight reduction for space */
+    }
+
+    /* Force quantity and price to be on the next line or aligned at the end */
+    .item-quantity {
+        margin-left: 0; /* Removed auto margin */
+        margin-right: 5px; /* Added slight margin */
+        order: 3; /* Order 3: Quantity control */
+        margin-top: 10px; /* Separates from details */
+    }
+    
+    .item-price {
+        font-size: 1.1em;
+        text-align: right;
+        flex-shrink: 0;
+        width: auto;
+        order: 4; /* Order 4: Price last */
+        margin-top: 10px; /* Separates from details */
+    }
+    
+    .quantity-minus, .quantity-plus {
+        width: 28px; /* Slightly smaller button */
+        height: 28px;
+    }
+    
+    .quantity-input {
+        width: 25px; /* Slightly smaller input */
+    }
+
     .total-container {
         margin-bottom: 10px;
     }
