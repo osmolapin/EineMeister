@@ -1,12 +1,9 @@
 
 // Global variable to store all fetched products
 let allProducts = [];
-
-/**
- * 
- * @param {string} thisProductId - Product ID i.e '0NyO0AKRArvNeszw4giY'
- * @param {int} type - 1 = increment value, -1 = decrement value
- */
+let displayedProducts = [];
+let currentCount = 0;
+const BATCH_SIZE = 15;
 
 
 function createProductPage(thisProductId) {
@@ -56,7 +53,7 @@ function createProductCard(product) {
     addButton.textContent = "+";
     addButton.value = 1;
     addButton.onclick = () => {
-        // Find item from allProducts
+    // Find item from allProducts
     const product = allProducts.find(p => p.id === card.getAttribute('data-product-id'));
     if (product) {
         addToCart(product, 1); // Add one of item to cart on click
@@ -90,6 +87,26 @@ function createProductCard(product) {
     return card;
 }
 
+function renderNextBatch() {
+    const container = document.getElementById("products-container");
+    
+    // Grab the next batch (e.g., 0-30, then 30-60)
+    const batch = displayedProducts.slice(currentCount, currentCount + BATCH_SIZE);
+
+    batch.forEach(product => {
+        container.appendChild(createProductCard(product));
+    });
+
+    currentCount += batch.length;
+}
+
+const observer = new IntersectionObserver((entries) => {
+    // If watcher is visible and haven't shown all products yet
+    if (entries[0].isIntersecting && currentCount < displayedProducts.length) {
+        renderNextBatch();
+    }
+}, { rootMargin: "200px" }); // Triggers loading 200px before the bottom
+
 /**
  * Sorts the products based on the filter value and renders them.
  * @param {string} filterValue - The value from the select element (e.g., 'hind-less').
@@ -120,14 +137,19 @@ function sortAndRenderProducts(filterValue) {
         return 0; // Default case
     });
 
-    // Clear the current container content
     const container = document.getElementById("products-container");
-    container.innerHTML = '';
+    container.innerHTML = ''; // Clear current items
 
-    // Append the sorted products
-    sortedProducts.forEach(product => {
-        container.appendChild(createProductCard(product));
-    });
+    // 1. Save the result to our global variable
+    displayedProducts = sortedProducts;
+    
+    // 2. Reset the counter
+    currentCount = 0;
+
+    // 3. Render the first batch immediately
+    renderNextBatch();
+
+
 }
 
 
@@ -151,4 +173,7 @@ db.collection("products").get().then((querySnapshot) => {
     filterElement.addEventListener('change', (event) => {
         sortAndRenderProducts(event.target.value);
     });
+
+    const watcher = document.getElementById("scroll-watcher");
+    if (watcher) observer.observe(watcher);
 });
