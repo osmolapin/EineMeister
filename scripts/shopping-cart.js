@@ -1,8 +1,8 @@
+import {showToast} from '/scripts/notifications-on-pages.js';
 const CART_STORAGE_KEY = 'shoppingCart';
 const saved_carts = 'savedCarts';
 let lastSavedCartString = '[]'; 
 let currentUserId = null;
-
 
 // function to update cart
 function getCart() {
@@ -96,6 +96,8 @@ function addToCart(thisProductId, quantity = 1) {
     renderCart();
     // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
+    const message = `${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`;
+    showToast(message, 'success');
 }
 window.addToCart = addToCart
 
@@ -121,6 +123,7 @@ function changeProductQuantity(thisProductId, change) {
 
     return newQuantity;
 }
+window.changeProductQuantity = changeProductQuantity;
 // For saving cart function
 function checkCartStatus() {
     const currentCart = getCart();
