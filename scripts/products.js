@@ -1,4 +1,4 @@
-
+import { addToCart, changeProductQuantity } from '/scripts/shopping-cart.js';
 // Global variable to store all fetched products
 let allProducts = [];
 

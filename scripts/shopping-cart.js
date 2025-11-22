@@ -108,16 +108,22 @@ export function changeProductQuantity(thisProductId, change) {
     const itemIndex = cart.findIndex(item => item.id === thisProductId);
 
     let newQuantity = 0;
+    let productName = 'Tundmatu toode';
 
     if (itemIndex !== -1) {
+        productName = cart[itemIndex].name;
         cart[itemIndex].quantity += change;
         newQuantity = cart[itemIndex].quantity;
 
         if (newQuantity < 1) {
             cart.splice(itemIndex, 1);
             newQuantity = 0;
+            const message = `${productName} eemaldati ostukorvist.`;
+            showToast(thisProductId, message, 'error');
+        } else if (change === -1) {
+            showToast(thisProductId, `${newQuantity} x ${productName} ostukorvis.`, 'info');
         }
-
+        
         saveCart(cart);
         renderCart();
         checkCartStatus();

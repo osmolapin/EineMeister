@@ -21,7 +21,9 @@
 .toast.success {
     background-color: #5a8a52;
 }
-
+.toast.info {
+    background-color: #2196F3;
+}
 .toast.error {
     background-color: #d9534f;
 }
