@@ -144,6 +144,7 @@ header-navbar {
     font-size: 1.4em;
     font-weight: 700;
     color: #1a5319;
+    padding: 7px;
 }
 /* ---------------------- Quantity controls ------------------------ */
 .item-quantity {
@@ -307,8 +308,9 @@ input[type=number]::-webkit-outer-spin-button {
        border: 1px solid lightgrey;
     }
     .cart-item {
-        flex-wrap: nowrap; 
-        padding: 15px 0;
+        flex-wrap: wrap; 
+        padding: 15px 10px;
+        align-items: flex-start;
     }
     
     .cart-item img {
@@ -317,13 +319,14 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .item-details {
-        flex-basis: calc(100% - 75px); 
+        flex-basis: calc(100% - 60px);
+        margin-right: 0;
     }
     
     .item-quantity {
         margin-left: auto; 
         margin-right: 0; 
-        order: 2;
+        order: 3;
     }
     
     .item-price {
