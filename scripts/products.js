@@ -59,8 +59,8 @@ function createProductCard(product) {
         // Find item from allProducts
     const product = allProducts.find(p => p.id === card.getAttribute('data-product-id'));
     if (product) {
-        addToCart(product, 1); // Add one of item to cart on click
-        quantity.textContent = Number(quantity.textContent) + 1;
+        const newQuantity = addToCart(product, 1); // Add one of item to cart on click
+        quantity.textContent = newQuantity;
     }
 };
 

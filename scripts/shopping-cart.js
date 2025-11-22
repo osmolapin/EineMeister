@@ -72,11 +72,11 @@ function updateCartTotals(totalSum) {
     }
 }
 
-function addToCart(thisProductId, quantity = 1) {
+export function addToCart(thisProductId, quantity = 1) {
     let cart = getCart();
     const productId = thisProductId.id;
     const priceValue = Number(thisProductId.data.price); 
-
+    let currentQuantity;
     const itemToSave = {
         id: productId,
         name: thisProductId.data.name,
@@ -88,20 +88,22 @@ function addToCart(thisProductId, quantity = 1) {
 
     if (itemIndex > -1) {
         cart[itemIndex].quantity += quantity;
+        currentQuantity = cart[itemIndex].quantity;
     } else {
         cart.push({ ...itemToSave, quantity: quantity });
+        currentQuantity = quantity;
     }
 
     saveCart(cart);
     renderCart();
     // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
-    const message = `${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`;
-    showToast(message, 'success');
+    const message = `${currentQuantity} x ${thisProductId.data.name} lisatud ostukorvi!`;
+    showToast(productId, message, 'success');
+    return currentQuantity;
 }
-window.addToCart = addToCart
 
-function changeProductQuantity(thisProductId, change) {
+export function changeProductQuantity(thisProductId, change) {
     let cart = getCart();
     const itemIndex = cart.findIndex(item => item.id === thisProductId);
 
@@ -123,7 +125,6 @@ function changeProductQuantity(thisProductId, change) {
 
     return newQuantity;
 }
-window.changeProductQuantity = changeProductQuantity;
 // For saving cart function
 function checkCartStatus() {
     const currentCart = getCart();
