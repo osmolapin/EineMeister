@@ -12,13 +12,48 @@
     <script src="/scripts/firebase-config-global.js"></script>
     
     <script src="/scripts/shopping-cart.js"></script>
-    <script src="/scripts/products.js"></script>
     <script src="/scripts/navbar.js" defer></script>
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
     <header-navbar></header-navbar>
     <a href="/index.html" class="back-button">&lt Tagasi</a>
+    <div id="sortSidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        
+        <input type="checkbox" name="all" id="all" checked>
+        <label for="all" id="label-all" class="active-filter">Kõik tooted</label>
+        
+        <input type="checkbox" name="category" value="liha" id="liha">
+        <label for="liha" class="active-filter">Liha tooted</label>
+        
+        <input type="checkbox" name="category" value="piimatoode" id="piimatoode">
+        <label for="piimatoode" class="active-filter">Piimatooted</label>
+        
+        <input type="checkbox" name="category" value="oli" id="oli">
+        <label for="oli" class="active-filter">Õli tooted</label>
+        
+        <input type="checkbox" name="category" value="puuvili" id="puuvili">
+        <label for="puuvili" class="active-filter">Puuviljad</label>
+        
+        <input type="checkbox" name="category" value="juurvili" id="juurvili">
+        <label for="juurvili" class="active-filter">Juurviljad</label>
+        
+        <input type="checkbox" name="category" value="kuivaine" id="kuivaine">
+        <label for="kuivaine" class="active-filter">Kuivained</label>
+        
+        <input type="checkbox" name="category" value="kulmutatud" id="kulmutatud">
+        <label for="kulmutatud" class="active-filter">Külmutatud tooted</label>
+        
+        <input type="checkbox" name="category" value="maiustus" id="maiustus">
+        <label for="maiustus" class="active-filter">Maiustused</label>
+
+        <input type="checkbox" name="category" value="muna" id="muna">
+        <label for="muna" class="active-filter">Muna</label>
+    </div>
+    
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Filtrid</span>
+    
     <div class="filter-container">
         <label class="product-filter-title">Sorteeri</label>
         <select class="product-filters" id="product-filters">
@@ -31,9 +66,10 @@
             <option value="proteins-more">Valgud rohkem eespool</option>
         </select>
     </div>
-
+    
     <div id="products-container" class="products-container"></div>
-
+    
     <div id="scroll-watcher" style="height: 20px; margin-bottom: 20px;"></div>
+    <script src="/scripts/products.js"></script>
 </body>
 </html>
