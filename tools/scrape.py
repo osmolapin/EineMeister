@@ -1,8 +1,22 @@
+'''Scraper to find products/product info from Selver.ee'''
 import requests
 import json
-import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
+from typing import List
 
-def productInfo(PRODUCT_SLUG):
+
+def productInfo(product_slug: str) -> dict[str, str]:
+    """
+    Find all the information from product slug
+
+    :param product_slug: Extracted from the product url i.e 'suitsujuust-18-tere-200-g'
+    :return: Dictionary of all the product info needed for the database.
+    """
 
     cookies = {
         'CookieConsent': '{stamp:%27Oym0p8pLdbwpS6O6MnBYoiW5eJm1rNHt4yoTHPrA9ln6CGJGE+P7tg==%27%2Cnecessary:true%2Cpreferences:false%2Cstatistics:false%2Cmarketing:false%2Cmethod:%27explicit%27%2Cver:1%2Cutc:1759244688403%2Cregion:%27ee%27}',
@@ -13,7 +27,7 @@ def productInfo(PRODUCT_SLUG):
     headers = {
         'User-Agent': 'Mozilla/5.0',
         'Accept': 'application/json',
-        'Referer': f'https://www.selver.ee/{PRODUCT_SLUG}',
+        'Referer': f'https://www.selver.ee/{product_slug}',
         'content-type': 'application/json',
     }
 
@@ -24,7 +38,7 @@ def productInfo(PRODUCT_SLUG):
                 "bool": {
                     "filter": {
                         "terms": {
-                            "url_path": [PRODUCT_SLUG]
+                            "url_path": [product_slug]
                         }
                     }
                 }
@@ -34,10 +48,7 @@ def productInfo(PRODUCT_SLUG):
         'sort': '',
     }
 
-
-    # ---------------------------
-    # MAKE API REQUEST
-    # ---------------------------
+    # Make api request
     response = requests.get(
         'https://www.selver.ee/api/catalog/vue_storefront_catalog_et/product/_search',
         params=params,
@@ -48,21 +59,20 @@ def productInfo(PRODUCT_SLUG):
     data = response.json()
     product = data["hits"]["hits"][0]["_source"]
 
-    # ---------------------------
-    # EXTRACT PRODUCT DATA
-    # ---------------------------
+
+    # Extract product data
     name = product.get("name")
     weight = product.get("product_volume")
-    description = product.get("description")
-    storage = product.get("product_storage_cond_use")
-    price_with_tax = product.get("price_incl_tax")  # ✔ final price with tax
+    description = product.get("description", "Tühjus")
+    storage = product.get("product_storage_cond_use", "Tühjus")
+    price_with_tax = product.get("price_incl_tax")
 
     # Nutrition (may be missing)
     nutrition = {
-        "calories": product.get("product_nutr_energy"),
-        "fats": product.get("product_nutr_fats"),
-        "carbs": product.get("product_nutr_carbohydrates"),
-        "proteins": product.get("product_nutr_proteins"),
+        "calories": product.get("product_nutr_energy", 0),
+        "fats": product.get("product_nutr_fats", 0),
+        "carbs": product.get("product_nutr_carbohydrates", 0),
+        "proteins": product.get("product_nutr_proteins", 0),
     }
 
     # Image URL
@@ -71,38 +81,77 @@ def productInfo(PRODUCT_SLUG):
     image_name = image_path.split("/")[-1]
 
 
-    # ---------------------------
-    # DOWNLOAD IMAGE
-    # ---------------------------
+    # Download image
     def download_image(url, filename="product.jpg"):
         r = requests.get(url)
         if r.status_code == 200:
             with open(filename, "wb") as f:
                 f.write(r.content)
-            print(f"[✔] Image saved as {filename}")
+            print(f"-Image saved as {filename}")
         else:
-            print("[!] Could not download image:", r.status_code)
+            print("-Could not download image: ", r.status_code)
 
 
     download_image(image_url, image_name)
 
+    product_info = {"name": name, "weight": weight, "price": price_with_tax, 
+            "description": description, "storing": storage, "imageUrl": "/images/" + image_name}
 
-    # ---------------------------
-    # SHOW RESULT
-    # ---------------------------
-    product_info = {"name": name, "weight": name, "price": price_with_tax, 
-            "description": description, "storing": storage, "image_url": image_name}
-    
-    # print("\n-------- PRODUCT INFO --------")
-    # print("Name:", name)
-    # print("Weight:", weight)
-    # print("Price (incl tax):", price_with_tax, "€")
-    # print("Description:", description)
-    # print("Storage:", storage)
-
-    # print("\n--- Nutrition (per 100g) ---")
     for k, v in nutrition.items():
         product_info[k] = v
-    #     print(f"{k}: {v}")
 
     return product_info
+
+
+def extractProductLinks(url: str) -> List[str]:
+    """
+    Uses Selenium to load dynamic content, then Beautiful Soup to extract 
+    the hrefs from <a> tags with the class 'ProductCard__link'.
+
+    :param url: The URL of the webpage to scrape.
+    :return: A list of the found href links.
+    """
+    product_links = []
+    
+    # Setup Selenium Options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    
+    # You might need to specify the path to your chromedriver executable if it's not in your PATH
+    # e.g., driver = webdriver.Chrome(options=chrome_options, service=Service('/path/to/chromedriver'))
+    driver = webdriver.Chrome(options=chrome_options)
+
+    try:
+        print(f"Loading dynamic content from: {url}...")
+        driver.get(url)
+
+        # Wait up to 10 seconds until at least one element with the class is found
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'ProductCard__link'))
+        )
+        
+        # Get the fully rendered HTML content
+        html_content = driver.page_source
+        
+        # Use Beautiful Soup to parse the rendered HTML
+        soup = BeautifulSoup(html_content, 'html.parser')
+        
+        # Find and extract the hrefs
+        product_elements = soup.find_all('a', class_='ProductCard__link')
+        
+        print(f"Found {len(product_elements)} product links.")
+        
+        for element in product_elements:
+            href = element.get('href')
+            if href and href not in product_links:
+                product_links.append(href[1::])
+                
+    except Exception as e:
+        print(f"An error occurred during scraping: {e}")
+        
+    finally:
+        driver.quit()
+        
+    return product_links
