@@ -1,5 +1,5 @@
 '''Scraper to find products/product info from Selver.ee'''
-import requests
+import requests, re
 import json
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -63,16 +63,21 @@ def productInfo(product_slug: str) -> dict[str, str]:
     # Extract product data
     name = product.get("name")
     weight = product.get("product_volume")
-    description = product.get("description", "Tühjus")
-    storage = product.get("product_storage_cond_use", "Tühjus")
-    price_with_tax = product.get("price_incl_tax")
+    description = clean_html(product.get("description")) or "Tühjus"
+    storage = product.get("product_storage_cond_use") or "Tühjus"
+    ingredients = clean_html(product.get("product_ingrediens")) or "Tühjus"
+    price_with_tax = round(float(product.get("price_incl_tax")), 2)
 
     # Nutrition (may be missing)
+    calories = product.get("product_nutr_energy")
+    if calories:
+        calories = re.findall(r"\d+",calories.split("/")[1])[0]
+        
     nutrition = {
-        "calories": product.get("product_nutr_energy", 0),
-        "fats": product.get("product_nutr_fats", 0),
-        "carbs": product.get("product_nutr_carbohydrates", 0),
-        "proteins": product.get("product_nutr_proteins", 0),
+        "calories": calories or 0,
+        "fats": product.get("product_nutr_fats") or 0,
+        "carbs": product.get("product_nutr_carbohydrates") or 0,
+        "proteins": product.get("product_nutr_proteins") or 0
     }
 
     # Image URL
@@ -95,7 +100,7 @@ def productInfo(product_slug: str) -> dict[str, str]:
     download_image(image_url, image_name)
 
     product_info = {"name": name, "weight": weight, "price": price_with_tax, 
-            "description": description, "storing": storage, "imageUrl": "/images/" + image_name}
+            "description": description, "storing": storage, "imageUrl": "/images/" + image_name, "ingredients": ingredients}
 
     for k, v in nutrition.items():
         product_info[k] = v
@@ -145,7 +150,7 @@ def extractProductLinks(url: str) -> List[str]:
         
         for element in product_elements:
             href = element.get('href')
-            if href and href not in product_links:
+            if href and href[1::] not in product_links:
                 product_links.append(href[1::])
                 
     except Exception as e:
@@ -155,3 +160,8 @@ def extractProductLinks(url: str) -> List[str]:
         driver.quit()
         
     return product_links
+
+def clean_html(raw_html: str) -> str:
+    if raw_html:
+        return BeautifulSoup(raw_html, "html.parser").get_text(separator=" ").strip()
+    return "Tühjus"
