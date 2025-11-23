@@ -90,10 +90,10 @@ body {
     gap: 10px;
 }
 
-.back-button {
+.back-button, .sidebar-toggle-button {
     display: inline-block;
     padding: 10px 15px;
-    margin: 15px 0 15px 15px;
+    margin: 15px 0 15px 5px;
 
     background-color: #1A5319;
     color: white;
@@ -105,7 +105,7 @@ body {
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.back-button:hover {
+.back-button:hover, .sidebar-toggle-button:hover {
     background-color: #2F7C30;
 
     transform: translateY(-1px);
@@ -118,9 +118,8 @@ body {
 }
 
 .filter-container {
-    float: right;
     margin: 15px 15px 0 0;
-
+    float: right;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -149,6 +148,14 @@ body {
 
 }
 
+#controls-container {
+    /* Aligns the whole control block below the Back button */
+    flex-direction: row; /* Keep the toggle and sort on the same line */
+    align-items: center;
+    gap: 20px; /* Space between the toggle button and the sort dropdown */
+    margin: 0 0 15px 15px; /* Aligns with the Back Button's left margin */
+}
+
 .product-filters:hover {
     border-color: #2F7C30;
     outline: none;
@@ -160,7 +167,70 @@ body {
     .product-amount-button:hover {background-color: white;}
 }
 
-@media (max-width: 450px) {
+@media (max-width: 540px) {
     .product-card{min-width: 250px; width: 250px;}
-    .product-filters{width: 130px;}
+    .product-filters{width: 140px;}
+}
+
+@media (max-width: 460px) {
+    .product-card{min-width: 250px; width: 250px;}
+    .product-filters{width: 140px;}
+    .product-filter-title{display: none;}
+}
+
+@media (max-width: 375px) {
+    .product-card{min-width: 250px; width: 250px;}
+    .product-filters{width: 100px;}
+    .product-filter-title{display: none;}
+}
+
+/* Sidebar styling */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2; 
+  top: 0;
+  left: 0;
+  background-color: #80af81;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+/* Hide the checkbox squares */
+.sidebar input[type="checkbox"] {
+  display: none; 
+}
+
+.sidebar label {
+  padding: 10px 15px 10px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000; 
+  display: block;
+  transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sidebar label:hover {
+  color: #878787;
+}
+
+.sidebar label.active-filter {
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #1A5319;
+  border-left: 5px solid #2F7C30;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: white;
+  text-decoration: none;
 }
