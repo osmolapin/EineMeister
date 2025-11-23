@@ -16,8 +16,6 @@
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
-    <header-navbar></header-navbar>
-    <a href="/index.html" class="back-button">&lt Tagasi</a>
     <div id="sortSidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         
@@ -47,24 +45,29 @@
         
         <input type="checkbox" name="category" value="maiustus" id="maiustus" checked>
         <label for="maiustus" class="active-filter">Maiustused</label>
-
+        
         <input type="checkbox" name="category" value="muna" id="muna" checked>
         <label for="muna" class="active-filter">Muna</label>
     </div>
     
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Filtrid</span>
-    
-    <div class="filter-container">
-        <label class="product-filter-title">Sorteeri</label>
-        <select class="product-filters" id="product-filters">
-            <option value="popular">Populaarsus</option>
-            <option value="price-less">Hind: odavamad eespool</option>
-            <option value="price-more">Hind: kallimad eespool</option>
-            <option value="calories-less">Kalorid: vähem eespool</option>
-            <option value="calories-more">Kalorid: rohkem eespool</option>
-            <option value="proteins-less">Valgud: vähem eespool</option>
-            <option value="proteins-more">Valgud rohkem eespool</option>
-        </select>
+    <header-navbar></header-navbar>
+    <div id="controls-container">
+        <a href="/index.html" class="back-button">&lt Tagasi</a>
+        
+        <a class="sidebar-toggle-button" onclick="openNav()">&#9776; Filtrid</a>
+        
+        <div class="filter-container">
+            <label class="product-filter-title">Sorteeri</label>
+            <select class="product-filters" id="product-filters">
+                <option value="popular">Populaarsus</option>
+                <option value="price-less">Hind: odavamad eespool</option>
+                <option value="price-more">Hind: kallimad eespool</option>
+                <option value="calories-less">Kalorid: vähem eespool</option>
+                <option value="calories-more">Kalorid: rohkem eespool</option>
+                <option value="proteins-less">Valgud: vähem eespool</option>
+                <option value="proteins-more">Valgud rohkem eespool</option>
+            </select>
+        </div>
     </div>
     
     <div id="products-container" class="products-container"></div>
