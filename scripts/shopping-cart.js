@@ -1,8 +1,8 @@
+import {showToast} from '/scripts/notifications-on-pages.js';
 const CART_STORAGE_KEY = 'shoppingCart';
 const saved_carts = 'savedCarts';
 let lastSavedCartString = '[]'; 
 let currentUserId = null;
-
 
 // function to update cart
 function getCart() {
@@ -72,11 +72,11 @@ function updateCartTotals(totalSum) {
     }
 }
 
-function addToCart(thisProductId, quantity = 1) {
+export function addToCart(thisProductId, quantity = 1) {
     let cart = getCart();
     const productId = thisProductId.id;
     const priceValue = Number(thisProductId.data.price); 
-
+    let currentQuantity;
     const itemToSave = {
         id: productId,
         name: thisProductId.data.name,
@@ -88,32 +88,42 @@ function addToCart(thisProductId, quantity = 1) {
 
     if (itemIndex > -1) {
         cart[itemIndex].quantity += quantity;
+        currentQuantity = cart[itemIndex].quantity;
     } else {
         cart.push({ ...itemToSave, quantity: quantity });
+        currentQuantity = quantity;
     }
 
     saveCart(cart);
     renderCart();
     // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
+    const message = `${currentQuantity} x ${thisProductId.data.name} ostukorvis.`;
+    showToast(productId, message, 'success');
+    return currentQuantity;
 }
-window.addToCart = addToCart
 
-function changeProductQuantity(thisProductId, change) {
+export function changeProductQuantity(thisProductId, change) {
     let cart = getCart();
     const itemIndex = cart.findIndex(item => item.id === thisProductId);
 
     let newQuantity = 0;
+    let productName = 'Tundmatu toode';
 
     if (itemIndex !== -1) {
+        productName = cart[itemIndex].name;
         cart[itemIndex].quantity += change;
         newQuantity = cart[itemIndex].quantity;
 
         if (newQuantity < 1) {
             cart.splice(itemIndex, 1);
             newQuantity = 0;
+            const message = `${productName} eemaldati ostukorvist.`;
+            showToast(thisProductId, message, 'error');
+        } else if (change === -1) {
+            showToast(thisProductId, `${newQuantity} x ${productName} ostukorvis.`, 'info');
         }
-
+        
         saveCart(cart);
         renderCart();
         checkCartStatus();

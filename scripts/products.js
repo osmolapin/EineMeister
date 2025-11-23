@@ -1,4 +1,4 @@
-
+import { addToCart, changeProductQuantity } from '/scripts/shopping-cart.js';
 // Global variable to store all fetched products
 let allProducts = [];
 let displayedProducts = [];
@@ -56,10 +56,10 @@ function createProductCard(product) {
     addButton.value = 1;
     addButton.onclick = () => {
         // Find item from allProducts
-        const product = allProducts.find(p => p.id === card.getAttribute('data-product-id'));
+    const product = allProducts.find(p => p.id === card.getAttribute('data-product-id'));
         if (product) {
-            addToCart(product, 1); // Add one of item to cart on click
-            quantity.textContent = Number(quantity.textContent) + 1;
+            const newQuantity = addToCart(product, 1); // Add one of item to cart on click
+            quantity.textContent = newQuantity;
         }
     };
 

@@ -15,3 +15,4 @@ function changeProductQuantity(type) {
     numElement.textContent = numValue;
     priceElement.textContent = (unitPrice * numValue).toFixed(2) + " €";
 }
+window.changeProductQuantity = changeProductQuantity;
