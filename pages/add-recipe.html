@@ -10,42 +10,61 @@
 
   <form id="add-recipe-form">
     <div class="container">
+
       <div class="form-section">
         <label for="form-name">Pealkiri</label>
-        <input type="text" id="form-name" name="title">
+        <input type="text" id="form-name" name="title" required placeholder="Sisesta retsepti nimi">
 
         <label for="form-description">Lühike kirjeldus</label>
-        <input type="text" id="form-description" name="description">
+        <input type="text" id="form-description" name="description" required placeholder="Lühike tutvustus">
 
         <label for="form-instructions">Valmistamise juhend</label>
-        <textarea id="form-instructions" name="instructions"></textarea>
+        <textarea id="form-instructions" name="instructions" required placeholder="Kuidas toitu valmistada..."></textarea>
 
         <label>Toitumisalane teave</label>
         <table class="nutrition-table">
-          <tr><th>Kalorid</th><td><input type="text" id="form-calories" placeholder="nt 36 kcal"></td></tr>
-          <tr><th>Valgud</th><td><input type="text" id="form-proteins" placeholder="nt 2 g"></td></tr>
-          <tr><th>Rasvad</th><td><input type="text" id="form-fats" placeholder="nt 4 g"></td></tr>
-          <tr><th>Süsivesikud</th><td><input type="text" id="form-carbs" placeholder="nt 0 g"></td></tr>
+          <tr><th>Kalorid</th><td><input type="number" id="form-calories" placeholder="67" required></td></tr>
+          <tr><th>Valgud</th><td><input type="number" id="form-proteins" placeholder="420" required></td></tr>
+          <tr><th>Rasvad</th><td><input type="number" id="form-fats" placeholder="21" required></td></tr>
+          <tr><th>Süsivesikud</th><td><input type="number" id="form-carbs" placeholder="0" required></td></tr>
         </table>
 
         <label>Pildi üleslaadimine</label>
-
         <label for="file-input" id="drop-zone">
           <span id="drop-zone-text">Lohista pilt siia või klõpsa, et valida fail</span>
           <input type="file" id="file-input" accept="image/*">
         </label>
+
+        <div class="buttons">
+          <button type="button" class="cancel">Tühista</button>
+          <button type="button" class="preview">Eelvaade</button>
+          <button type="submit" class="submit">Esita retsept</button>
         </div>
 
-      <div class="ingredients-section">
+      </div> <div class="ingredients-section">
         <label>Koostisosad</label>
-        <textarea id="form-ingredients" placeholder="Kirjuta koostisosad siia..."></textarea>
-      </div>
-    </div>
 
-    <div class="buttons">
-      <button type="button" class="cancel">Tühista</button>
-      <button type="button" class="preview">Eelvaade</button>
-      <button type="submit" class="submit">Esita retsept</button>
+        <div class="ingredient-adder">
+          <div class="search-box">
+            <input type="text" id="product-search" placeholder="Otsi toodet (nt Piim)..." autocomplete="off">
+            <div id="search-results" class="results-dropdown"></div>
+          </div>
+
+          <input type="number" id="ingredient-quantity" placeholder="Kogus" style="width: 70px;">
+          <span id="unit-display">ühik</span>
+
+          <button type="button" id="add-ingredient-btn">Lisa</button>
+        </div>
+
+        <ul id="ingredients-list" class="styled-list">
+          </ul>
+
+        <div class="price-summary">
+          <strong>Retsepti hind kokku: </strong>
+          <span id="total-price-display">0.00</span> €
+        </div>
+      </div>
+
     </div>
   </form>
 
