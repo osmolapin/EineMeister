@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="et">
 <head>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-  
-
-  <script src="/scripts/firebase-config-global.js"></script>
-  <script src="/scripts/auth-status.js"></script>
-  
-  <script  type="module" src="/scripts/add-recipe.js"></script>
   <meta charset="UTF-8">
   <title>Uue retsepti loomine</title>
   <link rel="stylesheet" href="../css/add-recipe-style.css">
@@ -31,20 +22,24 @@
 
         <label>Toitumisalane teave</label>
         <table class="nutrition-table">
-          <tr><th>Kalorid</th><td><input type="text" id="form-calories" name="calories" placeholder="nt 36 kcal"></td></tr>
-          <tr><th>Valgud</th><td><input type="text" id="form-proteins" name="protein" placeholder="nt 2 g"></td></tr>
-          <tr><th>Rasvad</th><td><input type="text" id="form-fats" name="fat" placeholder="nt 4 g"></td></tr>
-          <tr><th>Süsivesikud</th><td><input type="text" id="form-carbs" name="carbs" placeholder="nt 0 g"></td></tr>
+          <tr><th>Kalorid</th><td><input type="text" id="form-calories" placeholder="nt 36 kcal"></td></tr>
+          <tr><th>Valgud</th><td><input type="text" id="form-proteins" placeholder="nt 2 g"></td></tr>
+          <tr><th>Rasvad</th><td><input type="text" id="form-fats" placeholder="nt 4 g"></td></tr>
+          <tr><th>Süsivesikud</th><td><input type="text" id="form-carbs" placeholder="nt 0 g"></td></tr>
         </table>
 
         <label>Pildi üleslaadimine</label>
-        <input type="image" id="form-image-url" placeholder="Kleebi pildi URL või failinimi siia testimiseks">
+
+        <label for="file-input" id="drop-zone">
+          <span id="drop-zone-text">Lohista pilt siia või klõpsa, et valida fail</span>
+          <input type="file" id="file-input" accept="image/*">
+        </label>
         </div>
 
       <div class="ingredients-section">
         <label>Koostisosad</label>
-        <textarea id="form-ingredients" placeholder="Kirjuta koostisosad siia, nt: 15g juustu, 1 purk tomateid"></textarea>
-        </div>
+        <textarea id="form-ingredients" placeholder="Kirjuta koostisosad siia..."></textarea>
+      </div>
     </div>
 
     <div class="buttons">
@@ -52,6 +47,8 @@
       <button type="button" class="preview">Eelvaade</button>
       <button type="submit" class="submit">Esita retsept</button>
     </div>
-  </form> <script type="module" src="../scripts/add-recipe.js"></script>
+  </form>
+
+  <script type="module" src="../scripts/add-recipe.js"></script>
 </body>
 </html>
