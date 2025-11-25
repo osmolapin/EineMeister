@@ -1,23 +1,3 @@
-// 1. ÕIGED IMPORDID (Brauseri jaoks)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-// 2. SINU FIREBASE VÕTMED (Pane siia oma päris võtmed tagasi!)
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAP-nzuF31UZbgHyc5AGsxgrNCVC1jb9hk",
-  authDomain: "einemeister-84e8c.firebaseapp.com",
-  projectId: "einemeister-84e8c",
-  storageBucket: "einemeister-84e8c.firebasestorage.app",
-  messagingSenderId: "699963249863",
-  appId: "1:699963249863:web:392a4b3bbab29450d9dae2",
-  measurementId: "G-5YW3F3X62G"
-};
-
-// 3. INITIALISEERIMINE (Ainult App ja Firestore)
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 // 4. CLOUDINARY SEADED (Pane siia oma Cloudinary andmed)
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dhyfccb4a/image/upload";
 const CLOUDINARY_UPLOAD_PRESET = "recipes_pics";
@@ -51,21 +31,19 @@ console.log("JS fail laetud edukalt!");
 async function loadProducts() {
   console.log("ALUSTAN toodete laadimist...");
   try {
-    const querySnapshot = await getDocs(collection(db, "products"));
     allProducts = [];
-
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      allProducts.push({
-        id: doc.id,
-        // Kontrollime erinevaid nimekujusid (name, Name, title jne)
-        name: data.name || data.Name || "Nimetu",
-        price: Number(data.price) || Number(data.hind) || 0,
-        unit: data.unit || data.yhik || "tk",
-        imageUrl: data.imageUrl || ""
-      });
+    db.collection("products").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          allProducts.push({
+            id: doc.id,
+            // Kontrollime erinevaid nimekujusid (name, Name, title jne)
+            name: data.name || "Nimetu",
+            price: Number(data.price) || 0,
+            imageUrl: data.imageUrl || ""
+          });
+        });
     });
-
     console.log("KOKKU laetud tooteid mällu:", allProducts.length);
     if (allProducts.length > 0) console.log("Näidis:", allProducts[0]);
 
@@ -254,11 +232,11 @@ recipeForm.addEventListener("submit", async (e) => {
       totalPrice: parseFloat(document.getElementById("total-price-display").textContent),
 
       imageUrl: data.secure_url,
-      createdAt: new Date()
     };
 
     // Saatmine
-    await addDoc(collection(db, "submittedRecipes"), recipeData);
+      console.log(recipeData);
+    db.collection("submittedRecipes").add(recipeData);
 
     alert("Retsept salvestatud!");
     window.location.reload();
