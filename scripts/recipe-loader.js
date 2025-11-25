@@ -1,79 +1,161 @@
 function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('id'); 
+    return params.get('id');
 }
 
-const recipeId = getRecipeIdFromUrl()
-var recipeRef = db.collection("recipes").doc(recipeId);
+function getRecipeTypeFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('type'); 
+}
+
+const recipeType = getRecipeTypeFromUrl();
+const recipeId = getRecipeIdFromUrl();
+
+// Define Promises for both potential recipe collections (submitted and approved)
+const submittedRefPromise = db.collection("submittedRecipes").doc(recipeId).get();
+const approvedRefPromise = db.collection("recipes").doc(recipeId).get();
 
 
-recipeRef.get().then((doc) => {
-    const imageElement = document.getElementById("recipe-image");
-    imageElement.src = doc.data()["imageUrl"];
+// Use Promise.all to handle both query results and determine the correct document
+Promise.all([submittedRefPromise, approvedRefPromise])
+    .then(([submittedDoc, approvedDoc]) => {
+        let doc;
 
-    const title = document.getElementById("recipe-title");
-    title.textContent = doc.data()["name"];
-
-    const price = document.getElementById("recipe-price");
-    price.textContent = doc.data()["price"] + " €";
-
-    const description = document.getElementById("description");
-    description.textContent = doc.data()["description"]
-
-    const instructions = document.getElementById("instructions");
-    instructions.textContent = doc.data()["instructions"]
-
-    const ingredients = document.getElementById("ingredients");
-    // Getting ingredients names from database
-    arrayOfIngredients = doc.data()["ingredients"].split(",");
-
-    const productPromises = [];
-
-    // Loop and create all the promises
-    for (var i = 0; i < arrayOfIngredients.length; i += 2) {
-        const portion = arrayOfIngredients[i]; // The portion of the product i.e 1 viil, 20g...
-        const productId = arrayOfIngredients[i + 1]; // The id of the product in database
-
-        // Create the promise and push it to the array.
-        // We use .then() to transform the raw Firestore document 
-        // into the final string format immediately.
-        const promise = db.collection("products").doc(productId).get().then((productDoc) => {
-            if (productDoc.exists) {
-                return portion + " " + productDoc.data()["name"];
-            } else {
-                return portion + " (Product not found)";
-            }
-        });
-
-        productPromises.push(promise);
-    }
-
-    // Wait for ALL promises to complete
-    Promise.all(productPromises)
-        .then((finalProductsList) => {
+        
+        // If type is 'submitted' or 'example', and the submitted document exists.
+        if ((recipeType === "submitted" || recipeType === "example") && submittedDoc.exists) {
+            doc = submittedDoc;
+        // If type is 'approved', and the approved document exists.
+        } else if (recipeType === "approved" && approvedDoc.exists) {
+            doc = approvedDoc;
             
-            // Add all the data in the finalProductsList to the page
-            finalProductsList.forEach(element => {
-                const listItem = document.createElement('li');
-                listItem.textContent = element;
-                ingredients.appendChild(listItem);
+        // If type is missing or the explicit match failed, check both collections.
+
+        } else if (approvedDoc.exists) {
+            doc = approvedDoc;
+        // Then check the Submitted/Draft version (submittedRecipes).
+        } else if (submittedDoc.exists) {
+            doc = submittedDoc;
+        } else {
+            // Document not found in either collection (critical error)
+            console.error("Recipe not found in either submittedRecipes or recipes collection.");
+            document.body.innerHTML = "<h1>Viga: Retsepti ei leitud.</h1>";
+            return;
+        }
+        
+        const data = doc.data(); 
+        
+        const imageElement = document.getElementById("recipe-image");
+        imageElement.src = data["imageUrl"] || '/images/default-recipe.jpg';
+
+        const title = document.getElementById("recipe-title");
+        title.textContent = data["name"] || 'Nimetu retsept';
+
+        const price = document.getElementById("recipe-price");
+        price.textContent = (data["price"] !== undefined ? parseFloat(data["price"]).toFixed(2) : 'N/A') + " €";
+
+        const description = document.getElementById("description");
+        description.textContent = data["description"] || 'Kirjeldus puudub.';
+
+        const instructions = document.getElementById("instructions");
+        instructions.textContent = data["instructions"] || 'Valmistamisjuhised puuduvad.';
+
+        const ingredients = document.getElementById("ingredients");
+        
+
+        const arrayOfIngredients = (data["ingredients"] || "").split(","); 
+
+        const productPromises = [];
+
+
+        for (var i = 0; i < arrayOfIngredients.length; i += 2) {
+            const portion = arrayOfIngredients[i]; 
+            const productId = arrayOfIngredients[i + 1]; 
+
+            if (!productId) continue; 
+
+            // Create a Promise for fetching each product detail
+            const promise = db.collection("products").doc(productId).get().then((productDoc) => {
+                if (productDoc.exists) {
+                    const productData = productDoc.data();
+                    // Return the necessary details as an array
+                    return [portion, productData["name"], productData["imageUrl"], productData["price"], productDoc.id];
+                } else {
+                    return [portion, "Toodet ei leitud", null, 0, null]; // Product not found fallback
+                }
             });
-        })
-        .catch((error) => {
-            // Handle any error that occurred during the fetching process
-            console.error("Error fetching ingredient details:", error);
-            ingredients.textContent = "Error loading ingredients.";
-        });
 
-    const calories = document.getElementById("calories")
-    calories.textContent = "Kalorid " + doc.data()["calories"] + " kcal"
+            productPromises.push(promise);
+        }
 
-    const carbs = document.getElementById("carbs")
-    carbs.textContent = "Süsivesikud " + doc.data()["carbs"] + " g"
+        // Wait for ALL product detail Promises to complete
+        return Promise.all(productPromises)
+            .then((finalProductsList) => {
+                ingredients.innerHTML = ''; // Clear existing content
+                
+                finalProductsList.forEach(([portion, element, productImage, productPrice, productId]) => {
+                    
+                    const finalImage = productImage || '/images/default-product.jpg'; 
+                    
+                    const productHolder = document.createElement('div');
+                    const content = document.createElement("p");
+                    const portionSize = document.createElement("p");
+                    const image = document.createElement("img");
+                    const checkboxElement = document.createElement("input");
+                    const productTextElement = document.createElement("div");
 
-    const proteins = document.getElementById("proteins")
-    proteins.textContent = "Valgud " + doc.data()["proteins"] + " g"
+                    image.src = finalImage;
+                    image.classList.add("product-image");
 
-    const fats = document.getElementById("fats")
-    fats.textContent = "Rasvad " + doc.data()["fats"] + " g"
-});
+                    content.textContent = element;
+                    content.classList.add("product-info");
+
+                    portionSize.textContent = portion;
+                    portionSize.classList.add("product-portion");
+
+                    checkboxElement.type = "checkbox";
+                    checkboxElement.classList.add("product-checkbox");
+                    checkboxElement.checked = true;
+
+                    checkboxElement.setAttribute('data-product-id', productId);
+                    checkboxElement.setAttribute('data-product-name', element);
+                    checkboxElement.setAttribute('data-product-price', productPrice);
+                    checkboxElement.setAttribute('data-product-image-url', finalImage);
+
+                    productHolder.classList.add("product-container");
+                    productTextElement.classList.add("product-details");
+
+                    productTextElement.appendChild(portionSize);
+                    productTextElement.appendChild(content);
+
+                    productHolder.appendChild(image);
+                    productHolder.appendChild(productTextElement);
+                    productHolder.appendChild(checkboxElement);
+
+                    ingredients.appendChild(productHolder);
+                });
+            })
+            .then(() => data); 
+    })
+    .then((data) => {
+        // If data is null/undefined (because the recipe wasn't found), stop execution
+        if (!data) return; 
+
+
+        const calories = document.getElementById("calories")
+        calories.textContent = "Kalorid " + (data["calories"] || 0) + " kcal"
+
+        const carbs = document.getElementById("carbs")
+        carbs.textContent = "Süsivesikud " + (data["carbs"] || 0) + " g"
+
+        const proteins = document.getElementById("proteins")
+        proteins.textContent = "Valgud " + (data["proteins"] || 0) + " g"
+
+        const fats = document.getElementById("fats")
+        fats.textContent = "Rasvad " + (data["fats"] || 0) + " g"
+    })
+    .catch((error) => { 
+        // Catch any network or general Firestore errors
+        console.error("Error retrieving recipe document:", error);
+        document.body.innerHTML = "<h1>Viga: Retsepti laadimisel tekkis võrguprobleem.</h1>";
+    });

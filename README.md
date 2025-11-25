@@ -17,21 +17,22 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 - Leht teavitamaks, et kasutaja on välja logitud
 - "Unustasid parooli?" leht
 - Regisreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
-- Enamusel lehtedel on esialgne CSS olemas
+- Enamusel lehtedel on CSS olemas
 - Toodete lehel kuvatakse kõik tooted andmebaasis
 - Navbar on olemas
-- Esialgne adminvaade
+- Navbaril saab tooteid otsida
 - Retseptide lisamise leht peaaegu töötab 
 - Toodete ja retseptide filter
 - Konkreetse toote vaade
 - Ostukorvi leht ja funktsionaalsus
-
+- Retseptide kinnitamise vaade
+- "Minu retseptid" leht
+- "Minu ostukorvid" leht
 
 ## Tulemas
 - Stiili parandused
-- Kasutajatel võimalus lisada retsepte ja salvestada ostukorve
 - Kasutajahaldus adminvaates
-- 
+- Igasugused bugfixid
 
 ## Kasutatud tehnoloogiad
 - HTML5

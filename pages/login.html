@@ -2,9 +2,11 @@
 <html lang="et">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Logi sisse</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="/scripts/firebase-config-global.js"></script>
     <script src="/scripts/login.js" defer></script>
     <script src="/scripts/navbar.js" defer></script> 
@@ -32,16 +34,15 @@
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="remember" name="remember">
-          <label for="remember">Hoia mind sisselogituna</label>
+          <label for="remember"><input type="checkbox" id="remember" name="remember">Hoia mind sisselogituna</label>
         </div>
 
         <div class="links">
-          <a href="forgot_password.html">Unustasid parooli?</a>
+          <a href="forgot-password.html">Unustasid parooli?</a>
         </div>
         <button type="submit">Logi sisse</button>
       </form>
     </div>
 </div>
 </body></html>
-<link rel="stylesheet" href="/css/style_login.css">
+<link rel="stylesheet" href="/css/login-style.css">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/shopping-cart-style.css">
+    <link rel="stylesheet" href="/css/notification-style.css">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -13,50 +14,64 @@
     <script src="/scripts/navbar.js"></script> 
     <script src="/scripts/auth-status.js"></script>
     
-    <script src="/scripts/shopping-cart.js"></script>
+    <script type="module" src="/scripts/shopping-cart.js"></script>
     <title>Ostukorv</title>
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
+</head>
 </head>
 <body>
     <header-navbar></header-navbar>
     
-    <div class="cart-header">
+    <a href="/pages/product-list.html" class="return">
+        <img src="/images/double_arrow.png" alt="Tagasi poodi">
+        <span>Tagasi</span>
+    </a>
+
+    <div class="main-wrapper"> 
+        
+        <div class="cart-header">
         <h1>Ostukorv</h1>
-        <h1>Kokkuvõte</h1>
-    </div>
-    <div class="save-cart">
-        <input placeholder="Lisage ostukorvile nimi">
-        <button class="save-cart-button"><img src="/images/empty_heart.png">Salvesta ostukorv</button>
-    </div>
-    <div class="main-container">
-    <div id="cart-container">
-        <div id="cart-list-container">
-            <div class="cart-item">
-                <img id="product-image" class="product-image">
-                <div class="item-details">
-                    <p class="item-name">Item name</p>
-                    <p class="item-description"></p>
+        </div>
+        
+        <div class="save-cart">
+                <input placeholder="Lisage ostukorvile nimi">
+                <button class="save-cart-button"><img src="/images/empty_heart.png" alt="Salvesta">Salvesta ostukorv</button>
+            </div>
+        
+        <div class="main-container">
+            
+            <div id="cart-list-container">
+                
+                <div class="cart-item">
+                    <img class="item-img" alt="Toote pilt"> 
+                    
+                    <div class="item-details">
+                        <p class="item-name">Item name</p>
+                        <p class="item-description">Toote kirjeldus</p>
+                    </div>
+                    
+                    <div class="item-quantity">
+                        <button class="quantity-minus">-</button>
+                        <input type="number" value="1" class="quantity-input" min="1">
+                        <button class="quantity-plus">+</button>
+                    </div>
+                    
+                    <p class="item-price">€0.00</p>
                 </div>
-                <div class="item-quantity">
-                    <button class="quantity-minus">-</button>
-                    <input type="number" value="1" class="quantity-input" min="0">
-                    <button class="quantity-plus">+</button>
                 </div>
-                <p class="item-price"></p>
+            
+            <div class="total-container">
+                
+                <div class="total-sum-container">
+                    <p class="kokku-text">Kokku</p>
+                    <p class="total-sum">€0.00</p>
+                </div>
+                
             </div>
         </div>
+    </div>
+    <div class="cart-actions">
         <button class="empty-cart-button"><img alt="empty-cart" src="/images/shopping_cart_off.png">Tühjenda ostukorv</button>
     </div>
-    <div class="total-container">
-        <div class="total-sum-container">
-            <p class="kokku-text">Kokku</p>
-            <p class="total-sum"></p>
-        </div>
-    </div>
-    </div>
-    <a href="/pages/product-list.html" class="return">
-        <img src="/images/double_arrow.png" alt="return-store-button">
-        <p>Tagasi poodi</p>
-    </a>
 </body>
 </html>

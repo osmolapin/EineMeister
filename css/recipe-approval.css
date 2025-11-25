@@ -9,6 +9,7 @@ body {
     background-color: #ffffff;
     color: #3a4a3a;
     line-height: 1.6;
+    display: none;
 }
 
 .container {
@@ -105,6 +106,7 @@ body {
     margin: 1rem auto 0;
     overflow: hidden;
     border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .recipe-image img {
