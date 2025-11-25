@@ -190,10 +190,12 @@ const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
 function openNav() {
   document.getElementById("sortSidebar").style.width = "250px";
 }
+window.openNav = openNav
 
 function closeNav() {
   document.getElementById("sortSidebar").style.width = "0";
 }
+window.closeNav = closeNav
 
 // Logic for All Category Checkboxes
 allCheckbox.addEventListener('change', function() {
