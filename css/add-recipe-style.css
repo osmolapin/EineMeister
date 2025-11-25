@@ -99,3 +99,22 @@ input[type="text"], textarea {
   border-radius: 4px;
   display: block;
 }
+#file-input {
+  display: none;
+}
+
+#drop-zone {
+  display: block;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  color: #777;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+#drop-zone.drag-over {
+  background-color: #f0f8ff;
+  border-color: #96FF6E;
+}
