@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 *, *::before, *::after {
     box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body {
-    font-family: 'Inter', sans-serif;
     margin: 0;
     background-color: #f7f7f7;
     color: #333;
@@ -224,32 +224,24 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: #e51d21;
 }
 .return {
-    display: inline-flex;
-    align-items: center;
-    background-color: transparent;
-    color: #1a5319;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 20px;
-    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px 15px;    
+    margin: 15px 0 15px 15px; 
+    
+    background-color: #1A5319;
+    color: white;
     text-decoration: none;
-    transition: color 0.2s;
-    margin-bottom: 20px;
-    text-align: left;
-    max-width: 1000px;
-    width: 100%;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-.return img {
-    height: 18px;
-    margin-right: 8px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 .return:hover {
-    color: #508d4e;
+    background-color: #2F7C30;
+
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 .cart-actions {
     margin: 0 auto;
