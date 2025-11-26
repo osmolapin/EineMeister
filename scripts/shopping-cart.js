@@ -1,4 +1,5 @@
 import {showToast} from '/scripts/notifications-on-pages.js';
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 const CART_STORAGE_KEY = 'shoppingCart';
 const saved_carts = 'savedCarts';
 let lastSavedCartString = '[]'; 
@@ -96,7 +97,6 @@ export function addToCart(thisProductId, quantity = 1) {
 
     saveCart(cart);
     renderCart();
-    // alert(`${quantity} x ${thisProductId.data.name} lisatud ostukorvi!`); -----------------  Not neccessary, but if needed then its here.
     checkCartStatus();
     const message = `${currentQuantity} x ${thisProductId.data.name} ostukorvis.`;
     showToast(productId, message, 'success');
@@ -202,11 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const emptyCartButton = document.querySelector('.empty-cart-button');
     if (emptyCartButton) {
-        emptyCartButton.addEventListener('click', () => {
-            // If user clicks OK then confirm returns true
-            if (confirm("Oled kindel, et soovid kogu ostukorvi tühjendada?")) {
-                emptyCart();
-                alert("Ostukorv tühjendatud!");
+        emptyCartButton.addEventListener('click', async () => {
+
+            if (await modalConfirm("Kinnita tühjendamine", "Oled kindel, et soovid kogu ostukorvi tühjendada?")) {
+            
+            emptyCart();
+            
+            showModal("Teavitus", "Ostukorv tühjendatud!");
             }
         });
     }
@@ -224,17 +226,17 @@ function saveCurrentCart(cartName, userId) {
     console.log("saveCurrentCart käivitati. userId =", userId, "cartName =", cartName);
     console.log("Kasutaja ID salvestamisel:", userId);
     if (!userId) {
-        alert("Salvestamiseks pead olema sisse logitud!");
+        showModal("Salvestamine ebaõnnestus", "Salvestamiseks pead olema sisse logitud!");
         return false;
     }
     if (!cartName) {
-        alert("Palun sisesta ostukorvile nimi.");
+        showModal("Sisend puudub", "Palun sisesta ostukorvile nimi.");
         return false;
     }
 
     const currentCart = getCart(); // Take data from the current cart
     if (currentCart.length === 0) {
-        alert("Ostukorv on tühi, salvestamine ebaõnnestus.");
+        showModal("Salvestamine ebaõnnestus", "Ostukorv on tühi.");
         return false;
     }
 
@@ -250,20 +252,20 @@ function saveCurrentCart(cartName, userId) {
 
     if (!db) {
         console.error("Firebase Firestore pole laetud.");
-        alert("Viga: Andmebaasi ei saa kasutada");
+        showModal("Viga", "Andmebaasi ei saa kasutada");
         return false;
     }
     // Use userId and cartName to make a unique document
     const docRef = db.collection(saved_carts).doc(`${userId}_${cartName}`);
     return docRef.set(cartData, { merge: true })
     .then(() => {
-        console.log("Ostukorv salvestatud.");
+        showModal("Salvestamine õnnestus edukalt!"," ");
         return true;
     })
 
     .catch((error) => {
             console.error("Viga ostukorvi salvestamisel:", error);
-            alert("Viga: Ostukorvi salvestamine ebaõnnestus.");
+            showModal("Viga", "Ostukorvi salvestamine ebaõnnestus.");
             return false;
         });
 }

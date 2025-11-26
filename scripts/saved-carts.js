@@ -1,4 +1,6 @@
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 const saved_carts_collection = 'savedCarts';
+let currentUserId = null;
  const dbRef = (typeof window !== 'undefined' && window.db) ? window.db
             : (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore()
             : null;
@@ -108,10 +110,15 @@ function attachEventListeners() {
                 return;
             }
             
-            if (confirm(`Oled kindel, et soovid ostukorvi ${cartName} eemaldada?`)) {
+            const confirmed = await modalConfirm(
+                "Kinnita eemaldamine",
+                `Oled kindel, et soovid ostukorvi "${cartName}" eemaldada?`
+            );
+            if (confirmed) {
                 const success = await deleteCart(docId);
                 if (success) {
                     cartContainer.closest('.cart-wrapper').remove();
+                    showModal(`Ostukorv "${cartName}" edukalt eemaldatud!`, " ");
                 }
             }
         });
