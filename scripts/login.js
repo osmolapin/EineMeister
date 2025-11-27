@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = loginForm.elements['email'].value;
             const password = loginForm.elements['password'].value;
 
-            const persistenceMode = firebase.auth.Auth.Persistence.SESSION
+            let persistenceMode = firebase.auth.Auth.Persistence.SESSION
             if (rememberCheckbox.checked) {
                 persistenceMode = firebase.auth.Auth.Persistence.LOCAL
             }
