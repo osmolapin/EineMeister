@@ -25,14 +25,17 @@
                     <div class="form-group">
                         <label for="email">E-mail</label>
                         <input type="email" name="email" id="email">
+                        <div id="efeedback" class="email-feedback">Ei ole sobilik email</div>
                     </div>
                     <div class="form-group">
                         <label for="password">Parool</label>
                         <input type="password" name="password" id="password">
+                        <div id="pfeedback" class="password-feedback">Min. 8 tähte. Vähemalt 1 väike, 1 suur täht ja 1 number.<br>Lubatud märgid "!@#%"</div>
                     </div>
                     <div class="form-group">
                         <label for="cpassword">Korda parooli</label>
                         <input type="password" name="cpassword" id="cpassword">
+                        <div id="cfeedback" class="cpassword-feedback">Paroolid ei kattu</div>
                     </div>
                     <button type="button" onclick="signUp()">Registreeru</button>
                 </form>
