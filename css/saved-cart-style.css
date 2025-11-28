@@ -5,7 +5,12 @@
     font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
 }
-
+header-navbar {
+position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
+}
 body {
     display: none;
     background-color: #f9f9f9;
@@ -16,7 +21,7 @@ body {
     width: 70%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5vw;
+    margin-top: 7vw;
 }
 h1{
     text-align: center;
@@ -34,7 +39,7 @@ h1{
     overflow: hidden;
     margin-bottom: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .cart-wrapper:hover {
     transform: translateY(-2px);
@@ -81,10 +86,13 @@ h1{
     flex-shrink: 0;
 }
 .cart-price {
+    width: 66px;
     font-size: 1.1em;
     white-space: nowrap;
     font-weight: 700;
     white-space: nowrap;
+    letter-spacing: 0.7px;
+    padding: 10px;
 }
 .remove-cart {
     background-color: #cf4646;
@@ -115,7 +123,7 @@ h1{
     overflow: hidden;
     transition: 
     max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.2s ease-in-out;
+    opacity 0.1s ease-in-out;
     padding: 15px 25px;
     border-top: 1px solid #eee;
 }
