@@ -78,7 +78,7 @@ function inputValidation(email, password, cpassword, emailfeedback, passwordfeed
     passwordfeedback.style.display  = "none";
     cpasswordfeedback.style.display  = "none";
   }
-return
+    return true
 }
 
 function signUp() {
