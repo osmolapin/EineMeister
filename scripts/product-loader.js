@@ -1,3 +1,4 @@
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id'); 
@@ -71,7 +72,7 @@ function setupAddToCartButton(productDetails) {
             if (typeof addToCart === 'function') {
                 addToCart(productDetails, quantity);
             } else {
-                alert("Viga: Ostukorvi lisamise funktsioon pole kättesaadav.");
+                showModal("Viga", "Ostukorvi lisamise funktsioon pole saadaval.");
             }
         });
     }

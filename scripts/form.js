@@ -1,5 +1,5 @@
 const auth = firebase.auth();
-
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 function emailCheck(email) {
     email = email.toLowerCase();
     return /[^@]+@[^@]+\.[^@]+/.test(email);
@@ -104,12 +104,14 @@ function signUp() {
         });
     })
     .then(() => {
-        alert("Kasutaja lisatud andmebaasi");
+        showModal("Konto loomine edukas", "Konto on registreeritud")
         window.location.href = "/index.html";
     })
     .catch((e) => {
         console.error(e);
-        alert("Viga: " + e.message);
+        showModal("Viga konto loomisel", "Palun proovige uuesti!");
+        console.log("Viga konto registreerimisel:" + e.error)
     });
   }
 }
+window.signUp = signUp
