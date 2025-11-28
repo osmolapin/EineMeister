@@ -126,6 +126,12 @@ button:hover {
   text-decoration: underline;
 }
 
+.email-feedback, .password-feedback, .cpassword-feedback {
+  color: red;
+  font-size: 14px;
+  display: none;
+}
+
 @media (max-width: 600px) {
     #container {
       border: none;
