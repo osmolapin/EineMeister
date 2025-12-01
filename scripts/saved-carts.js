@@ -5,36 +5,57 @@ let currentUserId = null;
             : (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore()
             : null;
 
-function loadCarts(cartData) {
+async function loadCarts(cartData) {
     const mainContainer = document.querySelector('.main-content');
     const cartWrapper = document.createElement('div');
     const docId = cartData.id; 
     const calculatedTotal = cartData.items ? cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0) : 0;
+    
     if (!mainContainer) {
         console.error("loadCarts: .main-content not found.");
         return;
     }
+    
+    let itemImageHtml = `<i class="fas fa-shopping-basket"></i>`;
+
+    
     cartWrapper.className = 'cart-wrapper';
     cartWrapper.innerHTML = `
-            <div class="cart-container" data-cart-doc-id="${docId}">
+        <div class="cart-container" data-cart-doc-id="${docId}">
+
+            <div class="cart-icon-col">
+                ${itemImageHtml}
+            </div>
+
             <span class="cart-name">${cartData.name || 'Nimetu ostukorv'}</span>
+
             <div class="cart-actions">
                 <button class="remove-cart">
-                    Eemalda ostukorv
-                    <img src="/images/trash.png" alt="remove-cart-icon">
+                    <img src="/images/trash.png" alt="Eemalda">
+                    <span>Eemalda</span>
                 </button>
                 <span class="cart-price">${calculatedTotal.toFixed(2)}€</span>
             </div>
         </div>
-
+        
         <div class="dropdown-hidden hidden">
-            <ul>
-                ${cartData.items ? cartData.items.map(item => 
-                    `<li>${item.name} (${item.quantity}x) - ${(item.price * item.quantity).toFixed(2)}€</li>`
-                ).join('') : '<li>Ostukorv on tühi.</li>'}
-            </ul>
+            <div class="product-header">
+                <span class="product-name-col">Toode</span>
+                <span class="product-qty-col">Kogus</span>
+                <span class="product-price-col">Hind</span>
+            </div>
+            
+            <div class="product-list">
+                ${cartData.items && cartData.items.length > 0 ? cartData.items.map(item => 
+                    `<div class="product-item">
+                        <span class="product-name-col">${item.name}</span>
+                        <span class="product-qty-col">${item.quantity}x</span>
+                        <span class="product-price-col">${(item.price * item.quantity).toFixed(2)}€</span>
+                    </div>`
+                ).join('') : '<p class="empty-cart-message">Ostukorv on tühi.</p>'}
+            </div>
         </div>
-    `;
+     `;
 
     mainContainer.appendChild(cartWrapper);
 }
@@ -59,21 +80,23 @@ async function fetchUserCarts(currentUserId) {
     }
     console.log("Attempting to fetch carts for userId:", currentUserId);
     try{
-        const querySnapshot = await db.collection(saved_carts_collection)
-                                      .where("userId", "==", currentUserId)
-                                      .get();
+        const querySnapshot = await dbRef.collection(saved_carts_collection)
+                                 .where("userId", "==", currentUserId)
+                                 .get();
         console.log("Query successful. Documents found:", querySnapshot.size);
         
         if (querySnapshot.empty) {
             mainContent.innerHTML += "<p style='text-align:center;'>Sul ei ole ühtegi salvestatud ostukorvi.</p>";
             return;
         }
-    
+
+    const cartLoadPromises = [];
     querySnapshot.forEach((doc) => {
         const cartData = doc.data();
         cartData.id = doc.id; 
-        loadCarts(cartData);
+        cartLoadPromises.push(loadCarts(cartData));
     });
+    await Promise.all(cartLoadPromises);
     attachEventListeners();
     } catch (error) {
         console.error("Viga ostukorvide laadimisel:", error);
@@ -82,38 +105,55 @@ async function fetchUserCarts(currentUserId) {
 }
 
 function attachEventListeners() {
+    
+
     document.querySelectorAll('.cart-container').forEach(container => {
         container.addEventListener('click', (event) => {
-            // Prevent the click from triggering if the remove button was pressed
+
             if (event.target.closest('.remove-cart')) {
                 return;
             }
+            
             const parentWrapper = container.closest('.cart-wrapper');
             const dropdown = parentWrapper.querySelector('.dropdown-hidden');
-            // Toggle dropdown
-            dropdown.classList.toggle('hidden');
-            container.classList.toggle('active');
+            
+
+            if (dropdown) { 
+                dropdown.classList.toggle('hidden');
+                container.classList.toggle('active');
+            } else {
+                console.warn("Dropdown element (.dropdown-hidden) not found for this cart.");
+            }
         });
     });
 
-    // remove button functionality
+
     document.querySelectorAll('.remove-cart').forEach(button => {
         button.addEventListener('click', async (event) => {
-            // Stop the click from opening the dropdown
+            
             event.stopPropagation();
+            
             const cartContainer = event.target.closest('.cart-container');
+            
+
+            if (!event.target.closest('.remove-cart')) {
+
+                return;
+            }
+
             const cartName = cartContainer.querySelector('.cart-name').textContent;
             const docId = cartContainer.dataset.cartDocId;
-            
+
             if (!docId) {
                 console.error("Viga: Ostukorvi ID puudub kustutamiseks.");
                 return;
             }
-            
+
             const confirmed = await modalConfirm(
                 "Kinnita eemaldamine",
                 `Oled kindel, et soovid ostukorvi "${cartName}" eemaldada?`
             );
+            
             if (confirmed) {
                 const success = await deleteCart(docId);
                 if (success) {
@@ -133,7 +173,7 @@ async function deleteCart(docId) {
             return false;
         }
     try {
-        await db.collection(saved_carts_collection).doc(docId).delete(); 
+        await dbRef.collection(saved_carts_collection).doc(docId).delete();
         console.log(`Ostukorv ${docId} edukalt eemaldatud.`);
         return true;
     } catch (error) {
@@ -142,7 +182,7 @@ async function deleteCart(docId) {
         return false;
     }
 }
-// Start fetching carts only when the user's auth status is known (Unchanged)
+
 document.addEventListener('authStatusReady', (e) => {
     const detail = e.detail || {};
     currentUserId = detail.userId;
