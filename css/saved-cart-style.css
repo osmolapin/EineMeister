@@ -39,7 +39,7 @@ h1{
     overflow: hidden;
     margin-bottom: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.3s;
 }
 .cart-wrapper:hover {
     transform: translateY(-2px);
@@ -121,9 +121,7 @@ h1{
 .dropdown-hidden {
     max-height: 1000px;
     overflow: hidden;
-    transition: 
-    max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.1s ease-in-out;
+    transition: 0.2s ease-in-out;
     padding: 15px 25px;
     border-top: 1px solid #eee;
 }
