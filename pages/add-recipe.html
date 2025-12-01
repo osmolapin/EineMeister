@@ -29,9 +29,9 @@
 
         <label>Toitumisalane teave</label>
         <table class="nutrition-table">
-          <tr><th>Kalorid</th><td><input type="number" id="form-calories" placeholder="67" required></td></tr>
-          <tr><th>Valgud</th><td><input type="number" id="form-proteins" placeholder="420" required></td></tr>
-          <tr><th>Rasvad</th><td><input type="number" id="form-fats" placeholder="21" required></td></tr>
+          <tr><th>Kalorid</th><td><input type="number" id="form-calories" placeholder="0" required></td></tr>
+          <tr><th>Valgud</th><td><input type="number" id="form-proteins" placeholder="0" required></td></tr>
+          <tr><th>Rasvad</th><td><input type="number" id="form-fats" placeholder="0" required></td></tr>
           <tr><th>Süsivesikud</th><td><input type="number" id="form-carbs" placeholder="0" required></td></tr>
         </table>
 
@@ -43,7 +43,6 @@
 
         <div class="buttons">
           <button type="button" class="cancel">Tühista</button>
-          <button type="button" class="preview">Eelvaade</button>
           <button type="submit" class="submit">Esita retsept</button>
         </div>
 
@@ -52,12 +51,12 @@
 
         <div class="ingredient-adder">
           <div class="search-box">
-            <input type="text" id="product-search" placeholder="Otsi toodet (nt Piim)..." autocomplete="off">
+            <input type="text" id="product-search" placeholder="Otsi toodet (nt piim)" autocomplete="off">
             <div id="search-results" class="results-dropdown"></div>
           </div>
 
-          <input type="number" id="ingredient-quantity" placeholder="2" style="width: 50px;">
-          <input type="text" id="ingredient-quantity-recipe" placeholder="400g" style="width: 60px;">
+          <input type="number" id="ingredient-quantity" value="1" style="width: 50px;">
+          <input type="text" id="ingredient-quantity-recipe" placeholder="400g" style="width: 70px;">
 
           <button type="button" id="add-ingredient-btn">Lisa</button>
         </div>
