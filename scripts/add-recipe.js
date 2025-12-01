@@ -85,7 +85,7 @@ searchInput.addEventListener("input", (e) => {
         imageHtml = `<img src="${product.imageUrl}" style="width:30px; height:30px; object-fit:cover; margin-right:10px; border-radius:4px;">`;
       }
 
-      div.innerHTML = `${imageHtml}<div><strong>${product.name}</strong> <span style="color:#666;">(${product.price.toFixed(2)} € / ${product.unit})</span></div>`;
+      div.innerHTML = `${imageHtml}<div><strong>${product.name}</strong> <span style="color:#666;">(${product.price.toFixed(2)} €)</div>`;
 
       div.addEventListener("click", () => selectProduct(product));
       searchResults.appendChild(div);
@@ -136,7 +136,8 @@ addBtn.addEventListener("click", () => {
 
   // Reset väljad
   searchInput.value = "";
-  quantityInput.value = "";
+  quantityInput.value = "1";
+  quantityRecipeInput.value = "";
   currentSelectedProduct = null;
 });
 
@@ -148,8 +149,8 @@ function updateIngredientsList() {
     totalRecipePrice += item.cost;
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${item.name} - ${item.quantity} ${item.unit}</span>
-      <span>${item.cost.toFixed(2)} € <button onclick="removeIngredient(${index})" style="color:red; margin-left:10px; cursor:pointer;">X</button></span>
+      <span>${item.name}, Toote arv: ${item.quantity}, Toote kogus: ${item.quantityRecipe}</span>
+      <span>  ${item.cost.toFixed(2)}€ <button onclick="removeIngredient(${index})" style="color:red; margin-left:10px; cursor:pointer;">X</button></span>
     `;
     listElement.appendChild(li);
   });
@@ -187,7 +188,7 @@ dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classLis
 const cancelButton = recipeForm.querySelector("button.cancel");
 cancelButton.addEventListener("click", () => {
   if (!confirm("Oled kindel? Andmed kaovad.")) return;
-  window.location.href = "/pages/saved/my-recipes.html"
+  window.location.href = "/pages/my-recipes.html"
 });
 
 
@@ -247,7 +248,7 @@ recipeForm.addEventListener("submit", async (e) => {
   }
 }); //
 
-function createFormattedRecipe(recipes) {
+function createFormattedRecipgie(recipes) {
   let finalFormat = "";
   recipes.forEach(recipe => {
     if (finalFormat == "") {
