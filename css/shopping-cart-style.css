@@ -46,6 +46,8 @@ header-navbar {
     border: 1px solid #ccc;
     font-size: 1em;
     max-width: 250px;
+    margin-bottom: 10px;
+    margin-right: 5px;
 }
 .save-cart-button {
     display: inline-flex;
@@ -61,6 +63,7 @@ header-navbar {
     line-height: 1;
     max-width: none;
     font-weight: 600;
+    margin-bottom: 10px;
     transition: background-color 0.2s;
 }
 .save-cart-button img {
@@ -225,16 +228,16 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .return {
     display: inline-block;
-    padding: 10px 15px;    
-    margin: 15px 0 15px 15px; 
-    
+    padding: 10px 15px;
+    margin: 15px 0 15px 15px;
+
     background-color: #1A5319;
     color: white;
     text-decoration: none;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    border: none;
+
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 .return:hover {
@@ -333,11 +336,9 @@ input[type=number]::-webkit-outer-spin-button {
     .total-container {
         margin-bottom: 10px;
     }
-    .return,
     .cart-actions {
         padding: 0 15px;
-        max-width: none;
-        width: 100%;
+        width: 200px;
     }
 }
 @media (max-width: 480px) {
@@ -414,10 +415,8 @@ input[type=number]::-webkit-outer-spin-button {
     .total-container {
         margin-bottom: 10px;
     }
-    .return,
     .cart-actions {
         padding: 0 15px;
-        max-width: none;
-        width: 100%;
+        width: 200px;
     }
 }

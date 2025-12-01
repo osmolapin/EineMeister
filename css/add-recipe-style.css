@@ -328,6 +328,13 @@ textarea {
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
+header-navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
+}
+
 @media (max-width: 1300px) {
     .container {
         display: grid;

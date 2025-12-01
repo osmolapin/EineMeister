@@ -47,3 +47,9 @@
         opacity: 0;
     }
 }
+
+@media (max-width: 600px) {
+    #toast-notification-container {
+        width: 300px;
+    }
+}

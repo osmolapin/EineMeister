@@ -206,6 +206,13 @@ body {
     box-shadow: none;
 }
 
+header-navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
+}
+
 @media (max-width: 800px) {
     .recipe-view {
         grid-template-columns: 1fr;

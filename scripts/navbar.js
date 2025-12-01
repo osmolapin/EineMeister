@@ -7,6 +7,13 @@
 * <script src="/scripts/login.js" defer></script>
 * Add <header-navbar></header-navbar> in your HTML where you want the navbar to appear
 * On the page margin should be 0
+Add to CSS file in order to make navbar always visible:
+   header-navbar {
+       position: fixed;
+        top: 0; 
+        width: 100%;
+        z-index: 1000;
+    }
 */
 
 function createProductPage(thisProductId) {
