@@ -2,6 +2,7 @@
 <html lang="et">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uue retsepti loomine</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -9,10 +10,12 @@
 
     <script src="/scripts/firebase-config-global.js"></script>
     <script src="/scripts/auth-status.js"></script>
+    <script src="/scripts/navbar.js" defer></script>
     <link rel="stylesheet" href="../css/add-recipe-style.css">
     <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 </head>
 <body>
+  <header-navbar></header-navbar>
   <h1>Uue retsepti loomine</h1>
 
   <form id="add-recipe-form">
