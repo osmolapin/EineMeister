@@ -1,3 +1,4 @@
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 function showToast(message, type) {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
@@ -30,7 +31,8 @@ function addDocument(collection, dataObject) {
 function extractInfoFromDocument(collection, id) {
     return db.collection(collection).doc(id).get().then((doc) => {
         if (!doc.exists) {
-            console.error("Document not found for ID:", id);
+
+            showModal("Document not found for ID:", id);
             return null;
         }
 
@@ -52,9 +54,8 @@ function extractInfoFromDocument(collection, id) {
 
 function deleteDocument(collection, id) {
     db.collection(collection).doc(id).delete().then(() => {
-        console.log("Document successfully deleted!");
     }).catch((error) => {
-        console.error("Error removing document: ", error);
+        showModal("Error removing document: ", error);
     });
 }
 
@@ -71,26 +72,27 @@ function confirmRecipe(id) {
 
                 loadPage();
             } else {
-                console.log("Confirmation failed: Recipe data not found.");
+                showModal("Confirmation failed", "Recipe data not found.");
             }
         })
         .catch(error => {
-            console.error("Error during recipe confirmation process:", error);
+            showModal("Error during recipe confirmation process:", error);
         });
 }
-
+window.confirmRecipe = confirmRecipe
 function deleteRecipe(id) {
     deleteDocument("submittedRecipes", id)
     showToast(`Retsept kustutatud!`, 'error');
     loadPage()
 }
+window.deleteRecipe = deleteRecipe
 
 let allRecipes = [];
 
 function createrecipePage(thisrecipeId) {
   window.location.href = `recipe.html?id=${thisrecipeId}&type=example`;
 }
-
+window.createrecipePage = createrecipePage
 /**
  * Creates the HTML card for a single recipe.
  * @param {object} recipe - An object with recipe.id and recipe.data (the fields).

@@ -1,7 +1,7 @@
 // 4. CLOUDINARY SEADED (Pane siia oma Cloudinary andmed)
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dhyfccb4a/image/upload";
 const CLOUDINARY_UPLOAD_PRESET = "recipes_pics";
-
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 let allProducts = [];
 let recipeIngredients = [];
 let currentSelectedProduct = null;
@@ -117,7 +117,7 @@ addBtn.addEventListener("click", () => {
   const quantityRecipe = quantityRecipeInput.value;
 
   if (!currentSelectedProduct || !quantity) {
-    alert("Vali toode ja sisesta kogus!");
+    showModal("Palun täida kõik väljad!", "Vali toode ja sisesta kogus!");
     return;
   }
 
@@ -176,7 +176,7 @@ function handleFile(file) {
     }
   } else {
     selectedFile = null;
-    alert("Viga: Palun vali pildifail!");
+    showModal("Viga. Palun täida kõik väljad.", "Palun vali pildifail!");
   }
 }
 fileInput.addEventListener("change", (e) => handleFile(e.target.files[0]));
@@ -186,9 +186,13 @@ dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classLis
 
 // Tühista nupp
 const cancelButton = recipeForm.querySelector("button.cancel");
-cancelButton.addEventListener("click", () => {
-  if (!confirm("Oled kindel? Andmed kaovad.")) return;
-  window.location.href = "/pages/my-recipes.html"
+cancelButton.addEventListener("click", async () => {
+  const result = await modalConfirm("Kas oled kindel?", "Kui vajutad Jätka, siis andmed kaovad.");
+  if (!result) {
+    return;
+  }
+  recipeForm.reset();
+  window.location.href = "/pages/my-recipes.html";
 });
 
 
@@ -240,8 +244,8 @@ recipeForm.addEventListener("submit", async (e) => {
     window.location.href = "/pages/my-recipes.html";
 
   } catch (err) {
-    console.error(err);
-    alert("Viga: " + err.message);
+    showModal("Viga", "Retsepti ei salvestatud")
+    console.log("Viga: " + err.message);
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = "Esita retsept";

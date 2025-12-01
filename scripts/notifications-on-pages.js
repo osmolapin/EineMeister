@@ -30,7 +30,7 @@ export function showToast(itemId, message, type) {
         toast.removalTimeout = setTimeout(() => {
             if (container.contains(toast)) {
                 container.removeChild(toast);
-                // Kontrolli, kas konteiner jääb tühjaks ja eemalda see
+                // Check if container is empty and remove
                 if (container.children.length === 0) {
                     document.body.removeChild(container);
                 }
@@ -107,7 +107,7 @@ export function modalConfirm(title, message) {
             <p>${message}</p>
             <div class="modal-buttons" style="margin-top: 20px; text-align: right;">
                 <button id="modalConfirmCancel" class="modal-action-btn secondary-btn" style="background-color: #ccc; margin-right: 10px;">Tühista</button>
-                <button id="modalConfirmOK" class="modal-action-btn primary-btn" style="background-color: #1a5319;">Jah, tühjenda</button>
+                <button id="modalConfirmOK" class="modal-action-btn primary-btn" style="background-color: #1a5319;">Jätka</button>
             </div>
         `;
         

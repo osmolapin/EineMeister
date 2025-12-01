@@ -1,5 +1,5 @@
 const auth = firebase.auth();
-
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
 function handleLoginSuccess() {
     window.location.href = '/index.html';
 }
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch((error) => {
                     console.error(error);
-                    alert("Sisselogimine ebaõnnestus: " + error.message);
+                    showModal("Sisselogimine ebaõnnestus ", "Kontrollige, et sisestasite korrektse emaili ning parooli.");
                 });
         });
     }

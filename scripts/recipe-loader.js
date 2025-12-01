@@ -1,3 +1,5 @@
+import {showModal, modalConfirm} from '/scripts/notifications-on-pages.js';
+import {showToast} from '/scripts/notifications-on-pages.js';
 function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
@@ -167,3 +169,36 @@ Promise.all([submittedRefPromise, approvedRefPromise])
         console.error("Error retrieving recipe document:", error);
         document.body.innerHTML = "<h1>Viga: Retsepti laadimisel tekkis võrguprobleem.</h1>";
     });
+function addSelectedProducts() {
+    var checkboxElements = document.getElementsByClassName("product-checkbox");
+    let added = 0;
+    Array.from(checkboxElements).forEach(checkbox => {
+        if (checkbox.checked == true) {
+            const productId = checkbox.getAttribute('data-product-id')
+            const productName = checkbox.getAttribute('data-product-name');
+            const productPrice = checkbox.getAttribute('data-product-price');
+            const productImageUrl = checkbox.getAttribute('data-product-image-url');
+            const productDataObject = {
+            id: productId,
+            data: {
+                name: productName,
+                price: productPrice,
+                imageUrl: productImageUrl
+            }
+        };
+            if (productId && window.addToCart) {
+                window.addToCart(productDataObject, 1);
+                added++;
+                checkbox.checked = false; // if item added then uncheck
+            }
+            console.log(checkbox.getAttribute('data-product-id'));
+            // addToCart(checkbox.getAttribute('data-product-id'));
+        }
+    });
+    if (added) {
+
+    } else {
+        showModal("Viga", 'Vali kõigepealt tooted, mida soovid lisada.');
+    }
+};
+window.addSelectedProducts = addSelectedProducts
