@@ -237,7 +237,7 @@ recipeForm.addEventListener("submit", async (e) => {
     await db.collection("submittedRecipes").add(recipeData);
 
     alert("Retsept salvestatud!");
-    window.location.reload();
+    window.location.href = "/pages/my-recipes.html";
 
   } catch (err) {
     console.error(err);
@@ -248,7 +248,7 @@ recipeForm.addEventListener("submit", async (e) => {
   }
 }); //
 
-function createFormattedRecipgie(recipes) {
+function createFormattedRecipe(recipes) {
   let finalFormat = "";
   recipes.forEach(recipe => {
     if (finalFormat == "") {
