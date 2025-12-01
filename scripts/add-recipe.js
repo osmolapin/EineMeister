@@ -186,9 +186,13 @@ dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classLis
 
 // Tühista nupp
 const cancelButton = recipeForm.querySelector("button.cancel");
-cancelButton.addEventListener("click", () => {
-  if (modalConfirm("Kas oled kindel?", "Kui vajutad Jätka, siis andmed kaovad.")) return;
-  window.location.href = "/pages/my-recipes.html"
+cancelButton.addEventListener("click", async () => {
+  const result = await modalConfirm("Kas oled kindel?", "Kui vajutad Jätka, siis andmed kaovad.");
+  if (!result) {
+    return;
+  }
+  recipeForm.reset();
+  window.location.href = "/pages/my-recipes.html";
 });
 
 
