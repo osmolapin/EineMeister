@@ -3,6 +3,7 @@ var authStatusChecked = false;
 var user_pages = [
     "saved-carts.html",
     "my-recipes.html", 
+    "add-recipe.html"
 ];
 var admin_pages = [
     "manage-users-admin.html",
@@ -21,8 +22,10 @@ async function checkUser(user, database) {
             var doc = await docRef.get();
             
             if (doc.exists) {
+                console.log(doc.exists)
                 return true;
             } else {
+                console.log(doc.exists)
                 return false;
             }
         } catch (error) {
@@ -51,7 +54,7 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
 
         // Only check database if a user is logged in
         isAdmin = await checkUser(user, "admins");
-        isBlacklisted = await checkUser(user, "blacklisted");
+        isBlacklisted = await checkUser(user, "blacklist");
         
         // User tries to access Admin Page
         if (admin_pages.includes(currentPageName)) {
@@ -65,12 +68,12 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
             }
         } 
         else if (blacklist_pages.includes(currentPageName)) {
-            if (!isBlacklisted) {
+            if (user && !isBlacklisted) {
                 console.log("Access Granted: User, not blacklisted");
                 document.body.style.display = "block"; // Show Page
             } else {
                 console.log("Not logged in");
-                window.location.href = "/pages/login.html";
+                window.location.href = "/index.html";
             }
         } 
         // User tries to access User Page
