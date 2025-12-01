@@ -6,11 +6,12 @@ let allProducts = [];
 let recipeIngredients = [];
 let currentSelectedProduct = null;
 let selectedFile = null;
+var userId = null;
 
 const searchInput = document.getElementById("product-search");
 const searchResults = document.getElementById("search-results");
 const quantityInput = document.getElementById("ingredient-quantity");
-const unitDisplay = document.getElementById("unit-display");
+const quantityRecipeInput = document.getElementById("ingredient-quantity-recipe");
 const addBtn = document.getElementById("add-ingredient-btn");
 const listElement = document.getElementById("ingredients-list");
 const totalPriceDisplay = document.getElementById("total-price-display");
@@ -23,7 +24,6 @@ const submitButton = recipeForm.querySelector("button.submit");
 
 // Testime, kas kood hakkas tööle (Vaata konsooli!)
 console.log("JS fail laetud edukalt!");
-
 
 // ==========================================
 // 4. TOODETE LAADIMINE ANDMEBAASIST
@@ -85,7 +85,7 @@ searchInput.addEventListener("input", (e) => {
         imageHtml = `<img src="${product.imageUrl}" style="width:30px; height:30px; object-fit:cover; margin-right:10px; border-radius:4px;">`;
       }
 
-      div.innerHTML = `${imageHtml}<div><strong>${product.name}</strong> <span style="color:#666;">(${product.price.toFixed(2)} € / ${product.unit})</span></div>`;
+      div.innerHTML = `${imageHtml}<div><strong>${product.name}</strong> <span style="color:#666;">(${product.price.toFixed(2)} €)</div>`;
 
       div.addEventListener("click", () => selectProduct(product));
       searchResults.appendChild(div);
@@ -98,7 +98,6 @@ searchInput.addEventListener("input", (e) => {
 
 function selectProduct(product) {
   searchInput.value = product.name;
-  unitDisplay.textContent = product.unit;
   currentSelectedProduct = product;
   searchResults.style.display = "none";
   quantityInput.focus();
@@ -115,6 +114,7 @@ document.addEventListener("click", (e) => {
 // ==========================================
 addBtn.addEventListener("click", () => {
   const quantity = parseFloat(quantityInput.value);
+  const quantityRecipe = quantityRecipeInput.value;
 
   if (!currentSelectedProduct || !quantity) {
     alert("Vali toode ja sisesta kogus!");
@@ -127,16 +127,17 @@ addBtn.addEventListener("click", () => {
     productId: currentSelectedProduct.id,
     name: currentSelectedProduct.name,
     quantity: quantity,
-    unit: currentSelectedProduct.unit,
+    quantityRecipe: quantityRecipe,
     cost: parseFloat(cost)
   });
 
   updateIngredientsList();
+  console.log(recipeIngredients);
 
   // Reset väljad
   searchInput.value = "";
-  quantityInput.value = "";
-  unitDisplay.textContent = "ühik";
+  quantityInput.value = "1";
+  quantityRecipeInput.value = "";
   currentSelectedProduct = null;
 });
 
@@ -148,8 +149,8 @@ function updateIngredientsList() {
     totalRecipePrice += item.cost;
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${item.name} - ${item.quantity} ${item.unit}</span>
-      <span>${item.cost.toFixed(2)} € <button onclick="removeIngredient(${index})" style="color:red; margin-left:10px; cursor:pointer;">X</button></span>
+      <span>${item.name}, Toote arv: ${item.quantity}, Toote kogus: ${item.quantityRecipe}</span>
+      <span>  ${item.cost.toFixed(2)}€ <button onclick="removeIngredient(${index})" style="color:red; margin-left:10px; cursor:pointer;">X</button></span>
     `;
     listElement.appendChild(li);
   });
@@ -187,13 +188,7 @@ dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classLis
 const cancelButton = recipeForm.querySelector("button.cancel");
 cancelButton.addEventListener("click", () => {
   if (!confirm("Oled kindel? Andmed kaovad.")) return;
-  recipeForm.reset();
-  selectedFile = null;
-  if (dropZoneText) dropZoneText.textContent = "Lohista pilt siia või klõpsa, et valida fail";
-  dropZone.style.borderColor = "#ccc"; dropZone.style.backgroundColor = "transparent";
-  recipeIngredients = [];
-  updateIngredientsList(); // Uuendab ka hinna 0-ks
-  searchInput.value = ""; quantityInput.value = ""; unitDisplay.textContent = "ühik"; currentSelectedProduct = null;
+  window.location.href = "/pages/my-recipes.html"
 });
 
 
@@ -202,12 +197,15 @@ cancelButton.addEventListener("click", () => {
 // ==========================================
 recipeForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log(e);
   submitButton.disabled = true;
   submitButton.textContent = "Salvestan...";
 
   try {
     if (!selectedFile) throw new Error("Pilt puudub!");
     if (recipeIngredients.length === 0) throw new Error("Lisa vähemalt üks koostisosa!");
+    let finalRecipeFormat = createFormattedRecipe(recipeIngredients);
+    console.log(finalRecipeFormat);
 
     // Cloudinary üleslaadimine
     const formData = new FormData();
@@ -227,19 +225,19 @@ recipeForm.addEventListener("submit", async (e) => {
       proteins: document.getElementById("form-proteins").value,
       fats: document.getElementById("form-fats").value,
       carbs: document.getElementById("form-carbs").value,
-
-      ingredients: recipeIngredients,
-      totalPrice: parseFloat(document.getElementById("total-price-display").textContent),
+      userId: userId,
+      ingredients: finalRecipeFormat,
+      price: parseFloat(document.getElementById("total-price-display").textContent),
 
       imageUrl: data.secure_url,
     };
 
     // Saatmine
-      console.log(recipeData);
-    db.collection("submittedRecipes").add(recipeData);
+    console.log(recipeData);
+    await db.collection("submittedRecipes").add(recipeData);
 
     alert("Retsept salvestatud!");
-    window.location.reload();
+    window.location.href = "/pages/my-recipes.html";
 
   } catch (err) {
     console.error(err);
@@ -249,3 +247,21 @@ recipeForm.addEventListener("submit", async (e) => {
     submitButton.textContent = "Esita retsept";
   }
 }); //
+
+function createFormattedRecipe(recipes) {
+  let finalFormat = "";
+  recipes.forEach(recipe => {
+    if (finalFormat == "") {
+      finalFormat += recipe.quantityRecipe + "," + recipe.productId;
+    } else {
+      finalFormat += "," + recipe.quantityRecipe + "," + recipe.productId;
+    }
+  });
+  return finalFormat;
+}
+
+document.addEventListener('authStatusReady', (e) => {
+    const detail = e.detail || {};
+    userId = detail.userId;
+    console.log("authStatusReady: currentUserId =", userId);
+});
