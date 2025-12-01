@@ -206,6 +206,10 @@ body {
     box-shadow: none;
 }
 
+.back-button {
+    margin-top: 80px;
+}
+
 header-navbar {
     position: fixed;
     top: 0; 
@@ -247,4 +251,8 @@ header-navbar {
     .recipe-title {
         font-size: 28px;
     }
+
+    .back-button {
+    margin-top: 95px;
+}
 }
