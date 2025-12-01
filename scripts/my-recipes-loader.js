@@ -1,38 +1,65 @@
+function createrecipePage(thisrecipeId) {
+  window.location.href = `recipe.html?id=${thisrecipeId}&type=example`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const recipeContainer = document.querySelector('.recipe-container');
     const loadingMessage = document.getElementById('loading-message');
 
 
     const createRecipeCard = (recipeData, recipeId) => {
-        const recipeCard = document.createElement('a');
-        recipeCard.href = `recipe.html?id=${recipeId}&type=example`; 
-        recipeCard.classList.add('recipe-card'); 
+        const card = document.createElement("div");
+        card.classList.add("recipe-card");
+        card.setAttribute('data-recipe-id', recipeId);
 
-        const name = recipeData.name || 'Nimetu retsept';
-        const price = (recipeData.price !== undefined && recipeData.price !== null) ? parseFloat(recipeData.price).toFixed(2) : 'N/A';
-        const imageUrl = recipeData.imageUrl || '/images/default-recipe.jpg';
-        
+        const image = document.createElement("img");
+        image.src = recipeData.imageUrl;
+        image.alt = recipeData.name;
+        image.classList.add("recipe-image");
+        image.style.height = "203px";
+        image.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
 
-        const calories = recipeData.calories || 0;
-        const carbs = recipeData.carbs || 0;
-        const protein = recipeData.proteins || 0;
-        const fat = recipeData.fats || 0;
+        const title = document.createElement("div");
+        title.classList.add("recipe-title");
+        title.textContent = recipeData.name;
+        title.onclick = () => createrecipePage(card.getAttribute('data-recipe-id'));
 
-        recipeCard.innerHTML = `
-            <img src="${imageUrl}" alt="${name}" class="recipe-card-image">
-            <div class="recipe-card-info-header">
-                <h3>${name}</h3>
-                <p class="price">Toidukorra hind ${price} €</p>
+        const price = document.createElement("div");
+        price.innerHTML = `
+        <div class="recipe-price">
+            <span class="recipe-price-lable">Toidukorra hind</span>
+            <span class="recipe-price-num">${recipeData.price} €</span>
+        </div>
+        `;
+
+        const extraInfo = document.createElement("div");
+        extraInfo.classList.add("recipe-extra-info");
+        extraInfo.innerHTML = `
+            <div class="macro-item">
+                <span class="macro-value">${recipeData.calories} kcal</span>
+                <span class="macro-name">Kalorid</span>
             </div>
-            <div class="recipe-card-macros">
-                <div class="macro-item"><span>${calories} kcal</span>Kalorid</div>
-                <div class="macro-item"><span>${carbs}g</span>Süsivesikud</div>
-                <div class="macro-item"><span>${protein}g</span>Valgud</div>
-                <div class="macro-item"><span>${fat}g</span>Rasvad</div>
+            <div class="macro-item">
+                <span class="macro-value">${recipeData.carbs} g</span>
+                <span class="macro-name">Süsivesikud</span>
+            </div>
+            <div class="macro-item">
+                <span class="macro-value">${recipeData.proteins} g</span>
+                <span class="macro-name">Valgud</span>
+            </div>
+            <div class="macro-item">
+                <span class="macro-value">${recipeData.fats} g</span>
+                <span class="macro-name">Rasvad</span>
             </div>
         `;
 
-        return recipeCard;
+        // Assemble the Card
+        card.appendChild(image);
+        card.appendChild(title);
+        card.appendChild(price);
+        card.appendChild(extraInfo);
+
+        return card;
     };
 
     // Listen for auth state changes to get the current user

@@ -9,6 +9,28 @@ var admin_pages = [
     "recipe-approval-admin.html"
 ];
 
+var blacklist_pages = [
+    "add-recipe.html"
+]
+
+async function checkUser(user, database) {
+    if (user) {
+        var docRef = db.collection(database).doc(globalCurrentUserId);
+        
+        try {
+            var doc = await docRef.get();
+            
+            if (doc.exists) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.log("Error getting document:", error);
+        }
+    }
+}
+
 // Tracker what starts on every page load
 if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -28,29 +50,26 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
         var isAdmin = false;
 
         // Only check database if a user is logged in
-        if (user) {
-            var docRef = db.collection("admins").doc(globalCurrentUserId);
-            
-            try {
-                var doc = await docRef.get();
-                
-                if (doc.exists) {
-                    isAdmin = true;
-                } else {
-                    isAdmin = false;
-                }
-            } catch (error) {
-                console.log("Error getting document:", error);
-            }
-        }
+        isAdmin = await checkUser(user, "admins");
+        isBlacklisted = await checkUser(user, "blacklisted");
         
         // User tries to access Admin Page
         if (admin_pages.includes(currentPageName)) {
             if (isAdmin) {
                 console.log("Access Granted: Admin");
                 document.body.style.display = "block"; // Show Page
+                console.log(isBlacklisted);
             } else {
                 console.log("Access Denied");
+                window.location.href = "/pages/login.html";
+            }
+        } 
+        else if (blacklist_pages.includes(currentPageName)) {
+            if (!isBlacklisted) {
+                console.log("Access Granted: User, not blacklisted");
+                document.body.style.display = "block"; // Show Page
+            } else {
+                console.log("Not logged in");
                 window.location.href = "/pages/login.html";
             }
         } 

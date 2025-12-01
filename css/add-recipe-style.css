@@ -1,190 +1,326 @@
- body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-    }
-    .container {
-  display: flex;
-  gap: 40px;
+* {
+    box-sizing: border-box;
 }
 
-.form-section {
-  flex: 2;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    line-height: 1.6;
 }
 
-.ingredients-section {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+h1 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 30px;
 }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    textarea {
-      height: 120px;
-      resize: vertical;
-    }
-    .nutrition-table {
-      width: 100%;
-      margin-top: 10px;
-      border-collapse: collapse;
-    }
-    .nutrition-table th, .nutrition-table td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
-    .drop-zone {
-      margin-top: 15px;
-      padding: 20px;
-      border: 2px dashed #aaa;
-      text-align: center;
-      color: #666;
-      border-radius: 6px;
-      background-color: #f0f0f0;
-    }
-    .ingredients-list {
-      margin-top: 15px;
-    }
-    .ingredients-list input {
-      width: calc(100% - 100px);
-      margin-right: 10px;
-    }
 
+/* Main box */
 #add-recipe-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .container {
-  display: flex;
-  gap: 30px;
-  width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
 }
 
-.buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 30px;
-  width: 100%;
+/* Boxes styling */
+.form-section, .ingredients-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 0px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-.buttons button {
-  flex: 1;
-  padding: 12px 0;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
+.form-section {
+    flex: 2;
+    min-width: 300px;
 }
 
-.buttons .cancel { background-color: #f44336; }
-.buttons .preview { background-color: #4CAF50; }
-.buttons .submit { background-color: #2E7D32; }
-
-.buttons button:hover { opacity: 0.9; }
-
-* {
-  box-sizing: border-box;
+.ingredients-section {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-input[type="text"], textarea {
-  width: 100%;
-  max-width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  display: block;
+/* Form inputs */
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.95rem;
 }
+
+label:first-child {
+    margin-top: 0;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #fafafa;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+/* Nutrition table */
+.nutrition-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.nutrition-table th {
+    text-align: left;
+    color: #666;
+    font-weight: normal;
+    padding: 8px 10px;
+    width: 40%;
+}
+
+.nutrition-table td {
+    padding: 5px;
+}
+
+.nutrition-table input {
+    margin-top: 0;
+    text-align: center;
+}
+
+/* File uploading area */
 #file-input {
-  display: none;
+    display: none;
 }
 
 #drop-zone {
-  display: block;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 30px;
-  text-align: center;
-  color: #777;
-  cursor: pointer;
-  transition: border-color 0.3s, background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #cbd5e0;
+    border-radius: 8px;
+    padding: 40px 20px;
+    margin-top: 10px;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: #64748b;
 }
 
-#drop-zone.drag-over {
-  background-color: #f0f8ff;
-  border-color: #96FF6E;
+#drop-zone:hover, #drop-zone.drag-over {
+    background-color: #e8f5e9;
+    border-color: #4CAF50;
+    color: #2E7D32;
 }
+
+/* Ingredient box */
 .ingredient-adder {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 15px;
-  position: relative;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
 }
 
+/* Searchbox */
 .search-box {
-  flex-grow: 1;
-  position: relative;
+    flex-grow: 1;
+    position: relative;
 }
 
+/* Inputs in the searchbox */
+#ingredient-quantity {
+    width: 60px;
+    text-align: center;
+}
+
+#ingredient-quantity-recipe {
+    width: 80px;
+}
+
+/* Add Button */
+#add-ingredient-btn {
+    background-color: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 20px; 
+    height: 46px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#add-ingredient-btn:hover {
+    background-color: #1b5e20;
+}
+
+/* Dropdown Results */
 .results-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  display: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 356px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    display: none;
 }
 
 .results-dropdown div {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
 }
 
 .results-dropdown div:hover {
-  background-color: #f0f0f0;
+    background-color: #f1f8e9;
+}
+
+.results-dropdown div:last-child {
+    border-bottom: none;
+}
+
+/* Ingredient list */
+.styled-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .styled-list li {
-  background: #f9f9f9;
-  border-bottom: 1px solid #ddd;
-  padding: 8px;
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
 }
+
+.styled-list li:last-child {
+    border-bottom: none;
+}
+
+.styled-list li:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* Delete ingredient button */
+.styled-list button {
+    background: none;
+    border: none;
+    color: #e53935;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.styled-list button:hover {
+    color: #b71c1c;
+    background-color: #ffebee;
+    border-radius: 4px;
+}
+
+/* Price summary */
+.price-summary {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #eee;
+    text-align: right;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.price-summary span {
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+/* Tühista/Esita buttons */
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.buttons button:active {
+    transform: scale(0.98);
+}
+
+.buttons .cancel {
+    background-color: #efefef;
+    color: #333;
+}
+
+.buttons .cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.buttons .submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.buttons .submit:hover {
+    background-color: #43a047;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
