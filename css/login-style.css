@@ -63,22 +63,6 @@ input[type="password"] {
   transform: translateY(2px);
 }
 
-.links {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.links a {
-  color: #0077cc;
-  text-decoration: none;
-}
-
-.links a:hover {
-  text-decoration: underline;
-}
-
 .footer-text {
   text-align: center;
   font-size: 0.85rem;
