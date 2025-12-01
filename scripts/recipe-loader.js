@@ -11,6 +11,7 @@ function getRecipeTypeFromUrl() {
 const recipeType = getRecipeTypeFromUrl();
 const recipeId = getRecipeIdFromUrl();
 
+
 // Define Promises for both potential recipe collections (submitted and approved)
 const submittedRefPromise = db.collection("submittedRecipes").doc(recipeId).get();
 const approvedRefPromise = db.collection("recipes").doc(recipeId).get();
@@ -44,6 +45,13 @@ Promise.all([submittedRefPromise, approvedRefPromise])
         }
         
         const data = doc.data(); 
+
+        if (recipeType == "example") {
+            let back = document.getElementById("backbutton");
+            if (back) {
+                back.href = "/pages/my-recipes.html"
+            }
+        }
         
         const imageElement = document.getElementById("recipe-image");
         imageElement.src = data["imageUrl"] || '/images/default-recipe.jpg';
