@@ -119,7 +119,7 @@ async function createRecipeCard(recipe) {
                 const userData = userDoc.data();
                 const userEmail = userData.email;
                 if (userEmail) {
-                    username = userEmail.split('@')[0];
+                    username = userEmail
                 }
                 else if (userData.username) {
                      username = userData.username;
