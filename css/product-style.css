@@ -108,7 +108,9 @@ body {
 
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
-
+.back-button {
+    margin-top: 75px;
+}
 .back-button:hover, .add-to-cart-button:hover {
     background-color: #2F7C30;
 

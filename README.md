@@ -12,27 +12,27 @@ Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tah
 [Figma](https://www.figma.com/design/0ZWRGovzbGFlKLQ5LymYwL/Suured-mehed-O%C3%9C?t=svjSzxBcU1cOdCov-1)
 
 ## Hetkene projekti seis
-- Sisse logimise leht
+- Sisselogimise leht
 - Registreerimise leht
 - Leht teavitamaks, et kasutaja on välja logitud
-- "Unustasid parooli?" leht
-- Regisreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
-- Enamusel lehtedel on CSS olemas
+- Registreerimise lehel on võimalik kasutaja lisada [Firebase](#firebase-installeerimine) andmebaasi
+- Kõikidel lehtedel CSS
 - Toodete lehel kuvatakse kõik tooted andmebaasis
 - Navbar on olemas
 - Navbaril saab tooteid otsida
-- Retseptide lisamise leht peaaegu töötab 
+- Retseptide lisamise leht ja selle funktsionaalsus
 - Toodete ja retseptide filter
 - Konkreetse toote vaade
 - Ostukorvi leht ja funktsionaalsus
-- Retseptide kinnitamise vaade
+- Admin vaade, funktsionaalsus - retseptide kinnitamine/kustutamine ning Kasutajate haldamine
 - "Minu retseptid" leht
 - "Minu ostukorvid" leht
+- Konkreetse retsepti vaade, funktsionaalsus
+- Kõik lehed on responsiivsed
+- Navigeerimine on loogiline
 
 ## Tulemas
-- Stiili parandused
-- Kasutajahaldus adminvaates
-- Igasugused bugfixid
+
 
 ## Kasutatud tehnoloogiad
 - HTML5
