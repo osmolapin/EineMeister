@@ -165,7 +165,21 @@ body {
     box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.2);
 }
 
+header-navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
+}
+
+.header-elements {
+    margin-top: 60px;
+}
+
 @media (max-width: 420px) {
     .recipe-card{min-width: 250px; width: 250px;}
     .recipe-filters{width: 130px;}
+    .header-elements {
+    margin-top: 80px;
+}
 }

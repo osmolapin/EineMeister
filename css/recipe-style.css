@@ -206,6 +206,17 @@ body {
     box-shadow: none;
 }
 
+.back-button {
+    margin-top: 80px;
+}
+
+header-navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
+}
+
 @media (max-width: 800px) {
     .recipe-view {
         grid-template-columns: 1fr;
@@ -240,4 +251,8 @@ body {
     .recipe-title {
         font-size: 28px;
     }
+
+    .back-button {
+    margin-top: 95px;
+}
 }
