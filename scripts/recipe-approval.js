@@ -104,11 +104,33 @@ window.createrecipePage = createrecipePage
  * @param {object} recipe - An object with recipe.id and recipe.data (the fields).
  * @returns {HTMLElement} - The fully constructed recipe card div.
  */
-function createRecipeCard(recipe) {
+async function createRecipeCard(recipe) {
+    
     const card = document.createElement("div");
     card.classList.add("recipe-card");
     card.setAttribute('data-recipe-id', recipe.id);
-
+    let username = "Tundmatu Kasutaja";
+    const userId = recipe.data.userId;
+    if (userId) {
+        try {
+            const userDoc = await db.collection("users").doc(userId).get();
+            
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                const userEmail = userData.email;
+                if (userEmail) {
+                    username = userEmail.split('@')[0];
+                }
+                else if (userData.username) {
+                     username = userData.username;
+                }
+            }
+        } catch (error) {
+            console.error("Viga kasutaja andmete laadimisel:", error);
+        }
+    } else if (recipe.data.submittedBy) {
+        username = recipe.data.submittedBy.split('@')[0];
+    }
     card.innerHTML = `
         <div class="recipe-row" data-recipe-id="1">
         <div class="recipe-card">
@@ -140,7 +162,7 @@ function createRecipeCard(recipe) {
         </div>
 
         <div class="action-panel">
-            <p class="submitted-by">Esitas Kasutaja</p>
+            <p class="submitted-by">Esitas: ${username}</p>
             <div class="button-group">
                 <button class="btn btn-confirm" onclick="confirmRecipe('${card.getAttribute('data-recipe-id')}')">Kinnita</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${card.getAttribute('data-recipe-id')}')">Kustuta</button>
@@ -156,12 +178,14 @@ function createRecipeCard(recipe) {
  * Renders the given array of recipes to the DOM.
  * @param {Array<object>} recipesArray - The array of recipes to display.
  */
-function renderRecipes(recipesArray) {
+async function renderRecipes(recipesArray) {
     const container = document.getElementById("recipe-container");
     container.innerHTML = '';
 
-    recipesArray.forEach(recipe => {
-        container.appendChild(createRecipeCard(recipe));
+    const cardPromises = recipesArray.map(recipe => createRecipeCard(recipe));
+    const cards = await Promise.all(cardPromises);
+    cards.forEach(card => {
+        container.appendChild(card);
     });
 }
 
