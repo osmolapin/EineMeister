@@ -11,6 +11,7 @@ body {
 header-navbar {
     width: 100%;
 }
+
 .main-wrapper {
     max-width: 1000px;
     width: 100%;
@@ -30,6 +31,7 @@ header-navbar {
     font-weight: 700;
     color: #1a5319; 
     margin: 0;
+    margin-top: 40px;
 }
 
 .save-cart {
@@ -254,6 +256,13 @@ input[type=number]::-webkit-outer-spin-button {
     box-sizing: border-box;
     display: flex;
     justify-content: flex-end;
+}
+
+header-navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 1000;
 }
 
 
