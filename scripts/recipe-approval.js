@@ -14,7 +14,7 @@ function showToast(message, type) {
 }
 
 function addDocument(collection, dataObject) {
-    db.collection(collection).add({
+    return db.collection(collection).add({
         imageUrl: dataObject.imageUrl,
         calories: dataObject.calories,
         description: dataObject.description,
@@ -53,37 +53,43 @@ function extractInfoFromDocument(collection, id) {
 }
 
 function deleteDocument(collection, id) {
-    db.collection(collection).doc(id).delete().then(() => {
+    return db.collection(collection).doc(id).delete().then(() => {
     }).catch((error) => {
         showModal("Error removing document: ", error);
     });
 }
 
 function confirmRecipe(id) {
-    extractInfoFromDocument("submittedRecipes", id)
+    extractInfoFromDocument("submittedRecipes", id) 
         .then(dataObject => {
-            // This block only runs after data has been fetched
-
             if (dataObject) {
-                addDocument("recipes", dataObject);
-
-                deleteDocument("submittedRecipes", id);
-                showToast(`Retsept kinnitatud!`, 'success');
-
-                loadPage();
+                return addDocument("recipes", dataObject)
+                    .then(() => deleteDocument("submittedRecipes", id));
             } else {
-                showModal("Confirmation failed", "Recipe data not found.");
+                throw new Error("Recipe data not found.");
             }
         })
+        .then(() => {
+            showToast(`Retsept kinnitatud!`, 'success');
+            loadPage();
+        })
         .catch(error => {
-            showModal("Error during recipe confirmation process:", error);
+            console.error("Confirmation error:", error);
+            showModal("Viga kinnitamisel", error.message);
         });
 }
 window.confirmRecipe = confirmRecipe
+
 function deleteRecipe(id) {
     deleteDocument("submittedRecipes", id)
-    showToast(`Retsept kustutatud!`, 'error');
-    loadPage()
+        .then(() => {
+            showToast(`Retsept kustutatud!`, 'error');
+            loadPage();
+        })
+        .catch(error => {
+            console.error("Deletion error:", error);
+            showToast(`Retsepti kustutamine ebaõnnestus!`, 'error');
+        });
 }
 window.deleteRecipe = deleteRecipe
 
