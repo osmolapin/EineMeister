@@ -240,7 +240,7 @@ recipeForm.addEventListener("submit", async (e) => {
     console.log(recipeData);
     await db.collection("submittedRecipes").add(recipeData);
 
-    alert("Retsept salvestatud!");
+    showModal("Retsept edukalt salvestatud!",  "Sind suunatakse nüüd Minu retseptid lehele.");
     window.location.href = "/pages/my-recipes.html";
 
   } catch (err) {
