@@ -7,6 +7,10 @@
 Lehel on kuvatud toidupoe toodete hinnad. Samuti on olemas retsepti raamat, kus on võimalik ostukorv luua retsepti järgi. Retsepte saab valida näiteks kõige odavama või kõige suurema valgusisalduse/kaloraaži järgi.
 
 Leht on mõeldud inimestele (eelkõige silmaspidades vaeseid tudengeid), kes tahavad tervislikumalt toituda, bulkida/cuttida, niisama raha kokku hoida või kui ei oska midagi küpsetada.
+<img width="2860" height="1536" alt="image" src="https://github.com/user-attachments/assets/515c2526-f3eb-4a3a-be3b-d15f3df234e0" />
+
+Preview
+https://www.youtube.com/watch?v=gZcKzrkCGEI
 
 ## Meie projekti prototüübi link
 [Figma](https://www.figma.com/design/0ZWRGovzbGFlKLQ5LymYwL/Suured-mehed-O%C3%9C?t=svjSzxBcU1cOdCov-1)
